@@ -1,0 +1,6 @@
+mutation createPage($input: pages_insert_input!) {
+  insert_pages_one(object: $input) {
+    id
+    name
+  }
+}

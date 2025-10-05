@@ -1,0 +1,6 @@
+mutation bookPrayerRequest($input: bookmarked_prayers_insert_input!) {
+  insert_bookmarked_prayers_one(object: $input) {
+    id
+    prayer_request_id
+  }
+}

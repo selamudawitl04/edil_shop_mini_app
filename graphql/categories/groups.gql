@@ -1,0 +1,24 @@
+query getCategoryGroups(
+  $filter: category_groups_bool_exp
+  $order: [category_groups_order_by]
+  $limit: Int
+  $offset: Int
+) {
+  category_groups(
+    where: $filter
+    order_by: $order
+    limit: $limit
+    offset: $offset
+  ) {
+    id
+    name
+    description
+    sort_order
+    categories {
+      id
+      name
+      icon
+      description
+    }
+  }
+}

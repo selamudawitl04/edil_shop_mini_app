@@ -1,0 +1,16 @@
+
+query getUserCategories(
+  $filter: user_categories_bool_exp
+  $order: [user_categories_order_by]
+  $limit: Int
+  $offset: Int
+) {
+  user_categories(where: $filter, order_by: $order, limit: $limit, offset: $offset) {
+    category_id
+    user_id
+    category {
+      id
+      name
+    }
+  }
+}

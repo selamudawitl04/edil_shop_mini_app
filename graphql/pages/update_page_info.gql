@@ -1,0 +1,5 @@
+mutation updatePageInfo($input: pages_set_input!, $id: uuid!) {
+  update_pages_by_pk(_set: $input, pk_columns: { id: $id }) {
+    id
+  }
+}

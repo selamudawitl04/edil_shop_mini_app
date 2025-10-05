@@ -1,0 +1,5 @@
+mutation addAdmin($input: page_admins_insert_input!) {
+  insert_page_admins_one(object: $input) {
+    id
+  }
+}

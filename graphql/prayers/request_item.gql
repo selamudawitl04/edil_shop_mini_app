@@ -1,0 +1,135 @@
+query getPrayerRequest($id: uuid!, $user_id: uuid, $include_user: Boolean!) {
+  prayer_requests_by_pk(id: $id) {
+    id
+    title
+    description
+    language
+    created_at
+    comment_count
+    status
+    for_who
+
+    prayer_count
+    photo_url
+    visibility
+
+    # Testmony link
+
+    testimony {
+      id
+      title
+    }
+
+    # ------------------------------Prayed by user ------------------------------
+
+    prayer_prayeds(where: { user_id: { _eq: $user_id } }, limit: 1)
+      @include(if: $include_user) {
+      id
+    }
+
+    # ------------------------------Feed ------------------------------
+
+    feed {
+      id
+      type
+      created_at
+      created_by
+      visibility
+      comment_count
+      reaction_count
+      share_count
+      user {
+        id
+        full_name
+        profile_image
+        avatar_color
+      }
+
+      page {
+        id
+        name
+        description
+        profile_image
+        avatar_color
+        cover_image
+
+        page_followers(where: { user_id: { _eq: $user_id } }, limit: 1)
+          @include(if: $include_user) {
+          id
+        }
+
+        page_admins(where: { user_id: { _eq: $user_id } }, limit: 1)
+          @include(if: $include_user) {
+          id
+          role
+          user_id
+        }
+      }
+      group {
+        id
+        name
+        description
+        cover_image
+        created_at
+        updated_at
+        avatar_color
+        profile_image
+        is_private
+        group_members(where: { user_id: { _eq: $user_id } }, limit: 1)
+          @include(if: $include_user) {
+          id
+          role
+          status
+          user_id
+        }
+      }
+    }
+    share_count
+
+    category_id
+    category {
+      id
+      name
+      icon
+      description
+      prayer_category_comments(
+        order_by: { sort_order: asc }
+        where: { is_active: { _eq: true } }
+      ) {
+        id
+        key
+        text_en
+        intent
+        sort_order
+      }
+    }
+
+    medias: prayer_request_medias {
+      id
+      url
+    }
+
+    feed {
+      feed_reactions(where: { user_id: { _eq: $user_id } })
+        @include(if: $include_user) {
+        id
+        reaction_type
+        feed_id
+        user_id
+      }
+    }
+    reaction_count
+    updates: prayer_request_updates(order_by: { update_order: desc }) {
+      id
+      content
+      is_answer
+      created_at
+      update_order
+    }
+    prayer_request_updates_aggregate {
+      aggregate {
+        count
+      }
+    }
+  }
+}

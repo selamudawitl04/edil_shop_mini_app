@@ -1,0 +1,8 @@
+mutation updatePrayerRequest(
+  $input: prayer_requests_set_input!
+  $filter: prayer_requests_bool_exp!
+) {
+  update_prayer_requests(_set: $input, where: $filter) {
+    affected_rows
+  }
+}

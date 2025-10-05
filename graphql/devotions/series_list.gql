@@ -1,0 +1,90 @@
+query getDevotionSeries(
+  $filter: devotion_series_bool_exp
+  $order: [devotion_series_order_by]
+  $limit: Int
+  $offset: Int
+  $include_user: Boolean!
+  $user_id: uuid!
+) {
+  devotion_series(
+    where: $filter
+    order_by: $order
+    limit: $limit
+    offset: $offset
+  ) {
+    id
+    title
+    description
+    cover_image
+    visibility
+    created_at
+    updated_at
+    created_by
+    feed {
+      id
+      type
+      created_at
+      created_by
+      visibility
+      user {
+        id
+        full_name
+        profile_image
+        avatar_color
+      }
+
+      page {
+        id
+        name
+        description
+        profile_image
+        avatar_color
+
+        page_followers(where: { user_id: { _eq: $user_id } }, limit: 1)
+          @include(if: $include_user) {
+          id
+        }
+
+        page_admins(where: { user_id: { _eq: $user_id } }, limit: 1)
+          @include(if: $include_user) {
+          id
+          role
+        }
+      }
+      group {
+        id
+        name
+        description
+        cover_image
+        created_at
+        updated_at
+        avatar_color
+
+        group_members(where: { user_id: { _eq: $user_id } }, limit: 1)
+          @include(if: $include_user) {
+          id
+          role
+          status
+        }
+      }
+    }
+    user {
+      id
+      full_name
+      profile_image
+      avatar_color
+    }
+    # Count of devotions in this series
+    devotions_aggregate {
+      aggregate {
+        count
+      }
+    }
+  }
+
+  devotion_series_aggregate(where: $filter) {
+    aggregate {
+      count
+    }
+  }
+}

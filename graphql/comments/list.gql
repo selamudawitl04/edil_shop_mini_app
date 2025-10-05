@@ -1,0 +1,66 @@
+# Try out GraphQL queries here
+query getComments(
+  $filter: comments_bool_exp
+  $order: [comments_order_by]
+  $limit: Int
+  $offset: Int
+  $include_user: Boolean!
+  $user_id: uuid!
+) {
+  comments(where: $filter, order_by: $order, limit: $limit, offset: $offset) {
+    id
+    content
+    created_at
+    feed_id
+    parent_comment_id
+    user {
+      id
+      full_name
+      profile_image
+    }
+    comment_likes(where: { user_id: { _eq: $user_id } }, limit: 1)
+      @include(if: $include_user) {
+      id
+    }
+    like_count
+    replies: comments(order_by: $order) {
+      id
+      content
+      created_at
+      feed_id
+      parent_comment_id
+      user {
+        id
+        full_name
+        profile_image
+      }
+      comment_likes(where: { user_id: { _eq: $user_id } }, limit: 1)
+        @include(if: $include_user) {
+        id
+      }
+      like_count
+      replies: comments(order_by: $order) {
+        id
+        content
+        created_at
+        feed_id
+        parent_comment_id
+        user {
+          id
+          full_name
+          profile_image
+        }
+        comment_likes(where: { user_id: { _eq: $user_id } }, limit: 1)
+          @include(if: $include_user) {
+          id
+        }
+        like_count
+      }
+    }
+  }
+  comments_aggregate(where: $filter) {
+    aggregate {
+      count
+    }
+  }
+}

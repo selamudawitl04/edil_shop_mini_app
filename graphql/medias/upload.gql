@@ -1,0 +1,5 @@
+mutation uploadMedias($input: UploadMediasInput!) {
+  upload_medias(arg1: $input) {
+    urls
+  }
+}

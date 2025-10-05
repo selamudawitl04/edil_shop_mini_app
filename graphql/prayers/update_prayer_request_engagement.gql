@@ -1,0 +1,7 @@
+# Try out GraphQL queries here
+
+mutation updatePrayerRequestEngagement($input: PrayerRequestEngagementInput!) {
+  update_prayer_request_engagement(arg1: $input) {
+    message
+  }
+}

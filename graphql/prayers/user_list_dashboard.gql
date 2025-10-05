@@ -1,0 +1,34 @@
+query getUserListDashboard($user_id: uuid!) {
+  # Total lists, progress, total requests, prayed for
+  user_prayer_list_numbers(args: { user_id: $user_id }) {
+    total_lists
+    progress
+    total_requests
+    prayed_for
+  }
+
+  # Today list
+  user_today_list(args: { user_id: $user_id }) {
+    id
+    progress
+    prayed_for
+    total_requests
+  }
+
+  # List type overview
+  user_prayer_list_type_overview(args: { user_id: $user_id }) {
+    type
+    total
+    percentage
+    prayed
+  }
+
+  # Recent activity
+  user_prayer_list_recent_activity(args: { user_id: $user_id }) {
+    id
+    type
+    message
+    list_name
+    activity_time
+  }
+}

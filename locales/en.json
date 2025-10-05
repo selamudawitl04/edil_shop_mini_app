@@ -1,0 +1,55 @@
+{
+  "lottery": {
+    "details": "Lottery Details",
+    "id": "Lottery ID",
+    "notFound": "Lottery Not Found",
+    "notFoundDescription": "We couldn't find the lottery you're looking for.",
+    "fetchError": "Failed to Fetch Lottery",
+    "fetchErrorDescription": "An unexpected error occurred while fetching the lottery.",
+    "complete": "Complete Lottery",
+    "edit": "Edit Lottery",
+    "duplicate": "Duplicate Lottery",
+    "share": "Share Lottery",
+    "delete": "Delete Lottery",
+    "totalTickets": "Total Tickets",
+    "pricePerTicket": "Price Per Ticket",
+    "lotteryId": "Lottery ID",
+    "status": "Status",
+    "statistics": "Statistics",
+    "soldTickets": "Sold Tickets",
+    "availableTickets": "Available Tickets",
+    "salesProgress": "Sales Progress",
+    "endDate": "End Date",
+    "createdAt": "Created At",
+    "creator": "Creator",
+    "description": "Description",
+    "tickets": "Tickets",
+    "ticketsPlaceholder": "Tickets management will be implemented here",
+    "ticketsPlaceholderDescription": "This section will show all lottery tickets with filtering options",
+    "medias": "Medias",
+    "featured": "Featured",
+    "noMedias": "No media files uploaded",
+    "itemsAndWinners": "Items and Winners",
+    "noCategory": "No Category",
+    "position": "Position",
+    "noItems": "No items added to this lottery",
+    "tabs": {
+      "overview": "Overview",
+      "tickets": "Tickets",
+      "medias": "Medias",
+      "items": "Items & Winners"
+    },
+    "ticketFilters": {
+      "all": "All",
+      "approved": "Approved",
+      "waiting": "Waiting",
+      "notSold": "Not Sold"
+    },
+    "status": {
+      "pending": "Pending",
+      "active": "Active",
+      "closed": "Closed",
+      "suspended": "Suspended"
+    }
+  }
+}

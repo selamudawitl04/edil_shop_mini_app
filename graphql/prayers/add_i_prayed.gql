@@ -1,0 +1,12 @@
+mutation addIPrayed($input: prayer_prayed_insert_input!) {
+  insert_prayer_prayed_one(
+    object: $input
+    on_conflict: {
+      constraint: prayer_prayed_prayer_request_id_user_id_key
+      update_columns: [prayed_at]
+    }
+  ) {
+    id
+    prayer_request_id
+  }
+}

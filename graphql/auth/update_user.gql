@@ -1,0 +1,7 @@
+mutation updateUser($input: users_set_input!, $id: uuid!) {
+  update_users_by_pk(_set: $input, pk_columns: { id: $id }) {
+    id
+    name
+    alternate_phone
+  }
+}

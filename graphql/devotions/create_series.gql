@@ -1,0 +1,6 @@
+mutation createDevotionSeries($input: devotion_series_insert_input!) {
+  insert_devotion_series_one(object: $input) {
+    id
+    title
+  }
+}

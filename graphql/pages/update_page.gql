@@ -1,0 +1,13 @@
+mutation updatePage($input: pages_set_input!, $id: uuid!, $category_input: [page_categories_insert_input!]!) {
+  # remove page categories
+  delete_page_categories(where: {page_id: {_eq: $id}}) {
+    affected_rows
+  }
+  # add page categories (only if category_input is provided)
+  insert_page_categories(objects: $category_input) {
+    affected_rows
+  }
+  update_pages_by_pk(_set: $input, pk_columns: { id: $id }) {
+    id
+  }
+}

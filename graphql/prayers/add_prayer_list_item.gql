@@ -1,0 +1,11 @@
+mutation addPrayerListItem($input: prayer_list_items_insert_input!) {
+  insert_prayer_list_items_one(object: $input) {
+    id
+    prayer_list_id
+    prayer_request_id
+    scheduled_date
+    scheduled_week
+    created_at
+    updated_at
+  }
+}

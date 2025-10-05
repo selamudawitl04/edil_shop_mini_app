@@ -1,0 +1,33 @@
+query getPrayerLists(
+  $filter: prayer_lists_bool_exp
+  $order: [prayer_lists_order_by]
+  $limit: Int
+  $offset: Int
+) {
+  prayer_lists(
+    where: $filter
+    order_by: $order
+    limit: $limit
+    offset: $offset
+  ) {
+    id
+    name
+    description
+    created_at
+    updated_at
+    type
+    user_id
+
+    prayer_list_items_aggregate {
+      aggregate {
+        count
+      }
+    }
+  }
+
+  prayer_lists_aggregate(where: $filter) {
+    aggregate {
+      count
+    }
+  }
+}

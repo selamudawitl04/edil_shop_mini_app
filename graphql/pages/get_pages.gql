@@ -1,0 +1,31 @@
+query getPages(
+  $filter: pages_bool_exp
+  $order: [pages_order_by!]
+  $limit: Int
+  $offset: Int
+) {
+  pages(where: $filter, order_by: $order, limit: $limit, offset: $offset) {
+    id
+    name
+    description
+    profile_image
+    avatar_color
+    status
+    created_by
+    created_at
+    updated_at
+    language_code
+    page_admins {
+      id
+      user_id
+      role
+    }
+
+    followers_count
+  }
+  pages_aggregate(where: $filter) {
+    aggregate {
+      count
+    }
+  }
+}

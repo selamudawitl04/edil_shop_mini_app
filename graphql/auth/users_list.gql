@@ -1,0 +1,13 @@
+query getUsersList(
+  $filter: users_bool_exp
+  $limit: Int!
+  $offset: Int
+  $order: users_order_by
+) {
+  users(where: $filter, limit: $limit, offset: $offset) {
+    id
+    full_name
+    user_name
+    profile_image
+  }
+}

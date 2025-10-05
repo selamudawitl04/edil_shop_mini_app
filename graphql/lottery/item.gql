@@ -1,0 +1,122 @@
+query getLottery($id: uuid!, $user_id: uuid) {
+  lotteries_by_pk(id: $id) {
+    id
+    lottery_id
+    total_tickets
+    price_per_ticket
+    created_at
+    status
+    description
+    when_all_tickets_sold
+    total_sold_tickets
+
+    telegram_video_url
+    youtube_video_url
+    tiktok_video_url
+
+    tiktok_live_url
+    telegram_live_url
+    youtube_live_url
+
+    final_time
+
+    likes(where: { user_id: { _eq: $user_id } }) {
+      id
+      user_id
+    }
+
+    user {
+      id
+      name
+      phone
+      profile_image
+      number_of_lotteries
+      phone
+      alternate_phone
+      total_likes
+      rating
+
+      likes(where: { user_id: { _eq: $user_id } }) {
+        id
+        user_id
+      }
+    }
+
+    end_date
+    items(order_by: { order: asc }) {
+      id
+      title
+      order
+      category_id
+      category {
+        id
+        name
+        icon
+      }
+
+      winner {
+        ticket_id
+        ticket {
+          id
+          lottery_id
+          name
+          phone_number
+          ticket_number
+          status
+          created_at
+          receipt_url
+          created_by
+          user_id
+          user {
+            phone
+            id
+            name
+            profile_image
+            avatar_color
+          }
+        }
+      }
+    }
+    medias {
+      id
+      url
+      is_featured
+    }
+
+    tickets {
+      id
+      lottery_id
+      name
+      phone_number
+      ticket_number
+      status
+      created_at
+      receipt_url
+      created_by
+      user_id
+      user {
+        phone
+        id
+        name
+        profile_image
+        avatar_color
+      }
+    }
+
+    payment_options {
+      id
+      lottery_id
+      user_payment_option_id
+      user_payment_option {
+        id
+        user_id
+        account_number
+        account_name
+        payment_option {
+          id
+          name
+        }
+      }
+    }
+  }
+}

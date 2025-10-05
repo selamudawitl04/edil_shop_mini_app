@@ -1,0 +1,35 @@
+mutation updateLottery(
+  $id: uuid!
+  $input: lotteries_set_input!
+  $items: [items_insert_input!]!
+  $medias: [medias_insert_input!]!
+  $payment_options: [lottery_payment_options_insert_input!]!
+) {
+  delete_items(where: { lottery_id: { _eq: $id } }) {
+    affected_rows
+  }
+
+  delete_medias(where: { lottery_id: { _eq: $id } }) {
+    affected_rows
+  }
+
+  delete_lottery_payment_options(where: { lottery_id: { _eq: $id } }) {
+    affected_rows
+  }
+
+  update_lotteries(where: { id: { _eq: $id } }, _set: $input) {
+    affected_rows
+  }
+
+  insert_items(objects: $items) {
+    affected_rows
+  }
+
+  insert_medias(objects: $medias) {
+    affected_rows
+  }
+
+  insert_lottery_payment_options(objects: $payment_options) {
+    affected_rows
+  }
+}

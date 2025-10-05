@@ -1,0 +1,5 @@
+mutation updateTestimony($id: uuid!, $input: testimony_testimonies_set_input!) {
+  update_testimony_testimonies(where: { id: { _eq: $id } }, _set: $input) {
+    affected_rows
+  }
+}

@@ -1,0 +1,16 @@
+mutation updateUserPaymentOption(
+  $id: uuid!
+  $input: user_payment_options_set_input!
+) {
+  update_user_payment_options_by_pk(pk_columns: { id: $id }, _set: $input) {
+    id
+    user_id
+    payment_option_id
+    account_number
+    account_name
+    payment_option {
+      id
+      name
+    }
+  }
+}

@@ -1,0 +1,5 @@
+mutation addWinners($input: [winners_insert_input!]!) {
+  insert_winners(objects: $input) {
+    affected_rows
+  }
+}

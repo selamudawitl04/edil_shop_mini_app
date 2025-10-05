@@ -1,0 +1,11 @@
+<template>
+
+
+
+  <PagesViewsDetail />
+
+
+
+
+
+</template>

@@ -1,0 +1,6 @@
+mutation createLottery($input: lotteries_insert_input!) {
+  insert_lotteries_one(object: $input) {
+    id
+    created_at
+  }
+}

@@ -1,0 +1,14 @@
+mutation likeLottery($lottery_id: uuid!) {
+  insert_lottery_likes_one(
+    object: { lottery_id: $lottery_id }
+    on_conflict: {
+      constraint: lottery_likes_lottery_id_user_id_key
+      update_columns: [updated_at]
+    }
+  ) {
+    id
+    created_at
+    user_id
+    updated_at
+  }
+}

@@ -1,0 +1,71 @@
+query getEventItem($id: uuid!, $include_user: Boolean!, $user_id: uuid!) {
+  events_by_pk(id: $id) {
+    # Basic info
+    id
+    title
+    description
+    created_at
+    updated_at
+
+    # media
+    banner_url
+
+    # Feed
+    feed {
+      id
+      type
+      created_at
+      created_by
+      visibility
+      comment_count
+      reaction_count
+      share_count
+      feed_reactions(where: { user_id: { _eq: $user_id } }, limit: 1)
+        @include(if: $include_user) {
+        id
+        reaction_type
+        user_id
+        feed_id
+      }
+      user {
+        id
+        full_name
+        profile_image
+        avatar_color
+      }
+
+      page {
+        id
+        name
+        description
+        profile_image
+        avatar_color
+
+        page_followers(where: { user_id: { _eq: $user_id } }, limit: 1)
+          @include(if: $include_user) {
+          id
+        }
+
+        page_admins(where: { user_id: { _eq: $user_id } }, limit: 1)
+          @include(if: $include_user) {
+          id
+          role
+        }
+      }
+      group {
+        id
+        name
+        description
+        cover_image
+        created_at
+        updated_at
+        avatar_color
+        group_members(where: { user_id: { _eq: $user_id } }, limit: 1)
+          @include(if: $include_user) {
+          id
+          role
+          status
+        }
+      }
+  }
+}

@@ -1,0 +1,5 @@
+mutation deletePageAdminsByPk($id: uuid!) {
+  delete_page_admins_by_pk(id: $id) {
+    id
+  }
+}

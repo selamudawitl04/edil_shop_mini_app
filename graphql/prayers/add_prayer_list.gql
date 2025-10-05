@@ -1,0 +1,17 @@
+mutation addPrayerList($input: prayer_lists_insert_input!) {
+  insert_prayer_lists_one(
+    object: $input
+    on_conflict: {
+      constraint: unique_user_list_name
+      update_columns: [description]
+    }
+  ) {
+    id
+    name
+    description
+    type
+    created_at
+    updated_at
+    user_id
+  }
+}

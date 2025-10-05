@@ -1,0 +1,5 @@
+mutation inviteMember($input: group_members_insert_input!) {
+  insert_group_members_one(object: $input) {
+    id
+  }
+}

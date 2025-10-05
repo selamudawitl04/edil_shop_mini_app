@@ -1,0 +1,16 @@
+mutation refreshToken($input: RefreshTokenInput!) {
+  refresh_token(arg1: $input) {
+    token
+    refresh_token
+    user {
+      id
+      name
+      phone
+      alternate_phone
+      role
+      is_phone_verified
+      profile_image
+      avatar_color
+    }
+  }
+}

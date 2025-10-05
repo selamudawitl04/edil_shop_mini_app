@@ -1,0 +1,5 @@
+mutation deletePrayerListItem($id: uuid!) {
+  delete_prayer_list_items_by_pk(id: $id) {
+    id
+  }
+}

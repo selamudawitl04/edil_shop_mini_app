@@ -1,0 +1,5 @@
+mutation deleteAccount($input: DeleteAccountInput!) {
+  delete_account(arg1: $input) {
+    message
+  }
+}

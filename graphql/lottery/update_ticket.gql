@@ -1,0 +1,6 @@
+mutation updateTicket($id: uuid!, $input: tickets_set_input!) {
+  update_tickets_by_pk(pk_columns: { id: $id }, _set: $input) {
+    id
+    status
+  }
+}

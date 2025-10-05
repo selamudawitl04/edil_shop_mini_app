@@ -1,0 +1,14 @@
+mutation reactFeed($input: feed_reactions_insert_input!) {
+  insert_feed_reactions_one(
+    object: $input
+    on_conflict: {
+      constraint: feed_reactions_feed_id_user_id_key
+      update_columns: [reaction_type]
+    }
+  ) {
+    id
+    reaction_type
+    user_id
+    feed_id
+  }
+}

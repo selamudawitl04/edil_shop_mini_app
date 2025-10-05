@@ -1,0 +1,9 @@
+mutation createTestimony($input: testimony_testimonies_insert_input!) {
+  insert_testimony_testimonies_one(object: $input) {
+    id
+    title
+    content
+    cover_image
+    created_at
+  }
+}

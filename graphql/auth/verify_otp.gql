@@ -1,0 +1,7 @@
+mutation VerifyOtp($input: VerifyOTPInput!) {
+  verify_otp(arg1: $input) {
+    message
+    token
+    purpose
+  }
+}

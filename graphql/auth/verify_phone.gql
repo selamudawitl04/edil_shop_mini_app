@@ -1,0 +1,5 @@
+mutation VerifyPhone($input: VerifyPhoneInput!) {
+  verify_phone(arg1: $input) {
+    message
+  }
+}

@@ -1,0 +1,5 @@
+mutation deleteLottery($id: uuid!) {
+  delete_lotteries_by_pk(id: $id) {
+    id
+  }
+}

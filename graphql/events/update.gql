@@ -1,0 +1,19 @@
+mutation updateEvent(
+  $id: uuid!
+  $input: events_set_input!
+  $event_links: [event_links_insert_input!]!
+  $delete_event_links: Boolean!
+) {
+  delete_event_links(where: { event_id: { _eq: $id } })
+    @include(if: $delete_event_links) {
+    affected_rows
+  }
+
+  update_events(where: { id: { _eq: $id } }, _set: $input) {
+    affected_rows
+  }
+
+  insert_event_links(objects: $event_links) {
+    affected_rows
+  }
+}

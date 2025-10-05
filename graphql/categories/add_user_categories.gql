@@ -1,0 +1,15 @@
+mutation addUserCategories($userId: uuid!, $input: [user_categories_insert_input!]!) {
+
+
+  delete_user_categories(where: {user_id: {_eq: $userId}}) {
+    affected_rows
+  }
+
+
+  insert_user_categories(objects: $input) {
+    affected_rows
+  }
+
+
+  
+}

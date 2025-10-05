@@ -1,0 +1,35 @@
+query getPrayerRequests(
+  $filter: prayer_requests_bool_exp
+  $order: [prayer_requests_order_by]
+  $limit: Int
+  $offset: Int
+) {
+  prayer_requests(
+    where: $filter
+    order_by: $order
+    limit: $limit
+    offset: $offset
+  ) {
+    id
+    title
+    description
+    language
+    comment_count
+    status
+    created_at
+    prayer_category
+    prayer_count
+    for_who
+    photo_url
+    prayer_request_medias {
+      id
+      url
+    }
+  }
+
+  prayer_requests_aggregate(where: $filter) {
+    aggregate {
+      count
+    }
+  }
+}

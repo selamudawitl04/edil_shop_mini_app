@@ -1,0 +1,8 @@
+mutation deleteTestimony($id: uuid!) {
+  update_testimony_testimonies_by_pk(
+    _set: { is_deleted: true }
+    pk_columns: { id: $id }
+  ) {
+    id
+  }
+}

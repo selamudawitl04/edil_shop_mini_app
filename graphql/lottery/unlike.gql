@@ -1,0 +1,8 @@
+mutation unlikeLottery($id: uuid!) {
+  delete_lottery_likes_by_pk(id: $id) {
+    id
+    created_at
+    user_id
+    updated_at
+  }
+}
