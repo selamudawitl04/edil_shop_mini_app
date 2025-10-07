@@ -1,6 +1,0 @@
-mutation unBookPrayerRequest($id: uuid!) {
-  delete_bookmarked_prayers_by_pk(id: $id) {
-    id
-    prayer_request_id
-  }
-}

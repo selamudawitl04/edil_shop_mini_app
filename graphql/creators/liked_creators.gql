@@ -1,0 +1,34 @@
+query getLikedCreators(
+  $filter: creator_likes_bool_exp
+  $order: [creator_likes_order_by]
+  $limit: Int
+  $offset: Int
+) {
+  creator_likes(
+    where: $filter
+    order_by: $order
+    limit: $limit
+    offset: $offset
+  ) {
+    id
+    user_id
+    creator {
+      id
+      name
+      created_at
+      number_of_lotteries
+      profile_image
+      avatar_color
+      phone
+      alternate_phone
+      number_of_lotteries
+      total_likes
+      rating
+    }
+  }
+  creator_likes_aggregate(where: $filter) {
+    aggregate {
+      count
+    }
+  }
+}

@@ -1,5 +1,0 @@
-mutation reportComment($input: comment_reports_insert_input!) {
-  insert_comment_reports_one(object: $input) {
-    id
-  }
-}

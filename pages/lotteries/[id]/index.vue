@@ -26,7 +26,7 @@
           <header class="flex items-center justify-between py-2">
             <div class="flex items-center gap-2">
               <!-- Back Button -->
-              <button @click="router.back()">
+              <button @click="goBack">
                 <Icon name="mdi:arrow-left" class="w-4 h-4" />
               </button>
 
@@ -56,10 +56,8 @@
                 ያልተሸጡ
               </button>
 
-              <LotteryLike :lottery="lottery" />
-
               <!-- Like widget -->
-              <!-- <LotteryLikeWidget :lottery="lottery" /> -->
+              <LotteryLike :lottery="lottery" />
             </div>
           </header>
 
@@ -84,15 +82,15 @@
           </div>
         </div>
 
-        <LotteryDetailOverview
-          v-if="selectedTabIndex === 1"
-          :lottery="lottery"
-          @buyTicket="selectedTabIndex = 0"
-        />
         <LotteryDetailTickets
           v-if="selectedTabIndex === 0"
           :lottery="lottery"
           :showNotSold="showNotSold"
+        />
+        <LotteryDetailOverview
+          v-if="selectedTabIndex === 1"
+          :lottery="lottery"
+          @buyTicket="selectedTabIndex = 0"
         />
       </section>
     </div>
@@ -102,32 +100,34 @@
 <script setup>
 import getLotteryQuery from "@/graphql/lottery/item.gql";
 
-const selectedTabIndex = ref(0);
 const showNotSold = ref(false);
 const route = useRoute();
 const router = useRouter();
 const lottery = ref();
 const errorHappened = ref(false);
+
 // Tab configuration
 const tabs = computed(() => [
   {
     id: "tickets",
-    name: "ትኬት ግዛ",
+    name: "ዕጣዎች",
     value: "tickets",
     icon: "mdi:confirmation-number",
   },
   {
     id: "overview",
-    name: "አጠቃላይ መረጃ",
+    name: "መረጃ",
     value: "overview",
-    icon: "mdi:information-outline",
+    icon: "mdi:person-outline",
   },
 ]);
-const activeTabIndex = ref(
-  route.query.tab
-    ? tabs.value.findIndex((tab) => tab.id === route.query.tab)
-    : 0
-);
+
+function convertTabIdToIndex(tabId) {
+  const index = tabs.value.findIndex((tab) => tab.id === tabId);
+  return index !== -1 ? index : 0;
+}
+
+const selectedTabIndex = ref(convertTabIdToIndex(route.query.tab));
 
 // GraphQL query
 const { onResult, onError, refetch, loading } = queryItem(getLotteryQuery, {
@@ -147,7 +147,12 @@ onResult(({ data }) => {
       tabs.value[0].name = "ትኬቶች";
     }
   }
-  errorHappened.value = false;
+
+  if (!data?.lotteries_by_pk) {
+    errorHappened.value = true;
+  } else {
+    errorHappened.value = false;
+  }
 });
 
 provide("refetchLottery", refetch);
@@ -156,14 +161,11 @@ onError(() => {
   errorHappened.value = true;
 });
 
-watch(activeTabIndex, (newVal) => {
-  router.push({
-    query: {
-      ...route.query,
-      tab: tabs.value[newVal].id,
-    },
-  });
-});
-
-const openAddWinnerDialog = ref(false);
+function goBack() {
+  if (window.history.length > 2) {
+    window.history.back();
+  } else {
+    router.push("/lotteries");
+  }
+}
 </script>

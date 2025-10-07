@@ -1,6 +1,0 @@
-mutation checkPrayerRequest($editToken: String!) {
-  check_prayer_request(arg1: { edit_token: $editToken }) {
-    id
-    title
-  }
-}

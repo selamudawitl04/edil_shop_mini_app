@@ -1,5 +1,0 @@
-mutation unLike($id: uuid!) {
-  delete_comment_likes_by_pk(id: $id) {
-    id
-  }
-}

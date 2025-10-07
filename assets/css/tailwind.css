@@ -60,10 +60,6 @@ h2 {
   p {
     @apply text-base text-textSecondary-light dark:text-textSecondary-dark;
   }
-  /* 
-  span {
-    @apply text-sm text-textPrimary-light dark:text-textPrimary-dark;
-  } */
 }
 
 /* HTML: <div class="loader"></div> */

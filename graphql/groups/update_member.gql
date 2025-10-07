@@ -1,6 +1,0 @@
-mutation updateGroupMember($input: group_members_set_input!, $id: uuid!) {
-  update_group_members_by_pk(_set: $input, pk_columns: { id: $id }) {
-    id
-    status
-  }
-}

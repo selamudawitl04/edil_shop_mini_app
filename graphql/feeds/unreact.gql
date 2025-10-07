@@ -1,5 +1,0 @@
-mutation unreactFeed($id: uuid!) {
-  delete_feed_reactions_by_pk(id: $id) {
-    id
-  }
-}

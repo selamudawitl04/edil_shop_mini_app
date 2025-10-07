@@ -1,5 +1,0 @@
-mutation updateDevotion($id: uuid!, $input: devotion_devotions_set_input!) {
-  update_devotion_devotions_by_pk(_set: $input, pk_columns: { id: $id }) {
-    id
-  }
-}

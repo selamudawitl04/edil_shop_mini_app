@@ -1,8 +1,0 @@
-mutation updateComment(
-  $input: comments_set_input!
-  $filter: comments_bool_exp!
-) {
-  update_comments(_set: $input, where: $filter) {
-    affected_rows
-  }
-}

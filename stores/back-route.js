@@ -4,30 +4,23 @@ export const useBackStore = defineStore({
   id: "backRoute",
   state: () => {
     return {
-      path: null,
-      query: null,
-      name: " Selamu dawit selemon",
+      route: null,
     };
   },
 
   getters: {
-    getPath() {
-      return this.path;
-    },
-    getQuery() {
-      return this.query;
+    getRoute() {
+      return this.route;
     },
   },
 
   actions: {
-    setRoute(path, query = null) {
-      this.path = path;
-      this.query = query;
+    setRoute(route) {
+      this.route = route;
     },
 
     resetRoute() {
-      this.path = null;
-      this.query = null;
+      this.route = null;
     },
   },
   persist: true,

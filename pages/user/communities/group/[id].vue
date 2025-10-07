@@ -1,4 +1,0 @@
-<template>
-
-  <GroupsViewsDetail />
-</template>

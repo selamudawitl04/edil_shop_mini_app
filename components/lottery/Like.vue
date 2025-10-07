@@ -7,7 +7,7 @@
     <Icon
       :name="isLiked ? 'mdi:heart' : 'mdi:heart-outline'"
       :class="[
-        'transition-all duration-200 w-6 h-6',
+        'transition-all duration-200 w-5 h-5',
         isLiked
           ? 'text-red-500 scale-110'
           : 'text-blue-600 hover:text-blue-700',

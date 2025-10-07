@@ -1,8 +1,0 @@
-mutation addPrayerRequest($input: prayer_requests_insert_input!) {
-  insert_prayer_requests_one(object: $input) {
-    id
-    title
-    description
-    language
-  }
-}

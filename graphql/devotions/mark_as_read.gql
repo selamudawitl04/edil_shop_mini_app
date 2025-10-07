@@ -1,8 +1,0 @@
-mutation markAsRead($input: devotion_reads_insert_input!) {
-  insert_devotion_reads_one(object: $input) {
-    id
-    devotion_id
-    user_id
-    read_at
-  }
-}

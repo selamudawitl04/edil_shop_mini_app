@@ -1,5 +1,0 @@
-mutation addPageCategories($input: [page_categories_insert_input!]!) {
-  insert_page_categories(objects: $input) {
-    affected_rows
-  }
-} 

@@ -1,7 +1,0 @@
-mutation likeComment($input: comment_likes_insert_input!) {
-  insert_comment_likes_one(object: $input) {
-    id
-    user_id
-    comment_id
-  }
-}

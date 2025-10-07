@@ -72,7 +72,6 @@ import { ref, computed } from "vue";
 const props = defineProps({
   lottery: { type: Object, required: true },
   showNotSold: { type: Boolean, default: false },
-  onTicketBought: { type: Function, required: true },
 });
 
 const winnerTicketNumbers = computed(() =>

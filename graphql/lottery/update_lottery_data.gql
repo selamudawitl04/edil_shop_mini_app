@@ -1,5 +1,0 @@
-mutation updateLotteryData($id: uuid!, $input: lotteries_set_input!) {
-  update_lotteries(where: { id: { _eq: $id } }, _set: $input) {
-    affected_rows
-  }
-}

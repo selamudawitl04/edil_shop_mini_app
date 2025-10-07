@@ -1,0 +1,7 @@
+mutation deleteNotification($id: uuid!) {
+  delete_notifications_by_pk(id: $id) {
+    id
+    created_at
+    user_id
+  }
+}

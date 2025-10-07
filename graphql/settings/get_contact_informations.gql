@@ -1,0 +1,14 @@
+query getContactInformations {
+  settings {
+    id
+    tiktok_channel
+    facebook_page
+    telegram_channel
+    mini_app
+    youtube_channel
+    phone_number
+    support_phone_number
+    telegram_user
+    try_lottery_website
+  }
+}

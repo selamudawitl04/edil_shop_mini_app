@@ -1,0 +1,35 @@
+query getCreators(
+  $filter: users_bool_exp
+  $order: [users_order_by]
+  $limit: Int
+  $offset: Int
+  $user_id: uuid
+) {
+  creators: users(
+    where: $filter
+    order_by: $order
+    limit: $limit
+    offset: $offset
+  ) {
+    id
+    name
+    created_at
+    number_of_lotteries
+    profile_image
+    avatar_color
+    phone
+    alternate_phone
+    number_of_lotteries
+    total_likes
+    rating
+    likes(where: { user_id: { _eq: $user_id } }) {
+      id
+      user_id
+    }
+  }
+  creators_aggregate: users_aggregate(where: $filter) {
+    aggregate {
+      count
+    }
+  }
+}

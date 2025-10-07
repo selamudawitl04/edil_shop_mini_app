@@ -1,5 +1,0 @@
-mutation addGroupCategories($input: [group_categories_insert_input!]!) {
-  insert_group_categories(objects: $input) {
-    affected_rows
-  }
-} 

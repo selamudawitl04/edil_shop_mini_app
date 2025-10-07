@@ -1,0 +1,19 @@
+query getCreator($id: uuid!, $user_id: uuid) {
+  users_by_pk(id: $id) {
+    id
+    name
+    created_at
+    number_of_lotteries
+    profile_image
+    avatar_color
+    phone
+    alternate_phone
+    number_of_lotteries
+    total_likes
+    rating
+    likes(where: { user_id: { _eq: $user_id } }) {
+      id
+      user_id
+    }
+  }
+}

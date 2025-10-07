@@ -1,7 +1,0 @@
-# Try out GraphQL queries here
-
-mutation updatePrayerRequest($input: UpdatePrayerRequestInput!) {
-  update_prayer_request(arg1: $input) {
-    message
-  }
-}

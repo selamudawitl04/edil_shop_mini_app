@@ -56,6 +56,11 @@
         </div>
       </div>
     </div>
+    <CreatorsList v-if="selectedTabIndex === 0" :searchQuery="searchQuery" />
+    <CreatorsLikedCreators
+      v-if="selectedTabIndex === 1"
+      :searchQuery="searchQuery"
+    />
   </NuxtLayout>
 </template>
 

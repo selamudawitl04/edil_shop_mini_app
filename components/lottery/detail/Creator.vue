@@ -56,7 +56,7 @@
                 d="M20 2H4C2.897 2 2 2.897 2 4V20C2 21.103 2.897 22 4 22H20C21.103 22 22 21.103 22 20V4C22 2.897 21.103 2 20 2ZM20 20H4V4H20V20Z"
               />
             </svg>
-            {{ user.numberOfLotteries }} ዕጣዎች
+            {{ user.number_of_lotteries }} ዕጣዎች
           </div>
 
           <!-- Rating -->
@@ -84,8 +84,16 @@ const props = defineProps({
 const router = useRouter();
 
 function navigateToCreator() {
-  const encodedUser = encodeURIComponent(JSON.stringify(props.user));
-  router.push(`/creator/${props.user.id}?user=${encodedUser}`);
+  // remove the query params from the current route
+  const currentRoute = router.currentRoute.value;
+  const { tab, ...rest } = currentRoute.query;
+  router.push(
+    `/creators/${props.user.id}?from=${
+      router.currentRoute.value.fullPath
+    }&${Object.entries(rest)
+      .map(([key, value]) => `${key}=${value}`)
+      .join("&")}`
+  );
 }
 </script>
 

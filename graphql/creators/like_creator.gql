@@ -1,0 +1,14 @@
+mutation likeCreator($creator_id: uuid!) {
+  insert_creator_likes_one(
+    object: { creator_id: $creator_id }
+    on_conflict: {
+      constraint: creator_likes_creator_id_user_id_key
+      update_columns: [updated_at]
+    }
+  ) {
+    id
+    created_at
+    creator_id
+    updated_at
+  }
+}

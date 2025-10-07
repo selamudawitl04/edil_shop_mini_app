@@ -1,5 +1,0 @@
-mutation shareFeedInGroup($input: group_prayer_shares_insert_input!) {
-  insert_group_prayer_shares_one(object: $input) {
-    id
-  }
-}

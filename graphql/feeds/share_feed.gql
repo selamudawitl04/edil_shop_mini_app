@@ -1,5 +1,0 @@
-mutation shareFeed($input: feed_shares_insert_input!) {
-  insert_feed_shares_one(object: $input) {
-    id
-  }
-}

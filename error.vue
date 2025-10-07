@@ -43,7 +43,7 @@ const handleRefresh = () => {
       <h1
         class="text-4xl font-bold text-textPrimary-light dark:text-textPrimary-dark mb-2"
       >
-        {{ is404 ? "Page Not Found" : "Something Went Wrong" }}
+        ችግር ተፈጥሯል
       </h1>
 
       <!-- Error message -->
@@ -51,7 +51,7 @@ const handleRefresh = () => {
         {{
           props.error?.message ||
           props.error?.statusMessage ||
-          "An unexpected error has occurred. Please try again later."
+          "ያልተጠበቀ ችግር ተፈጥሯል። እባኮትን በኋላ ይሞክሩ።"
         }}
       </p>
 
@@ -61,8 +61,8 @@ const handleRefresh = () => {
       >
         {{
           is404
-            ? "The page you’re looking for doesn’t exist or has been moved."
-            : "Please try again or return to the homepage."
+            ? "የምትፈልጉት ገፅ አልተገኘም ወይም ወደ ሌላ ቦታ ተዛውሯል።"
+            : "እባኮትን እንደገና ይሞክሩ ወይም ወደ መነሻ ገፅ ይመለሱ።"
         }}
       </p>
 
@@ -72,14 +72,14 @@ const handleRefresh = () => {
           @click="handleBackToHome"
           class="bg-danger-light text-white hover:bg-danger-dark px-5 py-2 rounded-md font-semibold shadow transition"
         >
-          ← Back to Home
+          ← ወደ መነሻ ገፅ ተመለስ
         </button>
 
         <button
           @click="handleRefresh"
           class="border border-danger-light text-danger-light hover:bg-danger-light hover:text-white px-5 py-2 rounded-md font-semibold shadow transition"
         >
-          ⟳ Refresh Page
+          ⟳ እንደገና ይሞክሩ
         </button>
       </div>
     </div>

@@ -1,0 +1,26 @@
+query getNotifications(
+  $filter: notifications_bool_exp
+  $order: [notifications_order_by]
+  $limit: Int
+  $offset: Int
+) {
+  notifications(
+    where: $filter
+    order_by: $order
+    limit: $limit
+    offset: $offset
+  ) {
+    id
+    title
+    content
+    created_at
+    type
+    payload
+    user_id
+  }
+  notifications_aggregate(where: $filter) {
+    aggregate {
+      count
+    }
+  }
+}

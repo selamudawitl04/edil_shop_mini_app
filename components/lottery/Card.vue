@@ -1,6 +1,6 @@
 <template>
   <div
-    @click="openDetail(1)"
+    @click="openDetail('overview')"
     :title="`Lottery #${lottery.lottery_id}`"
     class="group flex flex-col lg:min-w-[23rem] bg-white dark:bg-slate-800 border border-borderColor-light dark:border-borderColor-dark rounded-xl shadow-lg hover:shadow-xl hover:ring-2 hover:ring-primary-light dark:hover:ring-primary-dark transition-all duration-300 overflow-hidden hover:cursor-pointer"
   >
@@ -220,8 +220,17 @@ const lotteryProgress = computed(() => {
   return 0;
 });
 
-const openDetail = (tab = 0) => {
-  router.push(`/lotteries/${props.lottery.id}?tab=${tab}`);
+const openDetail = (tab = "tickets") => {
+  // remove the query params from the current route
+  const currentRoute = router.currentRoute.value;
+  const { tab: currentTab, ...rest } = currentRoute.query;
+  router.push(
+    `/lotteries/${props.lottery.id}?tab=${tab}&from=${
+      router.currentRoute.value.fullPath
+    }&${Object.entries(rest)
+      .map(([key, value]) => `${key}=${value}`)
+      .join("&")}`
+  );
 };
 
 const statusColorAndName = computed(() => {

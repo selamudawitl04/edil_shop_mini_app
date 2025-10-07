@@ -30,7 +30,7 @@
               <span
                 class="font-semibold text-textPrimary-light dark:text-textPrimary-dark"
               >
-                {{ lottery.total_tickets.toLocaleString() }}
+                {{ lottery.total_tickets?.toLocaleString() }}
               </span>
             </div>
             <div class="flex justify-between">
@@ -54,7 +54,11 @@
               <span
                 class="font-semibold text-textPrimary-light dark:text-textPrimary-dark"
               >
-                {{ lottery.total_tickets - lottery.total_sold_tickets }}
+                {{
+                  (
+                    lottery.total_tickets - lottery.total_sold_tickets
+                  )?.toLocaleString()
+                }}
               </span>
             </div>
             <div class="flex justify-between">
@@ -66,7 +70,7 @@
               <span
                 class="font-semibold text-textPrimary-light dark:text-textPrimary-dark"
               >
-                {{ lottery.price_per_ticket }} ብር
+                {{ lottery?.price_per_ticket }} ብር
               </span>
             </div>
 
@@ -77,10 +81,10 @@
                 የእጣ ሁኔታ
               </span>
               <span
-                :class="statusColorAndName.color"
+                :class="statusColorAndName?.color"
                 class="px-3 py-1 rounded-full text-sm font-medium"
               >
-                {{ statusColorAndName.name }}
+                {{ statusColorAndName?.name }}
               </span>
             </div>
             <div class="flex justify-between">
@@ -92,7 +96,7 @@
               <span
                 class="font-semibold text-textPrimary-light dark:text-textPrimary-dark"
               >
-                {{ getLotteryFinalTimeText(lottery.final_time) }}
+                {{ getLotteryFinalTimeText(lottery?.final_time) }}
               </span>
             </div>
           </div>
@@ -128,7 +132,7 @@
         <p
           class="text-textPrimary-light dark:text-textPrimary-dark leading-relaxed"
         >
-          {{ lottery.description }}
+          {{ lottery?.description }}
         </p>
       </div>
 
@@ -170,11 +174,17 @@ function getLotteryFinalTimeText(finalTime) {
     return "የዕጣው ሁሉም ትኬቶች ሲሸጡ";
   }
 
+  // Ensure finalTime is a Date object
+  const targetTime = new Date(finalTime);
+  if (isNaN(targetTime)) {
+    return "የተሳሳተ ቀን ተሰጥቷል"; // Invalid date
+  }
+
   const now = new Date();
-  const difference = finalTime - now; // difference in milliseconds
+  const difference = targetTime - now; // milliseconds
 
   if (difference <= 0) {
-    return "ዕጣው ተወጥቷል"; // Already passed
+    return "የዕጣው ሁሉም ትኬቶች ሲሸጡ"; // Already passed
   }
 
   const differenceInMinutes = Math.floor(difference / 1000 / 60);
@@ -185,11 +195,11 @@ function getLotteryFinalTimeText(finalTime) {
   }
 
   // Format as "day/month/year hour:minute"
-  const day = finalTime.getDate().toString().padStart(2, "0");
-  const month = (finalTime.getMonth() + 1).toString().padStart(2, "0"); // months are 0-indexed
-  const year = finalTime.getFullYear();
-  const hour = finalTime.getHours().toString().padStart(2, "0");
-  const minute = finalTime.getMinutes().toString().padStart(2, "0");
+  const day = targetTime.getDate().toString().padStart(2, "0");
+  const month = (targetTime.getMonth() + 1).toString().padStart(2, "0");
+  const year = targetTime.getFullYear();
+  const hour = targetTime.getHours().toString().padStart(2, "0");
+  const minute = targetTime.getMinutes().toString().padStart(2, "0");
 
   return `${day}/${month}/${year} ${hour}:${minute}`;
 }

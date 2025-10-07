@@ -1,8 +1,0 @@
-mutation createEvent($input: events_insert_input!) {
-  insert_events_one(object: $input) {
-    id
-    title
-    description
-    banner_url
-  }
-}

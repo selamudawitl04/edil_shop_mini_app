@@ -1,160 +1,232 @@
 <template>
   <NuxtLayout name="app">
-    <section class="container mx-auto px-3 lg:px-6 lg:py-8 min-h-screen">
-      <!-- Header -->
-      <div
-        class="flex justify-between items-start md:items-center mb-2 lg:mb-8 gap-4"
-      >
-        <h1
-          class="text-xl md:text-3xl font-extrabold text-gray-800 dark:text-gray-100"
-        >
-          ዕጣዎች
-          <span class="text-primary-light dark:text-primary-dark"
-            >({{ length }})</span
-          >
-        </h1>
-        <BaseButton
-          @click="$router.push('/create-lottery')"
-          :full="false"
-          class="flex items-center gap-2 px-4 py-2 text-sm md:text-base"
-        >
-          <Icon name="mdi:plus" />
-          ዕጣ ጨምር
-        </BaseButton>
-      </div>
+    <!-- Fixed App Bar -->
+    <div class="fixed top-0 left-0 right-0 z-50 w-full overflow-x-hidden">
+      <HomeAppBar
+        @resetFilters="resetFilters"
+        @applyFilters="applyFilters"
+        :hasActiveFilters="hasActiveFilters"
+        v-model:searchQuery="searchQuery"
+      />
+    </div>
 
-      <!-- Tabs -->
-      <div class="mb-4 lg:mb-6">
-        <BaseTab v-model:current-tab-index="activeIndex" :tabs="tabs">
-          <template #tab="{ tabData }">
-            <span class="text-sm font-medium">
-              {{ tabData.tab.name }}
-              <span class="text-xs font-normal text-gray-700">
-                ({{ tabData.tab.count }})
-              </span>
-            </span>
-          </template>
-        </BaseTab>
-      </div>
+    <!-- Spacer for header -->
+    <div class="h-14"></div>
 
-      <!-- Lottery Cards Grid -->
-      <div v-if="!loading">
-        <div
-          v-if="lotteries.length"
-          class="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4 gap-6"
-        >
-          <LotteryCard
-            v-for="lottery in lotteries"
-            :key="lottery.id"
-            :lottery="lottery"
-            class="hover:scale-105 transition-transform duration-150"
-          />
-        </div>
-
-        <!-- Empty State -->
-        <div
-          v-else
-          class="flex flex-col items-center justify-center py-20 text-center text-gray-500 dark:text-gray-400"
-        >
-          <div class="text-6xl mb-4">🎟️</div>
-          <p class="text-lg font-medium">ሎተሪች አልተገኙም</p>
-          <p class="text-sm mt-2">እባክዎ አዲስ ሎተሪ ይፍጠሩ</p>
-        </div>
-
-        <div class="py-8">
-          <BasePaginate
-            :items-per-page="limit"
-            :total-data="length"
-            v-model:offset="offset"
-          />
+    <BaseError v-if="errorHappened" show-retry @retry="refetch" />
+    <div v-else>
+      <div v-if="lotteries.length" class="p-3 space-y-3">
+        <div v-for="lottery in lotteries" :key="lottery.id">
+          <LotteryCard :lottery="lottery" />
         </div>
       </div>
 
-      <!-- Loading State -->
+      <!-- ---------------No Result Found -->
+      <div v-if="!loading && !lotteries.length" class="text-center">
+        <BaseZeroResult message="ምንም ውጤት አልተገኘም" />
+      </div>
 
       <div v-if="loading" class="class flex justify-center py-8">
         <div class="loader"></div>
       </div>
-    </section>
+
+      <BaseScrollObserver @reach-bottom="loadMore" />
+    </div>
   </NuxtLayout>
 </template>
 
 <script setup>
-import listQuery from "@/graphql/lottery/list.gql";
+import { ref } from "vue";
 
-const user = useCookie("userData");
-const activeIndex = ref(0);
-const tabs = ref([
-  { name: "ሁሉም", value: "ሁሉም", count: 0 },
-  { name: "ያልዎጡ", value: "ያልዎጡ", count: 0 },
-  { name: "የዎጡ", value: "የዎጡ", count: 0 },
-  { name: "ያልተጀመሩ", value: "ያልተጀመሩ", count: 0 },
-  { name: "የተጠናቀቁ", value: "ተጠናቀቀ", count: 0 },
-]);
+const searchQuery = ref("");
+const queryVariables = ref({
+  category_id: "ሁሉም",
+  sort: "High price",
+  price_range: [0, 5000],
+  ticket_size_range: [0, 2000],
+});
+
+const resetFilters = (variables) => {
+  queryVariables.value = variables;
+};
+
+const applyFilters = (variables) => {
+  queryVariables.value = variables;
+};
+
+import listQuery from "@/graphql/lottery/list.gql";
 
 const lotteries = ref([]);
 const length = ref(0);
 
 const filter = computed(() => {
-  const query = {
-    user_id: {
-      _eq: user.value.id,
-    },
-  };
+  const query = {};
 
-  if (activeIndex.value === 1) {
-    query.status = {
-      _eq: "active",
-    };
-  } else if (activeIndex.value === 2) {
-    query.status = {
-      _eq: "closed",
-    };
-  } else if (activeIndex.value === 3) {
-    query.status = {
-      _eq: "pending",
-    };
-  } else if (activeIndex.value === 4) {
-    query.status = {
-      _eq: "finished",
+  if (searchQuery.value) {
+    query._or = {
+      _or: [
+        {
+          items: {
+            title: { _ilike: `%${searchQuery.value}%` },
+          },
+        },
+        {
+          items: {
+            category: {
+              name: { _ilike: `%${searchQuery.value}%` },
+            },
+          },
+        },
+        {
+          lottery_id: { _ilike: `%${searchQuery.value}%` },
+        },
+      ],
     };
   }
+
+  // category_id
+  if (queryVariables.value.category_id !== "ሁሉም") {
+    query.items = {
+      category_id: { _eq: queryVariables.value.category_id },
+    };
+  }
+
+  // price_range
+
+  if (
+    queryVariables.value.price_range[0] !== 0 ||
+    queryVariables.value.price_range[1] !== 5000
+  ) {
+    query.price_per_ticket = {
+      _gte: queryVariables.value.price_range[0],
+      _lte: queryVariables.value.price_range[1],
+    };
+  }
+
+  // ticket_size_range
+
+  if (
+    queryVariables.value.ticket_size_range[0] !== 0 ||
+    queryVariables.value.ticket_size_range[1] !== 2000
+  ) {
+    query.total_tickets = {
+      _gte: queryVariables.value.ticket_size_range[0],
+      _lte: queryVariables.value.ticket_size_range[1],
+    };
+  }
+  // status
+
+  // query.status = {
+  //   _eq: "active",
+  // };
 
   return query;
 });
 
-const sort = ref([{ created_at: "desc" }]);
-const limit = ref(12);
+const sort = computed(() => {
+  if (queryVariables.value.sort === "High price") {
+    return [{ price_per_ticket: "desc" }];
+  } else if (queryVariables.value.sort === "Low price") {
+    return [{ price_per_ticket: "asc" }];
+  } else if (queryVariables.value.sort === "Newest") {
+    return [{ created_at: "desc" }];
+  } else if (queryVariables.value.sort === "Oldest") {
+    return [{ created_at: "asc" }];
+  }
+
+  return [{ created_at: "desc" }];
+});
+const limit = ref(10);
 const offset = ref(0);
 
-const { onResult, loading, refetch } = queryList(listQuery, {
-  clientId: "auth",
-  filter: filter,
-  order: sort,
-  limit: limit,
-  offset: offset,
-  include_user: true,
-});
+const errorHappened = ref(false);
+const { onResult, loading, refetch, fetchMore, onError } = queryList(
+  listQuery,
+  {
+    clientId: "auth",
+    filter: filter,
+    order: sort,
+    limit: limit,
+    offset: offset,
+  }
+);
 
 onResult(({ data }) => {
   if (data.lotteries) {
     lotteries.value = data.lotteries;
-    length.value = data.total.aggregate.count;
-
-    tabs.value[0].count = data.total.aggregate.count;
-    tabs.value[1].count = data.active.aggregate.count;
-    tabs.value[2].count = data.closed.aggregate.count;
-    tabs.value[3].count = data.pending.aggregate.count;
-    tabs.value[4].count = data.finished.aggregate.count;
+    length.value = data.lotteries_aggregate?.aggregate.count;
   }
+
+  errorHappened.value = false;
 });
 
-provide("refetchLotteries", refetch);
-</script>
+onError((error) => {
+  errorHappened.value = true;
+  // alert(error.message);
+});
 
-<style scoped>
-/* Optional: smooth hover effect for cards */
-.LotteryCard:hover {
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-}
-</style>
+const hasActiveFilters = computed(() => {
+  return (
+    queryVariables.value.category_id !== "ሁሉም" ||
+    queryVariables.value.sort !== "High price" ||
+    queryVariables.value.price_range[0] !== 0 ||
+    queryVariables.value.price_range[1] !== 5000 ||
+    queryVariables.value.ticket_size_range[0] !== 0 ||
+    queryVariables.value.ticket_size_range[1] !== 2000
+  );
+});
+
+let isLoadingMore = false;
+let lastLoadedAt = 0;
+const GAP_DURATION = 1000; // milliseconds
+
+const loadMore = async () => {
+  const now = Date.now();
+
+  // Prevent overlapping or too-frequent calls
+  if (
+    isLoadingMore ||
+    now - lastLoadedAt < GAP_DURATION ||
+    lotteries.value.length >= length.value
+  ) {
+    return;
+  }
+
+  isLoadingMore = true;
+
+  try {
+    const { data } = await fetchMore({
+      variables: {
+        limit: limit.value,
+        offset: lotteries.value.length, // move forward
+      },
+      updateQuery: (previousResult, { fetchMoreResult }) => {
+        if (!fetchMoreResult || fetchMoreResult.lotteries.length === 0) {
+          return previousResult;
+        }
+
+        return {
+          ...previousResult,
+          lotteries: [
+            ...previousResult.lotteries,
+            ...fetchMoreResult.lotteries,
+          ],
+          lotteries_aggregate: {
+            aggregate: {
+              count: fetchMoreResult.lotteries_aggregate.aggregate.count,
+            },
+          },
+        };
+      },
+    });
+
+    if (data?.lotteries?.length > 0) {
+      lastLoadedAt = Date.now();
+    }
+  } catch (e) {
+    console.error("Failed to load more:", e);
+  } finally {
+    isLoadingMore = false;
+  }
+};
+</script>
