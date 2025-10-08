@@ -1,10 +1,10 @@
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 function isExpired(token) {
   try {
     const decoded = jwtDecode(token);
     return decoded.exp < Date.now() / 1000;
-  } catch {
+  } catch (err) {
     return true; // treat invalid token as expired
   }
 }
@@ -18,13 +18,13 @@ export default defineNuxtRouteMiddleware(async (to) => {
   console.log("🔹 Token:", token);
   console.log("🔹 User Data:", userData.value);
 
-  // If user is at "/" and has valid token + userdata → redirect to /lotteries
+  // "/" route: if user is logged in → redirect to /lotteries
   if (to.path === "/" && token && userData.value && !isExpired(token)) {
     console.log("✅ User already logged in — redirecting to /lotteries");
     return navigateTo("/lotteries");
   }
 
-  // If any route except "/" is accessed → validate token + user
+  // Other routes: validate token + user
   if (to.path !== "/") {
     if (!token || !userData.value || isExpired(token)) {
       console.warn("🚫 Unauthorized — redirecting to /");
