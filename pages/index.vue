@@ -55,7 +55,7 @@ const { mutate, onDone, onError } = mutator(loginMutation, {
 
 const openBot = () => {
   // window.open("https://t.me/EdilShopBot/edilshop", "_blank");
-  window.location.href = "https://t.me/EdilShopBot/edilshop";
+  window.location.href = "https://t.me/EdilShopBot";
 };
 
 const login = (initData) => {
