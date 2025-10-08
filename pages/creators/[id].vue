@@ -173,17 +173,4 @@ function goBack() {
     router.push("/creators");
   }
 }
-
-onMounted(() => {
-  const tg = window.Telegram.WebApp;
-
-  // Show Telegram's back button
-  tg.BackButton.show();
-
-  // Handle back button press
-  tg.onEvent("backButtonPressed", () => {
-    // Use your router to pop the page instead of closing the app
-    goBack();
-  });
-});
 </script>
