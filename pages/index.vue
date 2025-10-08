@@ -13,12 +13,6 @@
     </div>
 
     <div class="text-center space-y-10 relative z-10">
-      <div class="text-2xl font-bold">
-        {{ decodedString }}
-      </div>
-    </div>
-
-    <div class="text-center space-y-10 relative z-10">
       <!-- Floating Logo -->
       <div class="flex justify-center">
         <img
@@ -43,7 +37,6 @@
 
 <script setup>
 import loginMutation from "@/graphql/auth/login.gql";
-import { useMiniApp } from "vue-tg";
 
 const router = useRouter();
 const { onLogin } = useApollo();
