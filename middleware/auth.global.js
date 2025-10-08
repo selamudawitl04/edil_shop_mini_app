@@ -1,8 +1,8 @@
 import jwtDecode from "jwt-decode";
 
-function isExpired(token: string) {
+function isExpired(token) {
   try {
-    const decoded: any = jwtDecode(token);
+    const decoded = jwtDecode(token);
     return decoded.exp < Date.now() / 1000;
   } catch {
     return true; // treat invalid token as expired
