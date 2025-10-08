@@ -56,6 +56,10 @@ const { mutate, onDone, onError } = mutator(loginMutation, {
 const openBot = () => {
   // window.open("https://t.me/EdilShopBot/edilshop", "_blank");
   window.location.href = "https://t.me/EdilShopBot";
+
+  // close the telegram app
+  const tg = window?.Telegram?.WebApp;
+  tg?.close();
 };
 
 const login = (initData) => {
