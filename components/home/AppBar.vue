@@ -77,6 +77,7 @@ const applyFilters = () => {
   >
     <!-- Avatar -->
     <div
+      @click="$router.push('/auth/logout')"
       class="w-9 h-9 rounded-md bg-blue-600 flex items-center justify-center text-white font-semibold text-sm"
     >
       ES

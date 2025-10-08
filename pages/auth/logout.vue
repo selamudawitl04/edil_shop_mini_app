@@ -33,6 +33,6 @@ toast.success("በትክክል ውጡት።", { position: "top-right" });
 
 // ከአንድ ሰከንድ በኋላ ወደ ግባ ገፅ አስመለከት
 setTimeout(() => {
-  router.replace("/auth/login");
+  router.replace("/");
 }, 1000);
 </script>

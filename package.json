@@ -50,6 +50,7 @@
     "pinia": "^2.1.6",
     "vue-advanced-cropper": "^2.8.9",
     "vue-composable": "^1.0.0-beta.24",
+    "vue-tg": "^0.9.0",
     "vue-toast-notification": "^3.1.3",
     "vue3-apexcharts": "^1.4.4",
     "vue3-carousel": "^0.16.0"

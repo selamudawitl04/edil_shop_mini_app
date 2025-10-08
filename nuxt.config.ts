@@ -45,11 +45,7 @@ export default defineNuxtConfig({
 
   // devtools: { enabled: true },
   ssr: false,
-  vite: {
-    server: {
-      allowedHosts: true,
-    },
-  },
+
   spaLoadingTemplate: false,
   modules: [
     "@nuxtjs/tailwindcss",
@@ -66,17 +62,17 @@ export default defineNuxtConfig({
     "@pinia-plugin-persistedstate/nuxt",
     "nuxt-emoji-picker",
   ],
-  // veeValidate: {
-  //   // disable or enable auto imports
-  //   autoImports: true,
-  //   // Use different names for components
-  //   componentNames: {
-  //     Form: "VeeForm",
-  //     Field: "VeeField",
-  //     FieldArray: "VeeFieldArray",
-  //     ErrorMessage: "VeeErrorMessage",
-  //   },
-  // },
+  veeValidate: {
+    // disable or enable auto imports
+    autoImports: true,
+    // Use different names for components
+    componentNames: {
+      Form: "VeeForm",
+      Field: "VeeField",
+      FieldArray: "VeeFieldArray",
+      ErrorMessage: "VeeErrorMessage",
+    },
+  },
   headlessui: {
     prefix: "Headless",
   },

@@ -1,7 +1,7 @@
-mutation login($input: LoginInput!) {
-  login(arg1: $input) {
-    token
+mutation miniAppLogin($initData: String!) {
+  mini_app_login(arg1: { init_data: $initData }) {
     refresh_token
+    token
     user {
       id
       name
