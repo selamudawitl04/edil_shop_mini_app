@@ -2,29 +2,13 @@
 import { computed } from "vue";
 
 const props = defineProps({
-  lottery: {
+  item: {
     type: Object,
     required: true,
   },
 });
 
-// Check category
-const hasItems = computed(() => props.lottery.items?.length > 0);
-const isMoneyCategory = computed(
-  () => hasItems.value && props.lottery.items[0].category?.id === "ገንዘብ"
-);
-
-// Pick featured media
-const media = computed(() => {
-  if (props.lottery.medias?.length > 0) {
-    return (
-      props.lottery.medias.find((m) => m.is_featured) || props.lottery.medias[0]
-    );
-  }
-  return null;
-});
-
-const imageUrl = computed(() => media.value?.url || null);
+const isMoneyCategory = computed(() => props.item.category?.id === "ገንዘብ");
 </script>
 
 <template>
@@ -43,7 +27,7 @@ const imageUrl = computed(() => media.value?.url || null);
 
       <div class="mt-5 text-white">
         <p class="text-xl font-bold text-white">
-          {{ hasItems ? lottery.items[0].title + " ብር" : "ገንዘብ" }}
+          {{ item.title + " ብር" }}
         </p>
         <p class="text-sm text-white font-semibold mt-2">የገንዘብ እጣ</p>
       </div>
@@ -53,8 +37,8 @@ const imageUrl = computed(() => media.value?.url || null);
   <!-- Normal Category -->
   <div v-else class="h-full rounded-t-2xl overflow-hidden">
     <img
-      v-if="imageUrl"
-      :src="imageUrl"
+      v-if="item.cover_image"
+      :src="item.cover_image"
       class="w-full h-full object-cover"
       @error="$event.target.src = ''"
     />

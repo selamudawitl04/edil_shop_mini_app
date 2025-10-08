@@ -6,7 +6,7 @@
   >
     <!-- Featured Image Section -->
     <div class="relative h-48 overflow-hidden">
-      <LotteryMedia :lottery="lottery" />
+      <LotteryMedia :item="selectedItem" />
 
       <!-- Overlay with Status & ID -->
       <div
@@ -39,10 +39,17 @@
         <!-- Title + Category -->
         <div class="flex-1 flex flex-col">
           <h2 class="text-black font-bold text-lg line-clamp-2">
-            {{ title }}
+            <span v-show="lottery.items.length > 1"
+              >{{ selectedItem?.order }}ኛ.</span
+            >
+            {{ selectedItem?.title }}
           </h2>
           <p class="text-secondary text-sm line-clamp-1">
-            {{ lottery.items.length > 0 ? `አይነት: ${category}` : "--" }}
+            {{
+              lottery.items.length > 0
+                ? `አይነት: ${selectedItem?.category?.name}`
+                : "--"
+            }}
           </p>
         </div>
 
@@ -177,38 +184,20 @@ const winnedItem = computed(() => {
   );
 });
 
-const title = computed(() => {
+const selectedItem = computed(() => {
   if (props.lottery.items?.length) {
     if (props.lottery.status == "closed" && props.ticket) {
       if (winnedItem.value) {
-        return winnedItem.value.title;
+        return winnedItem.value;
       }
     }
 
-    if (props.category) {
-      return props.lottery.items.find((i) => i.category?.id === props.category)
-        ?.title;
+    if (props.category && props.category !== "ሁሉም") {
+      return props.lottery.items.find((i) => i.category?.id === props.category);
     }
-    return props.lottery.items[0]?.title;
+    return props.lottery.items[0];
   }
-  return "--";
-});
-
-const category = computed(() => {
-  if (props.lottery.items?.length) {
-    if (props.lottery.status == "closed" && props.ticket) {
-      if (winnedItem.value) {
-        return winnedItem.value.category?.name;
-      }
-    }
-
-    if (props.category) {
-      return props.lottery.items.find((i) => i.category?.id === props.category)
-        ?.category?.name;
-    }
-    return props.lottery.items[0]?.category?.name;
-  }
-  return "--";
+  return null;
 });
 
 const lotteryProgress = computed(() => {

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="lottery.medias.length" class="flex flex-col gap-2">
+  <div v-if="medias.length" class="flex flex-col gap-2">
     <!-- Media Container -->
     <div
       class="relative w-full rounded-lg overflow-hidden border border-gray-300 shadow-sm"
@@ -7,20 +7,13 @@
     >
       <!-- Cover Image -->
       <img
-        v-if="isNetwork(featuredMedia.url)"
-        :src="featuredMedia.url"
+        v-if="medias[0]"
+        :src="medias[0]"
         @click="openGalleryDialog = true"
         class="w-full h-full object-cover cursor-pointer"
         @error="imgError = true"
         v-show="!imgError"
       />
-      <div
-        v-else-if="!isNetwork(featuredMedia.url)"
-        @click="openGalleryDialog = true"
-        class="w-full h-full cursor-pointer bg-gray-200 flex items-center justify-center"
-      >
-        <span class="text-gray-500 text-sm">Local file not supported</span>
-      </div>
 
       <div
         v-if="imgError"
@@ -51,7 +44,7 @@
 
       <!-- See All Button -->
       <button
-        v-if="showSeeAllButton && lottery.medias.length > 1"
+        v-if="showSeeAllButton && medias.length > 1"
         @click="openGalleryDialog = true"
         class="absolute bottom-2 right-2 bg-white/90 text-black text-xs font-semibold flex items-center gap-1 px-3 py-1 rounded-full border border-white shadow"
       >
@@ -61,7 +54,7 @@
 
       <!-- Play Icon -->
       <div
-        v-if="lottery.medias.length > 1"
+        v-if="medias.length > 1"
         class="absolute top-2 right-2 bg-black/60 rounded-full px-2 py-1"
       >
         <i class="mdi mdi-play text-white text-sm"></i>
@@ -73,7 +66,7 @@
   <LotteryDetailGallerySlider
     v-if="openGalleryDialog"
     v-model="openGalleryDialog"
-    :images="lottery.medias"
+    :images="medias"
     :initial-index="sliderIndex"
     @close="openGalleryDialog = false"
   />
@@ -90,24 +83,21 @@ const props = defineProps({
 });
 
 const imgError = ref(false);
-const sliderOpen = ref(false);
 const sliderIndex = ref(0);
 
-const featuredMedia = computed(() => {
-  return (
-    props.lottery.medias.find((m) => m.is_featured) ?? props.lottery.medias[0]
-  );
+const medias = computed(() => {
+  let _medias = props.lottery.medias.map((m) => m.url);
+
+  for (const item of props.lottery.items) {
+    if (item.cover_image) {
+      if (!_medias.includes(item.cover_image)) {
+        _medias.push(item.cover_image);
+      }
+    }
+  }
+  return _medias;
 });
-const featuredIndex = computed(() =>
-  props.lottery.medias.indexOf(featuredMedia.value)
-);
 
-const openSlider = (index) => {
-  sliderIndex.value = index;
-  sliderOpen.value = true;
-};
-
-const isNetwork = (url) => /^https?:\/\//.test(url);
 const openGalleryDialog = ref(false);
 </script>
 

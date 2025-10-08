@@ -26,20 +26,20 @@ const { mutate, onDone, loading, onError } = mutator(deleteNotification, {
 
 // Mutation response handler
 onDone(({ data }) => {
-  const affected = data?.delete_notifications_by_pk?.id;
+  const affected = data?.delete_user_notifications_by_pk?.id;
   if (affected) {
-    toast.success("ሎተሪው ጠፋቱዋል", { position: "top-right" });
+    toast.success("ጠፋቱዋል", { position: "bottom-left" });
     emit("deleteDone");
   } else {
-    toast.error("ሎተሪውን ማጥፋት አልተሳካም።", {
-      position: "top-right",
+    toast.error("ማጥፋት አልተሳካም።", {
+      position: "bottom-left",
     });
   }
   open.value = false;
 });
 
 onError(() => {
-  toast.error("ስህተት ተከስቷል። እባክዎን ደግመው ይሞክሩ።", { position: "top-right" });
+  toast.error("ስህተት ተከስቷል። እባክዎን ደግመው ይሞክሩ።", { position: "bottom-left" });
   open.value = false;
 });
 

@@ -17,7 +17,10 @@
     <div v-else>
       <div v-if="lotteries.length" class="p-3 space-y-3">
         <div v-for="lottery in lotteries" :key="lottery.id">
-          <LotteryCard :lottery="lottery" />
+          <LotteryCard
+            :lottery="lottery"
+            :category="queryVariables.category_id"
+          />
         </div>
       </div>
 

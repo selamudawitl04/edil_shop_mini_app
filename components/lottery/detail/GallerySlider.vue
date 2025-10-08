@@ -43,10 +43,7 @@
               :key="index"
               class="keen-slider__slide flex items-center justify-center w-full h-full flex-shrink-0"
             >
-              <img
-                :src="image.url"
-                class="max-w-full max-h-full object-contain"
-              />
+              <img :src="image" class="max-w-full max-h-full object-contain" />
             </div>
           </div>
 

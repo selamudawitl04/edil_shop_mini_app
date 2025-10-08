@@ -45,7 +45,7 @@ const filter = computed(() => {
 });
 
 const sort = computed(() => {
-  return [{ created_at: "desc" }];
+  return [{ notification: { created_at: "desc" } }];
 });
 const limit = ref(20);
 const offset = ref(0);
@@ -63,9 +63,20 @@ const { onResult, loading, refetch, fetchMore, onError } = queryList(
 );
 
 onResult(({ data }) => {
-  if (data.notifications) {
-    notifications.value = data.notifications;
-    length.value = data.notifications_aggregate?.aggregate.count;
+  if (data.user_notifications) {
+    notifications.value = data.user_notifications;
+
+    notifications.value = notifications.value.map((notification) => {
+      const { id, user_id } = notification;
+      const { id: _, ...rest } = notification.notification; // ignore nested id
+      return {
+        id,
+        user_id,
+        ...rest,
+      };
+    });
+
+    length.value = data.user_notifications_aggregate?.aggregate.count;
   }
 
   errorHappened.value = false;
@@ -73,7 +84,6 @@ onResult(({ data }) => {
 
 onError((error) => {
   errorHappened.value = true;
-  // alert(error.message);
 });
 
 let isLoadingMore = false;
@@ -101,26 +111,30 @@ const loadMore = async () => {
         offset: notifications.value.length, // move forward
       },
       updateQuery: (previousResult, { fetchMoreResult }) => {
-        if (!fetchMoreResult || fetchMoreResult.notifications.length === 0) {
+        if (
+          !fetchMoreResult ||
+          fetchMoreResult.user_notifications.length === 0
+        ) {
           return previousResult;
         }
 
         return {
           ...previousResult,
-          notifications: [
-            ...previousResult.notifications,
-            ...fetchMoreResult.notifications,
+          user_notifications: [
+            ...previousResult.user_notifications,
+            ...fetchMoreResult.user_notifications,
           ],
-          notifications_aggregate: {
+          user_notifications_aggregate: {
             aggregate: {
-              count: fetchMoreResult.notifications_aggregate.aggregate.count,
+              count:
+                fetchMoreResult.user_notifications_aggregate.aggregate.count,
             },
           },
         };
       },
     });
 
-    if (data?.notifications?.length > 0) {
+    if (data?.user_notifications?.length > 0) {
       lastLoadedAt = Date.now();
     }
   } catch (e) {

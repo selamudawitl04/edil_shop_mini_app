@@ -93,15 +93,16 @@ const filter = computed(() => {
       },
     };
   } else if (selected.value === 2) {
-    // won tickets
-    query.status = {
-      _eq: "verified",
-    };
     query.winners_aggregate = {
       count: {
         predicate: {
           _gt: 0,
         },
+      },
+    };
+    query.lottery = {
+      status: {
+        _eq: "closed",
       },
     };
   } else if (selected.value === 3) {

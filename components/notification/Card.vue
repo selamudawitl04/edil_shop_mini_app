@@ -38,20 +38,32 @@
       </button>
     </div>
 
-    <!-- Notification Content -->
-    <p class="text-sm text-gray-700 mt-3 leading-relaxed">
-      {{ notification.content }}
-    </p>
+    <p
+      class="text-sm text-gray-700 mt-3 leading-relaxed"
+      v-html="notification.content.replace(/\n/g, '<br>')"
+    ></p>
 
-    <!-- Type badge -->
-    <div
-      class="inline-block mt-3 px-2 py-1 rounded-md text-[11px] font-semibold"
-      :style="{
-        backgroundColor: notificationColor + '1A',
-        color: notificationColor,
-      }"
-    >
-      {{ notificationTypeText }}
+    <!-- Type Badge Container -->
+    <div class="flex items-center justify-between mt-3">
+      <!-- Left: Type Badge -->
+      <div
+        class="inline-block px-2 py-1 rounded-md text-[11px] font-semibold"
+        :style="{
+          backgroundColor: notificationColor + '1A',
+          color: notificationColor,
+        }"
+      >
+        {{ notificationTypeText }}
+      </div>
+
+      <!-- Right: View Details Button -->
+      <button
+        @click.stop="handleClick"
+        class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary-light/10 dark:bg-primary-dark/10 hover:bg-primary-light/20 dark:hover:bg-primary-dark/20 text-primary-light dark:text-primary-dark transition-colors text-sm font-medium"
+      >
+        <Icon name="mdi:information-outline" class="w-4 h-4" />
+        ዝርዝር
+      </button>
     </div>
   </div>
 
@@ -84,6 +96,8 @@ const notificationColor = computed(() => {
       return "#2563EB"; // blue-600
     case "ticket_rejected":
       return "#EA580C"; // orange-600
+    case "winner_known":
+      return "#F59E0B"; // amber-500
     default:
       return "#6B7280"; // gray-500
   }
@@ -97,6 +111,8 @@ const notificationIcon = computed(() => {
       return "mdi:check-decagram";
     case "ticket_rejected":
       return "mdi:alert-circle-outline";
+    case "winner_known":
+      return "mdi:star-circle-outline"; // you can choose any icon you like
     default:
       return "mdi:bell-outline";
   }
@@ -110,6 +126,8 @@ const notificationTitle = computed(() => {
       return "ትኬት ተረጋግጧል";
     case "ticket_rejected":
       return "ትኬት አልተረጋገጠም";
+    case "winner_known":
+      return "እጣ ውቱአል";
     default:
       return "ማስታወቂያ";
   }
@@ -123,13 +141,15 @@ const notificationTypeText = computed(() => {
       return "ተረጋግጧል";
     case "ticket_rejected":
       return "አልተረጋገጠም";
+    case "winner_known":
+      return "እጣ ውቱአል"; // "Selected"
     default:
       return "ማስታወቂያ";
   }
 });
 
 const formattedTime = computed(() => {
-  const date = new Date(props.notification.createdAt);
+  const date = new Date(props.notification.created_at);
   const diffMs = Date.now() - date.getTime();
   const diffMins = Math.floor(diffMs / 60000);
   const diffHours = Math.floor(diffMins / 60);
@@ -148,7 +168,7 @@ const handleClick = () => {
 
   if (
     lotteryId &&
-    ["ticket_rejected", "ticket_verified", "win"].includes(
+    ["ticket_rejected", "ticket_verified", "win", "winner_known"].includes(
       props.notification.type
     )
   ) {

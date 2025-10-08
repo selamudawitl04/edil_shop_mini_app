@@ -48,6 +48,7 @@ query getLottery($id: uuid!, $user_id: uuid) {
       title
       order
       category_id
+      cover_image
       category {
         id
         name

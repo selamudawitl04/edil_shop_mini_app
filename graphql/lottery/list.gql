@@ -35,6 +35,7 @@ query getLotteries(
       title
       order
       category_id
+      cover_image
       category {
         id
         name

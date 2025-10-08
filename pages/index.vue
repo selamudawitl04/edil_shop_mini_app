@@ -85,7 +85,6 @@ onError((error) => {
     alert("እባክዎን ስልክ ቁጥሮን ከ Telegram ቦት ጋር ያጋሩ።");
     openBot();
   } else {
-    alert("ስህተት ተከስቷል፣ እባክዎን መተግበሪያውን ከ Telegram ቦት ድጋሚ ይክፈቱ።");
     openBot();
   }
 });
@@ -107,7 +106,6 @@ onMounted(() => {
       openBot();
     }
   } else {
-    alert("እባክዎን መተግበሪያውን ከ Telegram ቦት ድጋሚ ይክፈቱ።");
     openBot();
   }
 });
