@@ -132,7 +132,7 @@ const tabs = computed(() => [
     id: "overview",
     name: "መረጃ",
     value: "overview",
-    icon: "mdi:person-outline",
+    icon: "mdi:information-outline",
   },
 ]);
 

@@ -7,20 +7,18 @@
         @applyFilters="applyFilters"
         :hasActiveFilters="hasActiveFilters"
         v-model:searchQuery="searchQuery"
+        v-model:categoryId="categoryId"
       />
     </div>
 
     <!-- Spacer for header -->
-    <div class="h-14"></div>
+    <div class="h-20 mb-2"></div>
 
     <BaseError v-if="errorHappened" show-retry @retry="refetch" />
     <div v-else>
       <div v-if="lotteries.length" class="p-3 space-y-3">
         <div v-for="lottery in lotteries" :key="lottery.id">
-          <LotteryCard
-            :lottery="lottery"
-            :category="queryVariables.category_id"
-          />
+          <LotteryCard :lottery="lottery" :category="categoryId" />
         </div>
       </div>
 
@@ -43,11 +41,13 @@ import { ref } from "vue";
 
 const searchQuery = ref("");
 const queryVariables = ref({
-  category_id: "ሁሉም",
   sort: "High price",
-  price_range: [0, 5000],
-  ticket_size_range: [0, 2000],
+  min_price: null,
+  max_price: null,
+  min_ticket_size: null,
+  max_ticket_size: null,
 });
+const categoryId = ref("ሁሉም");
 
 const resetFilters = (variables) => {
   queryVariables.value = variables;
@@ -88,40 +88,45 @@ const filter = computed(() => {
   }
 
   // category_id
-  if (queryVariables.value.category_id !== "ሁሉም") {
+  if (categoryId.value !== "ሁሉም") {
     query.items = {
-      category_id: { _eq: queryVariables.value.category_id },
+      category_id: { _eq: categoryId.value },
     };
   }
 
   // price_range
 
-  if (
-    queryVariables.value.price_range[0] !== 0 ||
-    queryVariables.value.price_range[1] !== 5000
-  ) {
+  if (queryVariables.value.min_price !== null) {
     query.price_per_ticket = {
-      _gte: queryVariables.value.price_range[0],
-      _lte: queryVariables.value.price_range[1],
+      _gte: queryVariables.value.min_price,
+    };
+  }
+
+  if (queryVariables.value.max_price !== null) {
+    query.price_per_ticket = {
+      _lte: queryVariables.value.max_price,
     };
   }
 
   // ticket_size_range
 
-  if (
-    queryVariables.value.ticket_size_range[0] !== 0 ||
-    queryVariables.value.ticket_size_range[1] !== 2000
-  ) {
+  if (queryVariables.value.min_ticket_size !== null) {
     query.total_tickets = {
-      _gte: queryVariables.value.ticket_size_range[0],
-      _lte: queryVariables.value.ticket_size_range[1],
+      _gte: queryVariables.value.min_ticket_size,
     };
   }
+
+  if (queryVariables.value.max_ticket_size !== null) {
+    query.total_tickets = {
+      _lte: queryVariables.value.max_ticket_size,
+    };
+  }
+
   // status
 
-  // query.status = {
-  //   _eq: "active",
-  // };
+  query.status = {
+    _eq: "active",
+  };
 
   return query;
 });
@@ -165,17 +170,15 @@ onResult(({ data }) => {
 
 onError((error) => {
   errorHappened.value = true;
-  // alert(error.message);
 });
 
 const hasActiveFilters = computed(() => {
   return (
-    queryVariables.value.category_id !== "ሁሉም" ||
     queryVariables.value.sort !== "High price" ||
-    queryVariables.value.price_range[0] !== 0 ||
-    queryVariables.value.price_range[1] !== 5000 ||
-    queryVariables.value.ticket_size_range[0] !== 0 ||
-    queryVariables.value.ticket_size_range[1] !== 2000
+    queryVariables.value.min_price !== null ||
+    queryVariables.value.max_price !== null ||
+    queryVariables.value.min_ticket_size !== null ||
+    queryVariables.value.max_ticket_size !== null
   );
 });
 

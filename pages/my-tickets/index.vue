@@ -10,7 +10,7 @@
         class="flex-1 cursor-pointer rounded-lg py-2 px-1 text-center transition-all duration-200"
         :class="
           selected === index
-            ? 'bg-blue-600 text-white'
+            ? 'bg-primary-light text-white'
             : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
         "
         @click="selected = index"

@@ -4,16 +4,6 @@
     <template #content>
       <div class="max-w-3xl mx-auto">
         <div class="space-y-4">
-          <!-- -----------------Category ---------------------- -->
-          <SelectCategory
-            v-model="filters.category_id"
-            :show-label="true"
-            label="የእጣ አይነት"
-            :name="`item-category`"
-            :id="`item-category`"
-            :addAllCategories="true"
-          />
-
           <!-- ----------------Order By ---------------------- -->
           <BaseSelect
             name="sort"
@@ -25,22 +15,38 @@
           />
 
           <!-- ----------------Price Range ---------------------- -->
+          <div class="grid grid-cols-2 gap-2">
+            <BaseInput
+              label="የትከት ዋጋ ዝቅተኛ (ብር)"
+              v-model="filters.min_price"
+              :minValue="0"
+              placeholder="eg: 50 ብር"
+            />
 
-          <SelectRange
-            label="የትከት ዋጋ ዝቅተኛ እና ከፍተኛ"
-            v-model="filters.price_range"
-            :minValue="0"
-            :maxValue="5000"
-          />
+            <BaseInput
+              label="የትከት ዋጋ ከፍተኛ (ብር)"
+              v-model="filters.max_price"
+              :minValue="0"
+              placeholder="eg: 2000 ብር"
+            />
+          </div>
 
           <!-- ---------------Ticket Size Range ---------------------- -->
+          <div class="grid grid-cols-2 gap-2">
+            <BaseInput
+              label="የትከት ብዛት ዝቅተኛ"
+              v-model="filters.min_ticket_size"
+              :minValue="0"
+              placeholder="eg: 50 ትኬት"
+            />
 
-          <SelectRange
-            label="የትከት መጠን ዝቅተኛ እና ከፍተኛ"
-            v-model="filters.ticket_size_range"
-            :minValue="0"
-            :maxValue="2000"
-          />
+            <BaseInput
+              label="የትከት ብዛት ከፍተኛ"
+              v-model="filters.max_ticket_size"
+              :minValue="0"
+              placeholder="eg: 2000 ትኬት"
+            />
+          </div>
 
           <!-- ----------------------Reset and Apply ---------------------- -->
 
@@ -71,10 +77,11 @@ const props = defineProps({
   queryVariables: {
     type: Object,
     default: () => ({
-      category_id: "",
       sort: "",
-      price_range: [0, 5000],
-      ticket_size_range: [0, 2000],
+      min_price: null,
+      max_price: null,
+      min_ticket_size: null,
+      max_ticket_size: null,
     }),
   },
 });
