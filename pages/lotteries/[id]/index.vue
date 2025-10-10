@@ -1,5 +1,19 @@
 <template>
   <NuxtLayout>
+    <!-- Header with back icon -->
+    <header
+      v-if="errorHappened"
+      class="sticky top-0 bg-white shadow-sm flex items-center px-4 py-3 z-50"
+    >
+      <button
+        @click="goBack()"
+        class="flex items-center text-gray-700 hover:text-primary-light transition"
+      >
+        <Icon name="mdi:arrow-left" class="text-2xl" />
+        ውዱዋላ ተመለስ
+      </button>
+    </header>
+
     <BaseError v-if="errorHappened" show-retry @retry="refetch" />
 
     <div v-else>

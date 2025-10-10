@@ -1,22 +1,21 @@
 <template>
   <div class="min-h-screen bg-gray-50">
+    <!-- Header with back icon -->
+    <header
+      class="sticky top-0 bg-white shadow-sm flex items-center px-4 py-3 z-50"
+    >
+      <button
+        @click="goBack()"
+        class="flex items-center text-gray-700 hover:text-primary-light transition"
+      >
+        <Icon name="mdi:arrow-left" class="text-2xl" />
+        <h1 class="ml-2 text-lg font-bold text-gray-900">
+          እኛን ለማግኘት እኛ ለመከታተል
+        </h1>
+      </button>
+    </header>
     <BaseError show-retry v-if="errorHappened" @retry="refetch" />
     <div v-else>
-      <!-- Header with back icon -->
-      <header
-        class="sticky top-0 bg-white shadow-sm flex items-center px-4 py-3 z-50"
-      >
-        <button
-          @click="goBack()"
-          class="flex items-center text-gray-700 hover:text-primary-light transition"
-        >
-          <Icon name="mdi:arrow-left" class="text-2xl" />
-          <h1 class="ml-2 text-lg font-bold text-gray-900">
-            እኛን ለማግኘት እኛ ለመከታተል
-          </h1>
-        </button>
-      </header>
-
       <div class="p-3 space-y-6" v-if="contactInformation">
         <!-- Header Card -->
         <div class="bg-primary-light text-white rounded-2xl p-6 text-center">
