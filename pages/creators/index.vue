@@ -14,7 +14,7 @@
               <input
                 v-model="searchQuery"
                 type="text"
-                placeholder="ፈልግ..."
+                placeholder="በስም ይፈልጉ..."
                 class="w-full max-w-xs border border-gray-300 rounded-lg py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-light"
               />
               <button
