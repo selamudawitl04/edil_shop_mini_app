@@ -4,12 +4,12 @@ import { useToast } from "vue-toast-notification";
 
 const toast = useToast();
 const { handleSubmit } = useForm();
-const emit = defineEmits(["update:modelValue", "updated"]);
+const emit = defineEmits(["update:modelValue", "added", "clearTicketNumbers"]);
 
 const props = defineProps({
   modelValue: Boolean,
-  ticketNumber: {
-    type: Number,
+  ticketNumbers: {
+    type: Array,
     required: true,
   },
   lottery: {
@@ -41,37 +41,63 @@ const { mutate, onDone, loading, onError } = mutator(buyTicket, {
   showError: false,
 });
 
+const user = useCookie("userData");
+
 // Submit handler
 const onSubmit = handleSubmit(() => {
-  const input = {
-    ticket_number: props.ticketNumber,
+  const groupID = generateRandomGroupID();
+
+  const inputs = props.ticketNumbers.map((ticketNumber) => ({
+    ticket_number: ticketNumber,
     lottery_id: props.lottery.id,
     lottery_payment_option_id: form.payment_option.id,
-  };
+    group_id: groupID,
+  }));
 
-  mutate({ input });
+  mutate({ input: inputs });
 });
 
-onDone(({ data }) => {
-  if (data?.insert_tickets_one?.id) {
-    toast.success("ትኬት በተሳካ ሁኔታ ተገዝቷል! ክፊያዎ ስረጋገጥ መዕለክት ይደርሶታል");
+function generateRandomGroupID() {
+  if (props.ticketNumbers?.length == 0) return null;
+  // include lottery.lottery_id and user.id
+  return `${props.lottery.lottery_id}-${
+    user.value?.name
+  }-${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
+}
 
+onDone(({ data }) => {
+  if (data?.insert_tickets?.affected_rows) {
+    toast.success("ትኬት በተሳካ ሁኔታ ተገዝቷል! ክፊያዎ ስረጋገጥ መዕለክት ይደርሶታል", {
+      duration: 5000,
+    });
     if (typeof refetchLotteries === "function") refetchLotteries();
     if (typeof refetchLottery === "function") refetchLottery();
-
+    emit("added");
     open.value = false;
   } else {
-    toast.error("ትኬት መመዝገብ አልተሳካም!");
+    toast.error("ትኬት መመዝገብ አልተሳካም!", {
+      duration: 5000,
+    });
   }
 });
 
 onError((error) => {
+  console.log(error);
   if (error.message.includes("Uniqueness violation")) {
-    toast.error("ይህን ትኬት ሌላ ሰው ገዝቷል።");
+    const confirmed = window.confirm(
+      "ከተመረጡ ትከቶች አንድ አንዶች ቀድሞ ተይዞዋል እባኮ እንደገና ይምረጡ"
+    );
+    if (confirmed) {
+      if (typeof refetchLottery === "function") refetchLottery();
+      emit("clearTicketNumbers");
+    }
+    open.value = false;
   } else {
-    toast.error(error.message);
+    toast.error("ትኬት መመዝገብ አልተሳካም! እባኮ እንደገና ይሞክሩ");
   }
 });
+
+const showLotteryDescription = ref(false);
 </script>
 
 <template>
@@ -124,7 +150,7 @@ onError((error) => {
     <!-- Body -->
     <template #content>
       <div class="max-w-lg mx-auto">
-        <form class="space-y-6" @submit.prevent="onSubmit">
+        <form class="space-y-4" @submit.prevent="onSubmit">
           <!-- Lottery Info -->
           <div
             class="bg-white dark:bg-slate-800 rounded-xl p-4 lg:p-6 border border-borderColor-light dark:border-borderColor-dark"
@@ -136,10 +162,10 @@ onError((error) => {
                   <span class="info-value">{{ lottery.lottery_id }}</span>
                 </div>
 
-                <div class="flex justify-between">
-                  <span class="info-text">ጠቅላላ ትኬቶች</span>
+                <div class="flex justify-between gap-3">
+                  <span class="info-text whitespace-nowrap">የተመረጡ ትኬቶች</span>
                   <span class="info-value">
-                    {{ lottery.total_tickets.toLocaleString() }}
+                    {{ ticketNumbers }}
                   </span>
                 </div>
 
@@ -149,8 +175,54 @@ onError((error) => {
                     {{ lottery.price_per_ticket }} ብር
                   </span>
                 </div>
+
+                <div class="flex justify-between">
+                  <span class="info-text">አጠቃላይ ዋጋ</span>
+                  <span class="info-value">
+                    {{ ticketNumbers.length }} ትኬት X
+                    {{ lottery.price_per_ticket }} ብር =
+                    {{ ticketNumbers.length * lottery.price_per_ticket }} ብር
+                  </span>
+                </div>
               </div>
             </div>
+          </div>
+
+          <div
+            v-if="lottery.description"
+            class="bg-blue-50 border border-blue-200 rounded-lg p-4"
+          >
+            <div class="flex items-center justify-between">
+              <div
+                class="flex items-start gap-3 cursor-pointer"
+                @click="showLotteryDescription = !showLotteryDescription"
+              >
+                <Icon
+                  name="mdi:information-outline"
+                  class="text-blue-600 text-xl flex-shrink-0"
+                />
+                <p class="text-blue-800 text-sm md:text-base font-medium">
+                  ብዙ ትከቶችን ለሚገዙ ቅናሽ ካለ ለማየት የእጣ ማብራሪያ ይመልከቱ
+                </p>
+              </div>
+
+              <button
+                type="button"
+                class="text-blue-700 hover:text-white hover:bg-blue-600 border border-blue-600 text-sm font-semibold px-3 py-1.5 rounded-md transition-all"
+                @click.stop="showLotteryDescription = !showLotteryDescription"
+              >
+                {{ showLotteryDescription ? "ዝጋ" : "እይ" }}
+              </button>
+            </div>
+
+            <transition name="fade">
+              <p
+                v-if="showLotteryDescription"
+                class="mt-3 text-gray-700 text-sm leading-relaxed border-t border-blue-100 pt-3"
+              >
+                {{ lottery.description }}
+              </p>
+            </transition>
           </div>
 
           <!-- Payment Method -->
@@ -173,7 +245,7 @@ onError((error) => {
             size="lg"
             :loading="loading"
             :disabled="loading || !form.payment_option || !form.payment_url"
-            class="bg-green-600 hover:bg-green-700 text-white"
+            class="bg-primary-light text-white"
           >
             ✅ ትኬት ይግዙ
           </BaseButton>

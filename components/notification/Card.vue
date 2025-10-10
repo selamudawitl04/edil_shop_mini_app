@@ -97,7 +97,8 @@ const notificationColor = computed(() => {
     case "ticket_rejected":
       return "#EA580C"; // orange-600
     case "winner_known":
-      return "#F59E0B"; // amber-500
+      return "#4F46E5"; // Indigo-500
+
     default:
       return "#6B7280"; // gray-500
   }

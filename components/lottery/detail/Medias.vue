@@ -84,17 +84,31 @@ const props = defineProps({
 
 const imgError = ref(false);
 const sliderIndex = ref(0);
-
 const medias = computed(() => {
-  let _medias = props.lottery.medias.map((m) => m.url);
+  const _medias = [];
 
-  for (const item of props.lottery.items) {
-    if (item.cover_image) {
-      if (!_medias.includes(item.cover_image)) {
-        _medias.push(item.cover_image);
-      }
+  // 1️⃣ Add the first item's cover image first (if exists)
+  if (props.lottery.items.length) {
+    const firstCover = props.lottery.items[0].cover_image;
+    if (firstCover && !_medias.includes(firstCover)) {
+      _medias.push(firstCover);
     }
   }
+
+  // 2️⃣ Add all lottery.medias URLs
+  for (const media of props.lottery.medias) {
+    if (media.url && !_medias.includes(media.url)) {
+      _medias.push(media.url);
+    }
+  }
+
+  // 3️⃣ Add remaining item cover images
+  for (const item of props.lottery.items.slice(1)) {
+    if (item.cover_image && !_medias.includes(item.cover_image)) {
+      _medias.push(item.cover_image);
+    }
+  }
+
   return _medias;
 });
 

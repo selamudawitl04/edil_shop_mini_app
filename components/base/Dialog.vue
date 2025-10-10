@@ -73,13 +73,14 @@
 
             <!-- Scrollable Content -->
             <div
-              class="px-3 sm:px-6 my-2 sm:my-4 overflow-y-auto flex-1"
+              class="px-4 sm:px-6 py-4 overflow-y-auto flex-1"
               :style="{
                 maxHeight:
                   windowWidth >= 640
-                    ? 'calc(90vh - 56px - env(safe-area-inset-bottom, 1rem))'
-                    : 'calc(100vh - 56px - env(safe-area-inset-bottom, 1rem))',
+                    ? 'calc(90vh - 150px - var(--header-height, 64px))'
+                    : 'calc(100vh - 150px - var(--header-height, 64px))',
               }"
+              ref="contentContainer"
             >
               <slot name="content" />
             </div>

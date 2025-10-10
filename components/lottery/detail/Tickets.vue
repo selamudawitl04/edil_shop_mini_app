@@ -1,25 +1,15 @@
 <template>
-  <div class="space-y-2">
+  <div class="space-y-2 relative pb-36">
+    <!-- Add bottom padding so content not hidden -->
     <div class="space-y-4">
-      <!-- Instructions -->
-      <div
-        v-if="lottery.status === 'active'"
-        class="p-4 bg-blue-50 border border-blue-200 rounded-xl flex items-center space-x-3"
-      >
-        <!-- Icon -->
-        <Icon
-          name="carbon:touch-1"
-          class="w-5 h-5 text-blue-600 flex-shrink-0"
-        />
-
-        <p class="text-blue-800 font-bold text-sm">ለመግዛት የሚፈልጉትን ትኬት ቁጥር ይንኩ</p>
-      </div>
       <!-- Items / Winners Section -->
       <div v-if="lottery.status === 'closed' && lottery.items.length" class="">
         <LotteryDetailWinners :lottery="lottery" />
       </div>
     </div>
-    <div class="grid grid-cols-6 gap-2">
+
+    <!-- Tickets Grid -->
+    <div class="grid grid-cols-6 gap-2 pb-24">
       <div
         v-for="ticketNumber in visibleTickets"
         :key="ticketNumber"
@@ -52,17 +42,82 @@
         v-if="showBuyModal"
         v-model="showBuyModal"
         :lottery="lottery"
-        :ticket-number="selectedTicketNumber"
+        :ticket-numbers="_selectedTicketNumbers"
+        @added="onTicketAdded"
+        @clearTicketNumbers="onTicketAdded"
       />
 
       <!-- Owner Info Modal -->
-
       <LotteryTicketDetailDialog
         v-if="showOwnerModal"
         v-model="showOwnerModal"
         :ticket="selectedTicketInfo"
       />
     </div>
+
+    <!-- ✅ Fixed Bottom Bar -->
+    <transition name="fade">
+      <div
+        v-if="lottery.status === 'active'"
+        class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-300 p-4 z-50 shadow-lg space-y-4"
+      >
+        <!-- Instruction -->
+        <div class="flex items-center space-x-2">
+          <Icon
+            name="carbon:touch-1"
+            class="w-5 h-5 text-blue-600 flex-shrink-0"
+          />
+          <p class="text-blue-800 font-semibold text-sm md:text-base">
+            ለመግዛት የሚፈልጉትን ትኬት ቁጥር ይምርጡ።
+          </p>
+        </div>
+
+        <!-- Selected Tickets -->
+        <transition name="fade">
+          <div v-if="_selectedTicketNumbers.length" class="space-y-1">
+            <p class="text-green-700 font-bold text-sm md:text-base">
+              ✅ የተመረጡ ቁጥሮች:
+              <span
+                v-for="(value, index) in _selectedTicketNumbers"
+                :key="value"
+                class="text-primary-light font-extrabold"
+              >
+                {{ value
+                }}<span v-if="index < _selectedTicketNumbers.length - 1"
+                  >,</span
+                >
+              </span>
+            </p>
+            <p class="text-red-600 text-xs md:text-sm font-medium">
+              ቁጥርን ለመተው ድጋሚ ይንኩ።
+            </p>
+          </div>
+        </transition>
+
+        <!-- Buy Button -->
+        <transition name="fade">
+          <button
+            v-if="_selectedTicketNumbers.length > 0"
+            class="w-full bg-primary-light hover:bg-primary text-white font-semibold rounded-xl p-4 transition duration-300 shadow-md flex flex-col items-center space-y-1"
+            @click="onBuyTickets"
+          >
+            <span class="text-lg font-bold">
+              🛒 ይግዙ ({{ _selectedTicketNumbers.length }} ትኬት)
+            </span>
+
+            <span class="text-sm opacity-90">
+              አጠቃላይ ዋጋ:
+              <span class="font-bold text-white">
+                {{ _selectedTicketNumbers.length }} ×
+                {{ lottery.price_per_ticket }} ብር =
+                {{ _selectedTicketNumbers.length * lottery.price_per_ticket }}
+                ብር
+              </span>
+            </span>
+          </button>
+        </transition>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -73,6 +128,8 @@ const props = defineProps({
   lottery: { type: Object, required: true },
   showNotSold: { type: Boolean, default: false },
 });
+
+const _selectedTicketNumbers = ref([]);
 
 const winnerTicketNumbers = computed(() =>
   props.lottery.items
@@ -101,7 +158,6 @@ const visibleTickets = computed(() => {
 // Modals
 const showBuyModal = ref(false);
 const showOwnerModal = ref(false);
-const selectedTicketNumber = ref(null);
 const selectedTicketInfo = ref(null);
 
 function isWinner(ticketNumber) {
@@ -124,30 +180,45 @@ function onTicketClick(ticketNumber) {
     selectedTicketInfo.value = ticket;
     showOwnerModal.value = true;
   } else if (props.lottery.status === "active") {
-    selectedTicketNumber.value = ticketNumber;
-    showBuyModal.value = true;
+    if (_selectedTicketNumbers.value.includes(ticketNumber)) {
+      _selectedTicketNumbers.value = _selectedTicketNumbers.value.filter(
+        (t) => t !== ticketNumber
+      );
+    } else {
+      _selectedTicketNumbers.value.push(ticketNumber);
+    }
   }
 }
+const user = useCookie("userData");
 
 function getTicketClasses(ticketNumber) {
   const ticket = props.lottery.tickets.find(
-    (t) => t.ticket_number === ticketNumber
+    (t) => t.ticket_number === ticketNumber && t.status != "rejected"
   );
+
   let classes = "border rounded-md ";
 
   if (props.lottery.status === "closed") {
     if (isWinner(ticketNumber)) {
       classes += "bg-green-600 border-green-800";
     } else {
-      classes += "bg-blue-600 border-blue-600";
+      classes += "bg-primary-light border-primary-light";
     }
   } else {
     if (isWinner(ticketNumber)) {
       classes += "bg-green-600 border-green-800";
     } else if (ticket?.status === "verified") {
-      classes += "bg-blue-600 border-blue-600";
-    } else if (ticket?.status === "pending") {
-      classes += "bg-orange-500 border-orange-700";
+      classes += "bg-primary-light border-primary-light";
+    }
+    // ✅ Pending tickets — highlight only if belongs to current user
+    else if (ticket?.status === "pending") {
+      if (ticket.user_id === user.value?.id) {
+        classes += "bg-yellow-400 border-yellow-600 "; // user’s own pending ticket
+      } else {
+        classes += "bg-primary-light border-primary-light "; // other users’ pending
+      }
+    } else if (_selectedTicketNumbers.value.includes(ticketNumber)) {
+      classes += "bg-green-600 border-green-800";
     } else {
       classes += "bg-gray-200 border-gray-400";
     }
@@ -158,14 +229,31 @@ function getTicketClasses(ticketNumber) {
 
 function getTextColor(ticketNumber) {
   const ticket = props.lottery.tickets.find(
-    (t) => t.ticket_number === ticketNumber
+    (t) => t.ticket_number === ticketNumber && t.status != "rejected"
   );
   if (
     props.lottery.status !== "closed" &&
-    (!ticket || ticket.status === null)
+    (!ticket || ticket.status === null) &&
+    !_selectedTicketNumbers.value.includes(ticketNumber)
   ) {
     return "text-black";
   }
+
   return "text-white";
+}
+
+function onBuyTickets() {
+  if (_selectedTicketNumbers.value.length === 0) {
+    return;
+  }
+
+  selectedTicketInfo.value = 90;
+
+  console.log(_selectedTicketNumbers.value);
+  showBuyModal.value = true;
+}
+
+function onTicketAdded() {
+  _selectedTicketNumbers.value = [];
 }
 </script>

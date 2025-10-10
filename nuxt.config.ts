@@ -114,7 +114,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      API_BASE_URL: process.env.NUXT_PUBLIC_API_BASE_URL,
+      EDIL_SHOP_GRAPH_URL: process.env.VITE_EDIL_SHOP_GRAPH_URL,
     },
   },
 });
