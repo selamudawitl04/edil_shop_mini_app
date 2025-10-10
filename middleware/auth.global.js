@@ -10,6 +10,7 @@ function isExpired(token) {
 }
 
 export default defineNuxtRouteMiddleware(async (to) => {
+  console.log("🔍 Checking route:", to.path);
   // const { getToken } = useApollo();
   // const token = await getToken("auth");
   // const userData = useCookie("userData");
