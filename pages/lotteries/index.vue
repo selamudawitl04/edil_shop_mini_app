@@ -12,7 +12,7 @@
     </div>
 
     <!-- Spacer for header -->
-    <div class="h-20 mb-2"></div>
+    <div class="h-20 mb-1.5"></div>
 
     <BaseError v-if="errorHappened" show-retry @retry="refetch" />
     <div v-else>

@@ -41,7 +41,7 @@
             <div class="flex items-center gap-2">
               <!-- Back Button -->
               <button @click="goBack">
-                <Icon name="mdi:arrow-left" class="w-4 h-4" />
+                <Icon name="mdi:arrow-left" class="w-4 h-4 text-2xl" />
               </button>
 
               <!-- Title -->

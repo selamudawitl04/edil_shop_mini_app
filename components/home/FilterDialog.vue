@@ -52,7 +52,7 @@
 
           <div class="flex justify-end gap-2">
             <BaseButton variant="orange" @click="emit('resetFilters')">
-              <span class="text-white">ውዴ መጀመርያ መልስ</span>
+              <span class="text-white">መልስ</span>
             </BaseButton>
             <BaseButton variant="primary" @click="emit('applyFilters')">
               <span class="text-white"> ይደርድሩ</span>
