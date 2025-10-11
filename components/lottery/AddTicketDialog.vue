@@ -52,6 +52,7 @@ const onSubmit = handleSubmit(() => {
     lottery_id: props.lottery.id,
     lottery_payment_option_id: form.payment_option.id,
     group_id: groupID,
+    receipt_url: form.payment_url,
   }));
 
   mutate({ input: inputs });

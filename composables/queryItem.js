@@ -32,6 +32,15 @@ export default function (
       enabled: enabled.value,
     })
   );
+  onError((error) => {
+    if (error.message.includes("Could not verify JWT")) {
+      onLogout();
+      navigateTo("/");
+      useCookie("userData").value = null;
+      useCookie("accessToken").value = null;
+      useCookie("refreshToken").value = null;
+    }
+  });
   return {
     onResult,
     loading,

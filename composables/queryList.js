@@ -7,6 +7,7 @@ const filter_ = ref({});
 const client_ = ref("auth");
 const pollInterval_ = ref(null);
 const user = useCookie("userData");
+const { onLogout } = useApollo();
 
 export default function (
   query,
@@ -43,6 +44,15 @@ export default function (
         pollInterval && pollInterval?.value ? pollInterval.value : undefined,
     })
   );
+  onError((error) => {
+    if (error.message.includes("Could not verify JWT")) {
+      onLogout();
+      navigateTo("/");
+      useCookie("userData").value = null;
+      useCookie("accessToken").value = null;
+      useCookie("refreshToken").value = null;
+    }
+  });
 
   return {
     onResult,

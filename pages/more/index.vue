@@ -18,7 +18,7 @@
         >
           <BaseAvatar
             :name="user?.name"
-            :avatar_color="user?.avatar_color"
+            :avatar_color="user?.avatar_color || 'blue'"
             :avatar_image="user?.profile_image"
             :size="56"
           />
