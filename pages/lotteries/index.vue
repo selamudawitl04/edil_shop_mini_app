@@ -63,10 +63,11 @@ const lotteries = ref([]);
 const length = ref(0);
 
 const filter = computed(() => {
-  const query = {};
+  const andConditions = [];
 
+  // 🔍 Search Filter
   if (searchQuery.value) {
-    query._or = {
+    andConditions.push({
       _or: [
         {
           items: {
@@ -84,51 +85,53 @@ const filter = computed(() => {
           lottery_id: { _ilike: `%${searchQuery.value}%` },
         },
       ],
-    };
+    });
   }
 
-  // category_id
+  // 🏷️ Category Filter
   if (categoryId.value !== "ሁሉም") {
-    query.items = {
-      category_id: { _eq: categoryId.value },
-    };
+    andConditions.push({
+      items: {
+        category_id: { _eq: categoryId.value },
+      },
+    });
   }
 
-  // price_range
-
+  // 💰 Price Range Filter
+  const priceCondition = {};
   if (queryVariables.value.min_price !== null) {
-    query.price_per_ticket = {
-      _gte: queryVariables.value.min_price,
-    };
+    priceCondition._gte = queryVariables.value.min_price;
   }
-
   if (queryVariables.value.max_price !== null) {
-    query.price_per_ticket = {
-      _lte: queryVariables.value.max_price,
-    };
+    priceCondition._lte = queryVariables.value.max_price;
+  }
+  if (Object.keys(priceCondition).length > 0) {
+    andConditions.push({
+      price_per_ticket: priceCondition,
+    });
   }
 
-  // ticket_size_range
-
+  // 🎟️ Ticket Size Range
+  const ticketSizeCondition = {};
   if (queryVariables.value.min_ticket_size !== null) {
-    query.total_tickets = {
-      _gte: queryVariables.value.min_ticket_size,
-    };
+    ticketSizeCondition._gte = queryVariables.value.min_ticket_size;
   }
-
   if (queryVariables.value.max_ticket_size !== null) {
-    query.total_tickets = {
-      _lte: queryVariables.value.max_ticket_size,
-    };
+    ticketSizeCondition._lte = queryVariables.value.max_ticket_size;
+  }
+  if (Object.keys(ticketSizeCondition).length > 0) {
+    andConditions.push({
+      total_tickets: ticketSizeCondition,
+    });
   }
 
-  // status
+  // 🟢 Status Filter
+  andConditions.push({
+    status: { _eq: "active" },
+  });
 
-  query.status = {
-    _eq: "active",
-  };
-
-  return query;
+  // ✅ Final combined query
+  return { _and: andConditions };
 });
 
 const sort = computed(() => {
@@ -138,6 +141,8 @@ const sort = computed(() => {
     return [{ price_per_ticket: "asc" }];
   } else if (queryVariables.value.sort === "Newest") {
     return [{ created_at: "desc" }];
+  } else if (queryVariables.value.sort === "Popular") {
+    return [{ total_likes: "desc" }];
   } else if (queryVariables.value.sort === "Oldest") {
     return [{ created_at: "asc" }];
   }

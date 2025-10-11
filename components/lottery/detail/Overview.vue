@@ -139,6 +139,10 @@
       <!-- የዕጣ ባለቤት መረጃ -->
 
       <LotteryDetailCreator :user="lottery.user" />
+
+      <!-- የዕጣ መረጃ -->
+
+      <LotteryDetailSocialMedias :lottery="lottery" />
     </div>
   </div>
 </template>

@@ -9,14 +9,14 @@ import "vue-toast-notification/dist/theme-sugar.css";
 
 const { onLogin, getToken } = useApollo();
 // onLogin(
-//   "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwczovL2FwaS5lZGlsc2hvZi5jb20iLCJlbnRpdHlfaWQiOiIiLCJleHAiOjE3NjA2MTgzMDUsImlhdCI6MTc2MDAxMzUwNSwiaXNzIjoiaHR0cHM6Ly9hcGkuZWRpbHNob2YuY29tIiwibWV0YWRhdGEiOnsibmFtZSI6IlNhbXVlbCBOb2FoMSIsInJvbGVzIjpbInVzZXIiXX0sInJvbGUiOlsidXNlciJdLCJzdWIiOiI5YjEyYzJkNy1hNGQ4LTQwNjctODA3OC1mODE5YWFjMTQyZGMifQ.ud29OCHGPgzdlKF-I3vVL9GHLhzC0OpoLqbV7sQVs-JtZIe_-0u_IyNLEKRly_eRU6rOZ8cmS0IYiJR1PvDCDw",
+//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwczovL2FwaS5lZGlsc2hvZi5jb20iLCJlbnRpdHlfaWQiOiIiLCJleHAiOjE3NjA4MTEwNzIsImlhdCI6MTc2MDIwNjI3MiwiaXNzIjoiaHR0cHM6Ly9hcGkuZWRpbHNob2YuY29tIiwibWV0YWRhdGEiOnsibmFtZSI6IlNhbXVlbCBOb2FoMSIsInJvbGVzIjpbInVzZXIiXX0sInJvbGUiOlsidXNlciJdLCJzdWIiOiI5YjEyYzJkNy1hNGQ4LTQwNjctODA3OC1mODE5YWFjMTQyZGMifQ.nCCgIDTfppcogfuPak-EhtqkrJ40R--uMFGkBYPXZpQ",
 //   "auth"
 // );
 
 // useCookie("userData").value = {
 //   id: "9b12c2d7-a4d8-4067-8078-f819aac142dc",
 //   name: "Samuel New",
-//   phone: "0945003939",
+//   phone: "251945003939",
 //   alternate_phone: null,
 //   role: "user",
 //   is_phone_verified: true,

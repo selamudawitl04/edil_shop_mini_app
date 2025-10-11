@@ -78,12 +78,12 @@
             <p class="text-green-700 font-bold text-sm md:text-base">
               ✅ የተመረጡ ቁጥሮች:
               <span
-                v-for="(value, index) in _selectedTicketNumbers"
+                v-for="(value, index) in sortedSelectedTicketNumbers"
                 :key="value"
                 class="text-primary-light font-extrabold"
               >
                 {{ value
-                }}<span v-if="index < _selectedTicketNumbers.length - 1"
+                }}<span v-if="index < sortedSelectedTicketNumbers.length - 1"
                   >,</span
                 >
               </span>
@@ -93,7 +93,6 @@
             </p>
           </div>
         </transition>
-
         <!-- Buy Button -->
         <transition name="fade">
           <button
@@ -130,6 +129,9 @@ const props = defineProps({
 });
 
 const _selectedTicketNumbers = ref([]);
+const sortedSelectedTicketNumbers = computed(() => {
+  return [..._selectedTicketNumbers.value].sort((a, b) => a - b);
+});
 
 const winnerTicketNumbers = computed(() =>
   props.lottery.items

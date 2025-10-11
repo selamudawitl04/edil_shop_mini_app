@@ -28,9 +28,14 @@ const selectedItem = computed({
   },
 });
 
+const order = computed(() => {
+  return [{ order: "asc_nulls_last" }];
+});
+
 const items = ref([]);
 const { onResult, onError } = queryList(listQuery, {
   filter: computed(() => ({})),
+  order,
 });
 
 onResult(({ data }) => {

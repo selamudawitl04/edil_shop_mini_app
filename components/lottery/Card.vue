@@ -74,6 +74,46 @@
         </div>
       </div>
 
+      <!-- ----------- List of My Tickets ----------- -->
+      <div
+        v-if="ticket"
+        class="bg-primary-light/5 border border-primary-light/30 rounded-lg p-3 sm:p-4 mb-3 shadow-sm"
+      >
+        <div class="flex flex-wrap justify-between items-center gap-2">
+          <h3
+            class="text-primary-light text-base sm:text-lg font-semibold flex items-center gap-2"
+          >
+            🎟️ የኔ
+            <span>
+              {{ ticket.ticket_numbers?.length > 1 ? "ትኬቶች" : "ትኬት" }}
+            </span>
+          </h3>
+
+          <!-- ✅ Colored ticket numbers -->
+          <div
+            class="flex flex-wrap gap-2 text-sm sm:text-base font-medium bg-white dark:bg-gray-800 px-3 py-1.5 rounded-md border border-gray-200 dark:border-gray-700 shadow-inner"
+          >
+            <span
+              v-for="t in ticket.ticket_numbers"
+              :key="t.number"
+              class="px-2 py-0.5 rounded-md"
+              :class="{
+                'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300':
+                  t.status === 'verified',
+                'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300':
+                  t.status === 'pending',
+                'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300':
+                  t.status === 'rejected',
+                'bg-gray-100 text-gray-700 dark:bg-gray-900/30 dark:text-gray-300':
+                  !['verified', 'pending', 'rejected'].includes(t.status),
+              }"
+            >
+              {{ t.number }}
+            </span>
+          </div>
+        </div>
+      </div>
+
       <!-- Progress Bar -->
       <div class="mb-4">
         <div class="flex justify-between items-center mb-2">
@@ -122,24 +162,13 @@
 
           <!-- Buy Ticket or Ticket Info -->
 
-          <div>
-            <button
-              v-if="!ticket && lottery.status === 'active'"
-              @click.stop="openDetail"
-              class="bg-primary text-white bg-primary-light rounded-md px-4 py-1.5 text-sm font-bold hover:opacity-90 transition"
-            >
-              ግዛ
-            </button>
-
-            <div
-              v-else-if="ticket"
-              @click.stop="openDetail"
-              class="cursor-pointer rounded-md px-3 py-1.5 border text-sm"
-              :class="[ticketBgColor, ticketBorderColor, ticketTextColor]"
-            >
-              ትኬት: {{ ticket.ticket_number }}
-            </div>
-          </div>
+          <button
+            v-if="lottery.status === 'active'"
+            @click.stop="openDetail"
+            class="bg-primary text-white bg-primary-light rounded-md px-4 py-1.5 text-sm font-bold hover:opacity-90 transition"
+          >
+            ግዛ
+          </button>
         </div>
       </div>
 

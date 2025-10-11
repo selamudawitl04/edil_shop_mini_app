@@ -132,11 +132,61 @@ const { onResult, loading, refetch, onError, fetchMore } = queryList(
   }
 );
 
+const _tickets = ref([]);
 onResult(({ data }) => {
-  if (data.tickets) {
-    tickets.value = data.tickets;
-    length.value = data.tickets_aggregate?.aggregate?.count;
+  if (!data.tickets) return;
+
+  _tickets.value = data.tickets;
+
+  if (selected.value == 2) {
+    tickets.value = _tickets.value.map((t) => ({
+      ...t,
+      ticket_numbers: [
+        {
+          number: t.ticket_number,
+          status: t.status,
+        },
+      ],
+    }));
+    return;
   }
+
+  // ✅ Build groups keyed by group_id (fallback to ticket.id if group_id is null)
+  const groupMap = {};
+  data.tickets.forEach((ticket) => {
+    const groupKey = ticket.group_id || ticket.id;
+
+    if (!groupMap[groupKey]) {
+      groupMap[groupKey] = {
+        group_id: groupKey,
+        tickets: [],
+        ticket_numbers: [],
+        lottery: ticket.lottery || null,
+        user: ticket.user || null,
+        status: ticket.status || null,
+        created_at: ticket.created_at || null,
+      };
+    }
+
+    groupMap[groupKey].tickets.push(ticket);
+    // ✅ Store each ticket_number as an object with its status
+    groupMap[groupKey].ticket_numbers.push({
+      number: ticket.ticket_number,
+      status: ticket.status,
+    });
+  });
+
+  // ✅ Convert to array, dedupe based on number, and sort
+  tickets.value = Object.values(groupMap).map((g) => ({
+    ...g,
+    ticket_numbers: Array.from(
+      new Map(
+        g.ticket_numbers.map((tn) => [tn.number, tn]) // dedupe by number
+      ).values()
+    ).sort((a, b) => a.number - b.number),
+  }));
+
+  length.value = data.tickets_aggregate?.aggregate?.count || 0;
   errorHappened.value = false;
 });
 

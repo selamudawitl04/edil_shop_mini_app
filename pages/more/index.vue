@@ -34,14 +34,18 @@
           </p>
         </div>
 
-        <!-- Optional settings icon -->
-        <!-- <div class="ml-auto">
+        <!-- Update Profile -->
+        <button
+          @click="openUpdateNameDialog = true"
+          class="ml-auto flex items-center gap-2 cursor-pointer px-2 py-1 rounded-md border-primary-light border text-primary-light"
+        >
           <Icon
-            name="mdi:cog-outline"
-            class="text-gray-400 hover:text-blue-600 cursor-pointer"
-            size="22"
+            name="mdi:pencil-outline"
+            class="text-primary-light"
+            size="18"
           />
-        </div> -->
+          <span class="text-sm text-primary-light">Edit</span>
+        </button>
       </div>
 
       <!-- ------------------- Menu Items ------------------- -->
@@ -85,6 +89,8 @@
         ></div>
       </div>
     </div>
+
+    <MoreUpdateName v-model="openUpdateNameDialog" />
   </NuxtLayout>
 </template>
 
@@ -93,6 +99,8 @@ import { useRouter } from "vue-router";
 
 const user = useCookie("userData");
 const router = useRouter();
+
+const openUpdateNameDialog = ref(false);
 
 const menuItems = [
   {

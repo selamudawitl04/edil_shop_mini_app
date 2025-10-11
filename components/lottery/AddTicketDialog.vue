@@ -102,52 +102,12 @@ const showLotteryDescription = ref(false);
 </script>
 
 <template>
-  <BaseDialog v-model="open" :autoClose="false" bodyClass="max-w-lg">
-    <!-- Heading -->
-    <template #heading>
-      <div class="flex items-center justify-between gap-3 flex-wrap">
-        <!-- Left: Title -->
-        <div class="flex items-center gap-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5 text-blue-600 flex-shrink-0"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-          >
-            <path
-              d="M4 6a2 2 0 012-2h12a2 2 0 012 2v3a1 1 0 01-1 1h-1v4h1a1 1 0 011 1v3a2 2 0 01-2 2H6a2 2 0 01-2-2v-3a1 1 0 011-1h1v-4H5a1 1 0 01-1-1V6zm8 2a2 2 0 100 4 2 2 0 000-4z"
-            />
-          </svg>
-          <span class="text-lg font-bold">ትኬት ይግዙ</span>
-        </div>
-
-        <!-- Right: Action Buttons -->
-        <div class="flex items-center gap-2">
-          <!-- Buy Ticket -->
-          <BaseButton
-            type="submit"
-            size="sm"
-            :loading="loading"
-            :disabled="loading || !form.payment_option || !form.payment_url"
-            class="bg-green-600 hover:bg-green-700 text-white whitespace-nowrap"
-            @click="onSubmit"
-          >
-            ✅ ይግዙ
-          </BaseButton>
-
-          <!-- Close -->
-          <BaseButton
-            type="button"
-            size="sm"
-            class="bg-red-600 hover:bg-red-700 text-white whitespace-nowrap"
-            @click="open = false"
-          >
-            ✖ ዝጋ
-          </BaseButton>
-        </div>
-      </div>
-    </template>
-
+  <BaseDialog
+    v-model="open"
+    :autoClose="false"
+    bodyClass="max-w-lg"
+    title="💰 ትኬት ይግዙ"
+  >
     <!-- Body -->
     <template #content>
       <div class="max-w-lg mx-auto">
