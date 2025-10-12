@@ -13,7 +13,7 @@
 <script setup>
 import "vue-toast-notification/dist/theme-sugar.css";
 
-const { onLogin, getToken } = useApollo();
+const { onLogin, getToken, onLogout } = useApollo();
 // onLogin(
 //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwczovL2FwaS5lZGlsc2hvZi5jb20iLCJlbnRpdHlfaWQiOiIiLCJleHAiOjE3NjA4MTEwNzIsImlhdCI6MTc2MDIwNjI3MiwiaXNzIjoiaHR0cHM6Ly9hcGkuZWRpbHNob2YuY29tIiwibWV0YWRhdGEiOnsibmFtZSI6IlNhbXVlbCBOb2FoMSIsInJvbGVzIjpbInVzZXIiXX0sInJvbGUiOlsidXNlciJdLCJzdWIiOiI5YjEyYzJkNy1hNGQ4LTQwNjctODA3OC1mODE5YWFjMTQyZGMifQ.nCCgIDTfppcogfuPak-EhtqkrJ40R--uMFGkBYPXZpQ",
 //   "auth"
@@ -69,7 +69,12 @@ onMounted(() => {
       (!storedUserId || storedUserId !== telegramUserId)
     ) {
       console.warn("🚫 Telegram ID mismatch — redirecting to bot");
+
+      userData.value = null;
+      onLogout("auth");
+
       router.push("/");
+
       return;
     }
   };
