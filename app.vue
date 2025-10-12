@@ -61,6 +61,7 @@ onMounted(() => {
     if (!tg?.initDataUnsafe?.user) return; // Not in Telegram or no user
 
     alert(tg?.initDataUnsafe?.user.id + "selamu");
+    alert(userData.value?.telegram_user_id + "daiwt");
     const telegramUserId = tg.initDataUnsafe?.user?.id;
     const storedUserId = userData.value?.telegram_user_id;
 
