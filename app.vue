@@ -51,9 +51,9 @@ const checkCount = ref(0);
 onMounted(() => {
   const route = useRoute();
   const router = useRouter();
-  const userData = useCookie("userData");
 
   const checkTelegramAuth = () => {
+    const userData = useCookie("userData");
     checkCount.value++;
     console.log("🔍 Checking Telegram Auth", checkCount.value);
 
