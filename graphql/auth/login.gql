@@ -11,6 +11,7 @@ mutation miniAppLogin($initData: String!) {
       is_phone_verified
       profile_image
       avatar_color
+      telegram_user_id
     }
   }
 }
