@@ -1,6 +1,12 @@
 <template>
   <div>
     <NuxtPage />
+
+    <pre>
+      
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Natus, nobis aut alias officiis incidunt possimus ipsam! Esse impedit sequi, ipsam quibusdam excepturi eos at dolore nobis. Laboriosam neque repudiandae mollitia?
+    </pre>
+    Count:{{ checkCount }}
   </div>
 </template>
 
@@ -39,4 +45,42 @@ const { onLogin, getToken } = useApollo();
 //   profile_image: "",
 //   avatar_color: "#4DD0E1",
 // };
+
+const checkCount = ref(0);
+
+onMounted(() => {
+  const route = useRoute();
+  const router = useRouter();
+  const userData = useCookie("userData");
+
+  const checkTelegramAuth = () => {
+    checkCount.value++;
+    console.log("🔍 Checking Telegram Auth", checkCount.value);
+
+    const tg = window?.Telegram?.WebApp;
+    if (!tg?.initDataUnsafe?.user) return; // Not in Telegram or no user
+
+    const telegramUserId = tg.initDataUnsafe.user.id;
+    const storedUserId = userData.value?.telegram_user_id;
+
+    // If user navigates elsewhere but IDs mismatch → redirect to /
+    if (
+      route.path !== "/" &&
+      (!storedUserId || storedUserId !== telegramUserId)
+    ) {
+      console.warn("🚫 Telegram ID mismatch — redirecting to bot");
+      router.push("/");
+      return;
+    }
+  };
+
+  // Run immediately
+  checkTelegramAuth();
+
+  // Then repeat every 5 seconds
+  const interval = setInterval(checkTelegramAuth, 5000);
+
+  // Clean up when component unmounts
+  onBeforeUnmount(() => clearInterval(interval));
+});
 </script>
