@@ -68,14 +68,14 @@ onMounted(() => {
     // If user navigates elsewhere but IDs mismatch → redirect to /
     if (
       route.path !== "/" &&
-      (!storedUserId || storedUserId !== telegramUserId)
+      (!storedUserId || storedUserId != telegramUserId)
     ) {
       console.warn("🚫 Telegram ID mismatch — redirecting to bot");
 
       userData.value = null;
       onLogout("auth");
 
-      router.push("/");
+      // router.push("/");
 
       return;
     }
