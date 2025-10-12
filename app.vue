@@ -60,7 +60,8 @@ onMounted(() => {
     const tg = window?.Telegram?.WebApp;
     if (!tg?.initDataUnsafe?.user) return; // Not in Telegram or no user
 
-    const telegramUserId = tg.initDataUnsafe.user.id;
+    alert(tg?.initDataUnsafe?.user.id + "selamu");
+    const telegramUserId = tg.initDataUnsafe?.user?.id;
     const storedUserId = userData.value?.telegram_user_id;
 
     // If user navigates elsewhere but IDs mismatch → redirect to /

@@ -26,7 +26,7 @@ userCookie.value = null;
 
 // እንዲሁም onLogout() የApollo ሂደትን ካስተዳደሩ
 const { onLogout } = useApollo();
-onLogout?.();
+onLogout?.("auth");
 
 // Toast መልእክት ማሳያ
 toast.success("በትክክል ውጡት።", { position: "top-right" });
