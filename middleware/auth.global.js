@@ -61,6 +61,4 @@ export default defineNuxtRouteMiddleware(async (to) => {
       }
     }
   }
-
-  console.log("✅ Authorized access:", to.path);
 });
