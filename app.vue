@@ -52,10 +52,8 @@ const checkTelegramAuth = () => {
   const telegramUserId = tg.initDataUnsafe?.user?.id;
   const storedUserId = userData.value?.telegram_user_id;
 
-  alert(`${telegramUserId}dawit ${storedUserId + "selamu"} ${route.path}`);
-
   // If user navigates elsewhere but IDs mismatch → redirect to /
-  if (route.path !== "/" && (!storedUserId || storedUserId != telegramUserId)) {
+  if (storedUserId && storedUserId != telegramUserId) {
     console.warn("🚫 Telegram ID mismatch — redirecting to bot");
 
     userData.value = null;
