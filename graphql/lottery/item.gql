@@ -84,7 +84,7 @@ query getLottery($id: uuid!, $user_id: uuid) {
       is_featured
     }
 
-    tickets {
+    tickets(where: { status: { _neq: "rejected" } }) {
       id
       lottery_id
       name
