@@ -1,12 +1,6 @@
 <template>
   <div>
     <NuxtPage />
-
-    <pre>
-      
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Natus, nobis aut alias officiis incidunt possimus ipsam! Esse impedit sequi, ipsam quibusdam excepturi eos at dolore nobis. Laboriosam neque repudiandae mollitia?
-    </pre>
-    Count:{{ checkCount }}
   </div>
 </template>
 
@@ -58,7 +52,7 @@ const checkTelegramAuth = () => {
   const telegramUserId = tg.initDataUnsafe?.user?.id;
   const storedUserId = userData.value?.telegram_user_id;
 
-  alert(`${telegramUserId}dawit ${storedUserId + "selamu"}`);
+  alert(`${telegramUserId}dawit ${storedUserId + "selamu"} ${route.path}`);
 
   // If user navigates elsewhere but IDs mismatch → redirect to /
   if (route.path !== "/" && (!storedUserId || storedUserId != telegramUserId)) {
