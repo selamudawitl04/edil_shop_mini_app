@@ -47,7 +47,6 @@ const { mutate, onDone, onError } = mutator(loginMutation, {
 });
 
 const openBot = () => {
-  // window.open("https://t.me/EdilShopBot/edilshop", "_blank");
   window.location.href = "https://t.me/EdilShopBot";
 
   // close the telegram app
@@ -82,9 +81,13 @@ onError((error) => {
     alert("እባክዎን መተግበሪያውን ከ Telegram ቦት ድጋሚ ይክፈቱ።");
     openBot();
   } else if (errorMessage.includes("Phone not found")) {
-    alert("እባክዎን ስልክ ቁጥሮን ከ Telegram ቦት ጋር ያጋሩ።");
+    alert(
+      "እባክዎን ስልክ ቁጥሮን ከ Telegram ቦት ጋር ያጋሩ።  ካልታየ የስልክ አጋራ ቁልፍ፣ እባክዎን 'hi' ብለው ይላኩልን።"
+    );
+
     openBot();
   } else {
+    alert("እባክዎን መተግበሪያውን ከ Telegram ቦት ድጋሚ ይክፈቱ።");
     openBot();
   }
 });

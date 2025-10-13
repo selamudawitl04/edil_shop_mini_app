@@ -157,6 +157,10 @@ const visibleTickets = computed(() => {
   });
 });
 
+const getTicket = (ticketNumber) => {
+  return props.lottery.tickets.find((t) => t.ticket_number === ticketNumber);
+};
+
 // Modals
 const showBuyModal = ref(false);
 const showOwnerModal = ref(false);
@@ -195,9 +199,10 @@ const user = useCookie("userData");
 
 function getTicketClasses(ticketNumber) {
   const ticket = props.lottery.tickets.find(
-    (t) => t.ticket_number === ticketNumber && t.status != "rejected"
+    (t) => t.ticket_number === ticketNumber
   );
 
+  // console.log(props.lottery.tickets);
   let classes = "border rounded-md ";
 
   if (props.lottery.status === "closed") {
@@ -207,9 +212,7 @@ function getTicketClasses(ticketNumber) {
       classes += "bg-primary-light border-primary-light";
     }
   } else {
-    if (isWinner(ticketNumber)) {
-      classes += "bg-green-600 border-green-800";
-    } else if (ticket?.status === "verified") {
+    if (ticket?.status === "verified") {
       classes += "bg-primary-light border-primary-light";
     }
     // ✅ Pending tickets — highlight only if belongs to current user
@@ -231,11 +234,11 @@ function getTicketClasses(ticketNumber) {
 
 function getTextColor(ticketNumber) {
   const ticket = props.lottery.tickets.find(
-    (t) => t.ticket_number === ticketNumber && t.status != "rejected"
+    (t) => t.ticket_number === ticketNumber
   );
   if (
     props.lottery.status !== "closed" &&
-    (!ticket || ticket.status === null) &&
+    (!ticket || ticket.status == null || ticket.status == "rejected") &&
     !_selectedTicketNumbers.value.includes(ticketNumber)
   ) {
     return "text-black";
