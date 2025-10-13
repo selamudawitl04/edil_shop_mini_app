@@ -30,8 +30,8 @@ function maskPhoneNumber(phone) {
 // Computed masked phone
 const maskedPhone = computed(() => {
   const phone =
-    props.ticket.user?.phone?.replace(",", "") ||
-    props.ticket.phone_number?.replace(",", "") ||
+    props.ticket.user?.phone?.replace(/^251/, "0") ||
+    props.ticket.phone_number?.replace(/^251/, "0") ||
     "";
   return maskPhoneNumber(phone);
 });
