@@ -40,6 +40,23 @@ const { onLogin, getToken, onLogout } = useApollo();
 //   avatar_color: "#4DD0E1",
 // };
 
+// onLogin(
+//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwczovL2FwaS5lZGlsc2hvZi5jb20iLCJlbnRpdHlfaWQiOiIiLCJleHAiOjE3NjA5NDUyNzcsImlhdCI6MTc2MDM0MDQ3NywiaXNzIjoiaHR0cHM6Ly9hcGkuZWRpbHNob2YuY29tIiwibWV0YWRhdGEiOnsibmFtZSI6IkdhIOGIuSIsInJvbGVzIjpbInVzZXIiXX0sInJvbGUiOlsidXNlciJdLCJzdWIiOiI3ZGM2ODc0MS0zNDQzLTQ5MzEtYjQ2Zi1iZjVmM2NmN2RhYzIifQ.IzWLJduEuRYr0Ry0Iyew4iyJLEGBwMssOCumHpvUBvM",
+//   "auth"
+// );
+
+// useCookie("userData").value = {
+//   id: "7dc68741-3443-4931-b46f-bf5f3cf7dac2",
+//   name: "Ga ሹ",
+//   phone: "251926369253",
+//   alternate_phone: null,
+//   role: "user",
+//   is_phone_verified: true,
+//   profile_image: "",
+//   avatar_color: "#64B5F6",
+//   telegram_user_id: "6788020725",
+// };
+
 const router = useRouter();
 const route = useRoute();
 

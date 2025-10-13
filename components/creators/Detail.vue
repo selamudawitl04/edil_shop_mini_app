@@ -1,105 +1,181 @@
 <template>
-  <div class="py-4 px-3">
-    <!-- ------------Name and Stastistics section -->
-
-    <div class="space-y-3 flex flex-col items-center mb-6 shadow-md pb-5">
-      <!-- Avatar with online dot -->
-      <div class="relative shrink-0">
-        <BaseAvatar
-          :name="user.name"
-          :avatar_color="user.avatar_color"
-          :avatar_image="user.profile_image"
-          :size="80"
-        />
-        <span
-          class="absolute bottom-1 right-1 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full"
-        ></span>
-      </div>
-      <div class="flex flex-col items-center">
-        <p class="text-lg font-bold text-black">{{ user.name }}</p>
-      </div>
-
-      <!-- ------------Statistics section -->
-      <div class="flex items-center justify-between w-full max-w-[200px]">
-        <!-- total lotteries -->
-        <div class="flex flex-col items-center">
-          <p class="text-lg font-bold text-black">
-            {{ user.number_of_lotteries }}
-          </p>
-          <p class="text-sm text-gray-500">ዕጣዎች</p>
+  <!-- Header with back icon -->
+  <BasePageDialog v-model="creatorStore.showCreator">
+    <template #content>
+      <header
+        v-if="errorHappened"
+        class="sticky top-0 bg-white shadow-sm flex items-center px-4 py-3 z-50"
+      >
+        <button
+          @click="goBack()"
+          class="flex items-center text-gray-700 hover:text-primary-light transition"
+        >
+          <Icon name="mdi:arrow-left" class="text-2xl" />
+          ውዱዋላ ተመለስ
+        </button>
+      </header>
+      <BaseError v-if="errorHappened" show-retry @retry="refetch" />
+      <div v-else>
+        <!-- Loading -->
+        <div v-if="loading" class="flex justify-center py-8">
+          <div class="loader"></div>
         </div>
 
-        <!-- Rating -->
-        <div class="flex flex-col items-center">
-          <p class="text-lg font-bold text-black">
-            {{ user.rating }}
-          </p>
-          <p class="text-sm text-gray-500">ደረጃ</p>
+        <!-- No Result -->
+        <div v-if="!loading && !creator" class="text-center">
+          <BaseZeroResult message="ምንም ውጤት አልተገኘም" />
         </div>
 
-        <!-- likes -->
-        <div class="flex flex-col items-center">
-          <p class="text-lg font-bold text-black">
-            {{ user.total_likes }}
-          </p>
-          <p class="text-sm text-gray-500">መዉደድ</p>
-        </div>
+        <!-- Main Content -->
+        <section
+          v-if="creator"
+          class="container lg:py-8 min-h-screen max-w-5xl lg:space-y-6"
+        >
+          <!-- Sticky Header -->
+          <div class="sticky top-0 z-50 bg-white px-3">
+            <!-- Header Bar -->
+            <header class="flex items-center justify-between py-2">
+              <div class="flex items-center gap-2">
+                <!-- Back Button -->
+                <button @click="goBack">
+                  <Icon name="mdi:arrow-left" class="w-4 h-4" />
+                </button>
 
-        <!-- total tickets -->
-      </div>
-    </div>
-    <!-- --------------Phone number section -->
-    <div class="p-5 bg-white rounded-xl border border-gray-200">
-      <!-- Title -->
-      <h2 class="text-lg font-bold text-black mb-2">የአዘጋጅ መረጃ</h2>
+                <!-- Creator Name -->
+                <h1 class="text-xl font-semibold text-gray-900">
+                  {{ creator.name }}
+                </h1>
+              </div>
 
-      <div v-if="user.phone" class="flex flex-col gap-2">
-        <!-- Main phone -->
-        <div class="flex items-center gap-3">
-          <!-- Icon with blue background -->
-          <div
-            class="p-2 rounded-lg bg-blue-100 flex items-center justify-center"
-          >
-            <Icon name="mdi:phone" class="text-blue-600 text-sm" />
+              <!-- Actions -->
+              <div class="flex items-center gap-2">
+                <!-- Like Button -->
+                <CreatorsLike :creator="creator" />
+              </div>
+            </header>
+
+            <!-- Tabs -->
+
+            <div class="pb-2">
+              <div class="flex bg-gray-200 rounded-lg">
+                <button
+                  v-for="(tab, index) in tabs"
+                  :key="tab.id"
+                  @click="selectedTabIndex = index"
+                  class="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-md text-sm font-medium transition-colors duration-200"
+                  :class="
+                    selectedTabIndex === index
+                      ? 'bg-primary-light text-white'
+                      : 'bg-transparent text-gray-600 hover:bg-gray-300'
+                  "
+                >
+                  <Icon :name="tab.icon" class="text-base" />
+                  {{ tab.name }}
+                </button>
+              </div>
+            </div>
+
+            <div
+              v-if="selectedTabIndex === 1"
+              class="flex items-center gap-2 text-sm"
+            >
+              <div
+                v-for="(tab, index) in lotteryTabs"
+                :key="index"
+                class="flex-1 cursor-pointer rounded-lg py-1.5 px-1 text-center transition-all duration-200"
+                :class="
+                  selected === index
+                    ? 'bg-primary-light text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                "
+                @click="selected = index"
+              >
+                <div class="flex justify-center items-center gap-1">
+                  <!-- Icon -->
+                  <Icon :name="tab.icon" class="text-base" />
+                  <!-- Title -->
+                  <span class="font-semibold text-sm">{{ tab.title }}</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <!-- Label + phone -->
-          <div class="flex flex-col">
-            <span class="text-xs text-gray-500 font-medium">ዋና ስልክ</span>
-            <span class="text-sm font-semibold text-gray-900">{{
-              user.phone
-            }}</span>
-          </div>
-        </div>
 
-        <!-- Alternate phone -->
-        <div v-if="user.alternate_phone" class="flex items-center gap-3">
-          <div
-            class="p-2 rounded-lg bg-blue-100 flex items-center justify-center"
-          >
-            <Icon name="mdi:cellphone" class="text-blue-600 text-sm" />
-          </div>
-          <div class="flex flex-col">
-            <span class="text-xs text-gray-500 font-medium">ሌላ ስልክ</span>
-            <span class="text-sm font-semibold text-gray-900">{{
-              user.alternate_phone
-            }}</span>
-          </div>
-        </div>
+          <!-- --------------Creator Detail Component---------------- -->
+          <CreatorsInformation v-if="selectedTabIndex === 0" :user="creator" />
+
+          <!-- --------------Creator Lotteries Component---------------- -->
+          <CreatorsLotteries
+            v-if="selectedTabIndex === 1"
+            :user="creator"
+            :selected="selected"
+          />
+        </section>
       </div>
-    </div>
-  </div>
+    </template>
+  </BasePageDialog>
 </template>
 
 <script setup>
-// Props for user data
-const props = defineProps({
-  user: {
-    type: Object,
-    required: true,
-    default: () => ({
-      phone: "",
-      alternatePhone: null,
-    }),
+import getCreatorQuery from "@/graphql/creators/item.gql";
+import { useCreatorStore } from "@/stores/creator";
+
+const creatorStore = useCreatorStore();
+
+const creator = ref(null);
+
+const errorHappened = ref(false);
+
+// Tabs configuration
+const tabs = computed(() => [
+  {
+    id: "overview",
+    name: "መረጃ",
+    value: "overview",
+    icon: "mdi:information-outline",
   },
+  {
+    id: "lotteries",
+    name: "ዕጣዎች",
+    value: "lotteries",
+    icon: "mdi:ticket-confirmation-outline",
+  },
+]);
+
+const selectedTabIndex = ref(0);
+const selected = ref(0);
+
+const lotteryTabs = [
+  { title: "ሁሉም", icon: "gg:list" }, // All
+  { title: "ያልዎጡ", icon: "mdi:autorenew" }, // Not Played
+  { title: "የዎጡ", icon: "material-symbols:emoji-events" }, // Won
+  { title: "የተጠናቀቁ", icon: "tdesign:time" }, // Completed / Scheduled
+];
+
+// GraphQL query
+const { onResult, onError, refetch, loading } = queryItem(getCreatorQuery, {
+  id: creatorStore.selectedCreatorId,
+  clientId: "auth",
 });
+
+onResult(({ data }) => {
+  if (data?.users_by_pk) {
+    creator.value = data.users_by_pk;
+  }
+
+  if (!data?.users_by_pk) {
+    errorHappened.value = true;
+  } else {
+    errorHappened.value = false;
+  }
+});
+
+onError((error) => {
+  errorHappened.value = true;
+});
+
+provide("refetchCreator", refetch);
+
+function goBack() {
+  creatorStore.closeCreator();
+}
 </script>

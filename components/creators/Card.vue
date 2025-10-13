@@ -76,23 +76,16 @@
 </template>
 
 <script setup>
+import { useCreatorStore } from "@/stores/creator";
+
+const creatorStore = useCreatorStore();
+
 const props = defineProps({
   user: { type: Object, required: true },
 });
 
-const router = useRouter();
-
 function navigateToCreator() {
-  // remove the query params from the current route
-  const currentRoute = router.currentRoute.value;
-  const { tab, ...rest } = currentRoute.query;
-  router.push(
-    `/creators/${props.user.id}?from=${
-      router.currentRoute.value.fullPath
-    }&${Object.entries(rest)
-      .map(([key, value]) => `${key}=${value}`)
-      .join("&")}`
-  );
+  creatorStore.openCreator(props.user.id);
 }
 
 const handleLikeUpdate = () => {

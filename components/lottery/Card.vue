@@ -54,7 +54,10 @@
         </div>
 
         <!-- User Info -->
-        <div class="flex items-center ml-4 min-w-0">
+        <div
+          @click.stop="creatorStore.openCreator(lottery.user.id)"
+          class="flex items-center ml-4 min-w-0"
+        >
           <!-- Avatar Component -->
           <BaseAvatar
             :name="lottery.user.name"
@@ -186,6 +189,11 @@
 </template>
 
 <script setup>
+import { useLotteryStore } from "@/stores/lottery";
+import { useCreatorStore } from "@/stores/creator";
+
+const lotteryStore = useLotteryStore();
+const creatorStore = useCreatorStore();
 const router = useRouter();
 
 const props = defineProps({
@@ -239,16 +247,7 @@ const lotteryProgress = computed(() => {
 });
 
 const openDetail = (tab = "tickets") => {
-  // remove the query params from the current route
-  const currentRoute = router.currentRoute.value;
-  const { tab: currentTab, ...rest } = currentRoute.query;
-  router.push(
-    `/lotteries/${props.lottery.id}?tab=${tab}&from=${
-      router.currentRoute.value.fullPath
-    }&${Object.entries(rest)
-      .map(([key, value]) => `${key}=${value}`)
-      .join("&")}`
-  );
+  lotteryStore.openLottery(props.lottery.id, tab);
 };
 
 const statusColorAndName = computed(() => {

@@ -100,7 +100,7 @@
         </div>
 
         <!-- --------------Creator Detail Component---------------- -->
-        <CreatorsDetail v-if="selectedTabIndex === 0" :user="creator" />
+        <CreatorsInformation v-if="selectedTabIndex === 0" :user="creator" />
 
         <!-- --------------Creator Lotteries Component---------------- -->
         <CreatorsLotteries
