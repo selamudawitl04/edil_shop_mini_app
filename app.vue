@@ -46,48 +46,33 @@ const { onLogin, getToken, onLogout } = useApollo();
 //   avatar_color: "#4DD0E1",
 // };
 
-const checkCount = ref(0);
+const router = useRouter();
+const route = useRoute();
 
+const checkTelegramAuth = () => {
+  const userData = useCookie("userData");
+
+  const tg = window?.Telegram?.WebApp;
+  if (!tg?.initDataUnsafe?.user) return; // Not in Telegram or no user
+
+  const telegramUserId = tg.initDataUnsafe?.user?.id;
+  const storedUserId = userData.value?.telegram_user_id;
+
+  alert(`${telegramUserId}dawit ${storedUserId + "selamu"}`);
+
+  // If user navigates elsewhere but IDs mismatch → redirect to /
+  if (route.path !== "/" && (!storedUserId || storedUserId != telegramUserId)) {
+    console.warn("🚫 Telegram ID mismatch — redirecting to bot");
+
+    userData.value = null;
+    onLogout("auth");
+    router.push("/");
+
+    return;
+  }
+};
 onMounted(() => {
-  const route = useRoute();
-  const router = useRouter();
-
-  const checkTelegramAuth = () => {
-    const userData = useCookie("userData");
-    checkCount.value++;
-    console.log("🔍 Checking Telegram Auth", checkCount.value);
-
-    const tg = window?.Telegram?.WebApp;
-    if (!tg?.initDataUnsafe?.user) return; // Not in Telegram or no user
-
-    alert(tg?.initDataUnsafe?.user.id + "selamu");
-    alert(userData.value?.telegram_user_id + "daiwt");
-    const telegramUserId = tg.initDataUnsafe?.user?.id;
-    const storedUserId = userData.value?.telegram_user_id;
-
-    // If user navigates elsewhere but IDs mismatch → redirect to /
-    if (
-      route.path !== "/" &&
-      (!storedUserId || storedUserId != telegramUserId)
-    ) {
-      console.warn("🚫 Telegram ID mismatch — redirecting to bot");
-
-      userData.value = null;
-      onLogout("auth");
-
-      // router.push("/");
-
-      return;
-    }
-  };
-
   // Run immediately
   checkTelegramAuth();
-
-  // Then repeat every 5 seconds
-  const interval = setInterval(checkTelegramAuth, 5000);
-
-  // Clean up when component unmounts
-  onBeforeUnmount(() => clearInterval(interval));
 });
 </script>
