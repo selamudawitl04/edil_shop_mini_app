@@ -41,8 +41,12 @@
 
         <!-- Phone numbers -->
         <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">
-          {{ user.phone
-          }}{{ user.alternate_phone ? " / " + user.alternate_phone : "" }}
+          {{ formatPhoneNumber(user.phone) }}
+          {{
+            user.alternate_phone
+              ? " / " + formatPhoneNumber(user.alternate_phone)
+              : ""
+          }}
         </p>
 
         <!-- Lotteries count and rating -->
@@ -87,6 +91,13 @@ const props = defineProps({
 
 function navigateToCreator() {
   creatorStore.openCreator(props.user.id);
+}
+
+function formatPhoneNumber(phone) {
+  if (phone.length === 12 && phone.startsWith("251")) {
+    return phone.replace(/^251/, "0");
+  }
+  return phone; // Return as is if format is unexpected
 }
 </script>
 

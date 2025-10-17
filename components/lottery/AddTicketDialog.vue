@@ -4,7 +4,11 @@ import { useToast } from "vue-toast-notification";
 
 const toast = useToast();
 const { handleSubmit } = useForm();
-const emit = defineEmits(["update:modelValue", "added", "clearTicketNumbers"]);
+const emit = defineEmits([
+  "update:modelValue",
+  "ticketAdded",
+  "clearTicketNumbers",
+]);
 
 const props = defineProps({
   modelValue: Boolean,
@@ -19,7 +23,6 @@ const props = defineProps({
 });
 
 const refetchLottery = inject("refetchLottery");
-const refetchLotteries = inject("refetchLotteries");
 
 // Open state
 const open = computed({
@@ -71,9 +74,8 @@ onDone(({ data }) => {
     toast.success("ትኬት በተሳካ ሁኔታ ተገዝቷል! ክፊያዎ ስረጋገጥ መዕለክት ይደርሶታል", {
       duration: 5000,
     });
-    if (typeof refetchLotteries === "function") refetchLotteries();
+    emit("ticketAdded");
     if (typeof refetchLottery === "function") refetchLottery();
-    emit("added");
     open.value = false;
   } else {
     toast.error("ትኬት መመዝገብ አልተሳካም!", {

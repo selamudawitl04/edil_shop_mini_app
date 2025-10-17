@@ -103,13 +103,13 @@ handleUploadSuccess(({ data }) => {
   if (urls?.length > 0) {
     imageUrl.value = urls[0];
   } else {
-    showError("ፎቶ መስቀል አልተሳካም።");
+    showError("ፎቶ መላክ አልተሳካም።");
   }
 });
 
 handleUploadError(() => {
   errorType.value = "upload";
-  showError("ፎቶ መስቀል አልተሳካም።", "upload");
+  showError("ፎቶ መላክ አልተሳካም።", "upload");
 });
 
 function retryAction() {

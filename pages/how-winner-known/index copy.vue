@@ -33,12 +33,12 @@
           class="flex items-center gap-4 p-5"
           :class="`bg-${method.color}-50`"
         >
-          <!-- <div
-              class="w-12 h-12 flex items-center justify-center rounded-full text-white font-bold text-lg"
-              :class="`bg-${method.color}-500`"
-            >
-              {{ method.number }}
-            </div> -->
+          <div
+            class="w-12 h-12 flex items-center justify-center rounded-full text-white font-bold text-lg"
+            :class="`bg-${method.color}-500`"
+          >
+            {{ method.number }}
+          </div>
           <div class="flex-1">
             <p class="text-gray-900 font-bold text-lg">{{ method.title }}</p>
             <p class="text-gray-600 text-sm mt-0.5">
@@ -133,6 +133,35 @@ const methods = [
         desc: "የእኛ ተወካይ ሁሉንም ሂደት በቪዲዮ ይቀረጻል።",
         icon: "mdi:video",
       },
+      {
+        title: "የቪዲዮ መልቀቅ",
+        desc: "የምርጫው ቪዲዮ በሎተሪ ላይ ይገኛል።",
+        icon: "mdi:link-variant",
+      },
+    ],
+  },
+  {
+    number: 2,
+    title: "የሲስተም እጣ አዎጣጥ",
+    description: "ኮምፒዩተር እጣ ይዎጣል",
+    icon: "mdi:desktop-classic",
+    color: "green",
+    subtitle: "የሲስተም እጣ አዎጣጥ ሂደት:",
+    extra: "tryLottery",
+    steps: [
+      {
+        title: "በኮምፒዩተር እጣ ይዎጣል",
+        desc: "እጣ በተዘጋጀ ሕዝባዊ ዌብሳይት ላይ ይዎጣል።",
+        icon: "mdi:web",
+      },
+
+      {
+        title: "የቲክቶክ ቀጥታ ስርጭት",
+        desc: "እጣ አዎጣጥ በቲክቶክ ላይ ቀጥታ ይሰራጫል።",
+        icon: "mdi:video-outline",
+      },
+
+      // After the proccess end the recorded video will released on youtube
       {
         title: "የቪዲዮ መልቀቅ",
         desc: "የምርጫው ቪዲዮ በሎተሪ ላይ ይገኛል።",

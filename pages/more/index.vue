@@ -30,7 +30,7 @@
             {{ user?.name || "Guest User" }}
           </p>
           <p class="text-sm text-gray-500 truncate">
-            {{ user?.phone || "No phone number" }}
+            {{ formatPhoneNumber(user?.phone) || "No phone number" }}
           </p>
         </div>
 
@@ -125,6 +125,13 @@ const menuItems = [
     bgColor: "bg-blue-100",
   },
 ];
+
+function formatPhoneNumber(phone) {
+  if (phone.length === 12 && phone.startsWith("251")) {
+    return phone.replace(/^251/, "0");
+  }
+  return phone; // Return as is if format is unexpected
+}
 
 const navigate = (path) => {
   router.push(path);

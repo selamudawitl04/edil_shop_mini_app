@@ -7,9 +7,9 @@
 <script setup>
 import "vue-toast-notification/dist/theme-sugar.css";
 
-const { onLogin, getToken, onLogout } = useApollo();
+// const { onLogin, getToken, onLogout } = useApollo();
 // onLogin(
-//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwczovL2FwaS5lZGlsc2hvZi5jb20iLCJlbnRpdHlfaWQiOiIiLCJleHAiOjE3NjA4MTEwNzIsImlhdCI6MTc2MDIwNjI3MiwiaXNzIjoiaHR0cHM6Ly9hcGkuZWRpbHNob2YuY29tIiwibWV0YWRhdGEiOnsibmFtZSI6IlNhbXVlbCBOb2FoMSIsInJvbGVzIjpbInVzZXIiXX0sInJvbGUiOlsidXNlciJdLCJzdWIiOiI5YjEyYzJkNy1hNGQ4LTQwNjctODA3OC1mODE5YWFjMTQyZGMifQ.nCCgIDTfppcogfuPak-EhtqkrJ40R--uMFGkBYPXZpQ",
+//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwczovL2FwaS5lZGlsc2hvZi5jb20iLCJlbnRpdHlfaWQiOiIiLCJleHAiOjE3NjEyODkyMzUsImlhdCI6MTc2MDY4NDQzNSwiaXNzIjoiaHR0cHM6Ly9hcGkuZWRpbHNob2YuY29tIiwibWV0YWRhdGEiOnsibmFtZSI6IlNhbXVlbCBOZXciLCJyb2xlcyI6WyJ1c2VyIl19LCJyb2xlIjpbInVzZXIiXSwic3ViIjoiOWIxMmMyZDctYTRkOC00MDY3LTgwNzgtZjgxOWFhYzE0MmRjIn0.ShXb2477kme-ybhht6SD50RdHfwnGHm_JPfty1erbWk",
 //   "auth"
 // );
 

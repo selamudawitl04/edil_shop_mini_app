@@ -76,6 +76,10 @@ const applyFilters = () => {
   emit("applyFilters", { ...queryVariables.value });
   openFilterDialog.value = false;
 };
+
+function reloadWindow() {
+  window.location.reload();
+}
 </script>
 
 <template>
@@ -91,7 +95,7 @@ const applyFilters = () => {
     <div class="flex items-center gap-3">
       <!-- Avatar -->
       <div
-        @click="$router.push('/auth/logout')"
+        @click="reloadWindow"
         class="w-9 h-9 rounded-md bg-primary-light flex items-center justify-center text-white font-semibold text-sm"
       >
         ES

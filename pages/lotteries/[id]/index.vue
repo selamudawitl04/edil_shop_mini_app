@@ -100,6 +100,7 @@
           v-if="selectedTabIndex === 0"
           :lottery="lottery"
           :showNotSold="showNotSold"
+          @ticket-added="onTicketAdded"
         />
         <LotteryDetailOverview
           v-if="selectedTabIndex === 1"
@@ -181,5 +182,10 @@ function goBack() {
   } else {
     router.push("/lotteries");
   }
+}
+
+function onTicketAdded() {
+  alert("Ticket added parent component");
+  // showNotSold.value = false;
 }
 </script>

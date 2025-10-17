@@ -43,8 +43,8 @@
         v-model="showBuyModal"
         :lottery="lottery"
         :ticket-numbers="_selectedTicketNumbers"
-        @added="onTicketAdded"
         @clearTicketNumbers="onTicketAdded"
+        @ticketAdded="onTicketAdded"
       />
 
       <!-- Owner Info Modal -->
@@ -121,7 +121,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+const emit = defineEmits(["ticketAdded"]);
 
 const props = defineProps({
   lottery: { type: Object, required: true },
@@ -156,10 +156,6 @@ const visibleTickets = computed(() => {
     return !isSold && !isPending;
   });
 });
-
-const getTicket = (ticketNumber) => {
-  return props.lottery.tickets.find((t) => t.ticket_number === ticketNumber);
-};
 
 // Modals
 const showBuyModal = ref(false);
@@ -243,7 +239,6 @@ function getTextColor(ticketNumber) {
   ) {
     return "text-black";
   }
-
   return "text-white";
 }
 
@@ -251,14 +246,11 @@ function onBuyTickets() {
   if (_selectedTicketNumbers.value.length === 0) {
     return;
   }
-
   selectedTicketInfo.value = 90;
-
-  console.log(_selectedTicketNumbers.value);
   showBuyModal.value = true;
 }
-
 function onTicketAdded() {
   _selectedTicketNumbers.value = [];
+  emit("ticketAdded");
 }
 </script>

@@ -36,13 +36,13 @@
         <!-- Main phone -->
         <div class="flex items-center">
           <Icon name="mdi:phone" class="text-gray-400 text-xs mr-1.5" />
-          <span>{{ user.phone }}</span>
+          <span>{{ formatPhoneNumber(user.phone) }}</span>
         </div>
 
         <!-- Alternate phone -->
         <div v-if="user.alternate_phone" class="flex items-center">
           <Icon name="mdi:cellphone" class="text-gray-400 text-xs mr-1.5" />
-          <span>{{ user.alternate_phone }}</span>
+          <span>{{ formatPhoneNumber(user.alternate_phone) }}</span>
         </div>
       </div>
 
@@ -67,11 +67,7 @@
     </div>
 
     <!-- Like button slot (optional) -->
-    <CreatorsLike
-      :creator="user"
-      button-type="button"
-      @updated="handleLikeUpdate"
-    />
+    <CreatorsLike :creator="user" button-type="button" />
   </div>
 </template>
 
@@ -88,9 +84,12 @@ function navigateToCreator() {
   creatorStore.openCreator(props.user.id);
 }
 
-const handleLikeUpdate = () => {
-  console.log("Like updated");
-};
+function formatPhoneNumber(phone) {
+  if (phone.length === 12 && phone.startsWith("251")) {
+    return phone.replace(/^251/, "0");
+  }
+  return phone; // Return as is if format is unexpected
+}
 </script>
 
 <style scoped>

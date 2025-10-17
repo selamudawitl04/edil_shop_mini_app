@@ -121,7 +121,7 @@
       <div class="mb-4">
         <div class="flex justify-between items-center mb-2">
           <span class="text-sm font-medium text-primary-light">
-            የተሸጡ ትኬቶች : {{ lottery.sold_tickets || 0 }}
+            የተሸጡ ትኬቶች : {{ lottery.total_sold_tickets || 0 }}
           </span>
           <span
             class="text-sm font-bold text-primary-light dark:text-primary-dark"

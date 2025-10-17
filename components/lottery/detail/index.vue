@@ -101,6 +101,7 @@
             v-if="selectedTabIndex === 0"
             :lottery="lottery"
             :showNotSold="showNotSold"
+            @ticket-added="onTicketAdded"
           />
           <LotteryDetailOverview
             v-if="selectedTabIndex === 1"
@@ -182,5 +183,8 @@ onError(() => {
 
 function goBack() {
   lotteryStore.closeLottery();
+}
+function onTicketAdded() {
+  showNotSold.value = false;
 }
 </script>
