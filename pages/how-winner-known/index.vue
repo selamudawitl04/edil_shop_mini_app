@@ -9,7 +9,7 @@
         class="flex items-center text-gray-700 hover:text-blue-600 transition"
       >
         <Icon name="mdi:arrow-left" class="text-2xl" />
-        <h1 class="ml-2 text-lg font-bold text-gray-900">እጣ አዎጣጥ</h1>
+        <h1 class="ml-2 text-lg font-bold text-gray-900">እጣ አወጣት</h1>
       </button>
     </header>
 
@@ -18,7 +18,7 @@
       <!-- Intro Section -->
       <div class="bg-primary-light text-white rounded-2xl p-6 text-center">
         <Icon name="mdi:trophy" class="text-white text-5xl mb-3 mx-auto" />
-        <h2 class="text-xl text-white font-bold mb-1">እጣ አዎጣጥ እንዴት ይሆናል</h2>
+        <h2 class="text-xl text-white font-bold mb-1">እጣ አወጣት እንዴት ይሆናል</h2>
         <p class="text-sm font-bold text-white">በ 2 የተለያዩ ዘዴዎች እጣ ይዎጣል</p>
       </div>
 
@@ -111,11 +111,11 @@ const router = useRouter();
 const methods = [
   {
     number: 1,
-    title: "የእጅ እጣ አዎጣጥ",
+    title: "የእጅ እጣ አወጣት",
     description: "ከእጣ ቁጥሮች በእጅ ይመረጣል",
     icon: "mdi:account",
     color: "blue",
-    subtitle: "የእጅ እጣ አዎጣጥ ሂደት:",
+    subtitle: "የእጅ እጣ አወጣት ሂደት:",
     extra: "security",
     steps: [
       {

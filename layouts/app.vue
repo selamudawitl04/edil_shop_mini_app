@@ -8,7 +8,7 @@ const creatorStore = useCreatorStore();
 
 const navs = ref([
   { name: "መዉጫ", icon: "mdi:home-outline", to: "/lotteries" },
-  { name: "የኔ ዕጣዎች", icon: "mdi:ticket-percent-outline", to: "/my-tickets" },
+  { name: "የኔ እጣዎች", icon: "mdi:ticket-percent-outline", to: "/my-tickets" },
   { name: "አዘጋጆች", icon: "mdi:account-group-outline", to: "/creators" },
   { name: "ማሳወቂያ", icon: "mdi:bell-outline", to: "/notifications" },
   { name: "ተጨማሪ", icon: "mdi:dots-horizontal", to: "/more" },

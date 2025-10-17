@@ -26,7 +26,7 @@
           <p class="text-lg font-bold text-black">
             {{ user.number_of_lotteries }}
           </p>
-          <p class="text-sm text-gray-500">ዕጣዎች</p>
+          <p class="text-sm text-gray-500">እጣዎች</p>
         </div>
 
         <!-- Rating -->

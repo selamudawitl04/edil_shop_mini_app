@@ -71,7 +71,7 @@
               {{ lottery.user.name }}
             </p>
             <p class="text-secondary text-xs line-clamp-1">
-              {{ lottery.user?.number_of_lotteries }} ዕጣዎች
+              {{ lottery.user?.number_of_lotteries }} እጣዎች
             </p>
           </div>
         </div>

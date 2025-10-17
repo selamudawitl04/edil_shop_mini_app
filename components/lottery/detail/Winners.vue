@@ -5,7 +5,7 @@
     <h2
       class="text-xl font-bold text-textPrimary-light dark:text-textPrimary-dark mb-6"
     >
-      ዕጣዎች እና አሸናፊዎች
+      እጣዎች እና አሸናፊዎች
     </h2>
 
     <div v-if="lottery.items?.length" class="space-y-4">
@@ -39,7 +39,7 @@
             "
           >
             አሸናፊ ቁጥር:
-            {{ item.winner?.ticket?.ticket_number || "ዕጣው አልዎጣም" }}
+            {{ item.winner?.ticket?.ticket_number || "እጣው አልዎጣም" }}
           </p>
         </div>
 

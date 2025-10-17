@@ -53,7 +53,7 @@
           class="flex items-center gap-1 px-2.5 py-1 rounded-md bg-blue-50 text-blue-600 text-xs font-semibold"
         >
           <Icon name="mdi:ticket-confirmation" class="text-blue-600 text-sm" />
-          {{ user.number_of_lotteries }} ዕጣዎች
+          {{ user.number_of_lotteries }} እጣዎች
         </div>
 
         <!-- Rating -->

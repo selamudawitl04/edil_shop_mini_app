@@ -1,5 +1,5 @@
 <template>
-  <!-- ዕጣ አጠቃላይ መረጃ -->
+  <!-- እጣ አጠቃላይ መረጃ -->
   <div class="">
     <!-- -----------------Medias Section----------------- -->
 
@@ -15,7 +15,7 @@
         <h2
           class="text-xl font-bold text-textPrimary-light dark:text-textPrimary-dark mb-5"
         >
-          የዕጣ መረጃ
+          የእጣ መረጃ
         </h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -91,7 +91,7 @@
               <span
                 class="text-textSecondary-light dark:text-textSecondary-dark"
               >
-                ዕጣው የሚዎጣበት
+                እጣው የሚዎጣበት
               </span>
               <span
                 class="font-semibold text-textPrimary-light dark:text-textPrimary-dark"
@@ -117,7 +117,7 @@
 
       <LotteryDetailWinners :lottery="lottery" />
 
-      <!-- እቃዎች እና ዕጣ ውሎች -->
+      <!-- እቃዎች እና እጣ ውሎች -->
 
       <!-- ማብራሪያ -->
       <div
@@ -127,7 +127,7 @@
         <h2
           class="text-xl font-bold text-textPrimary-light dark:text-textPrimary-dark mb-4"
         >
-          የዕጣ ማብራሪያ
+          የእጣ ማብራሪያ
         </h2>
         <p
           class="text-textPrimary-light dark:text-textPrimary-dark leading-relaxed"
@@ -136,11 +136,11 @@
         </p>
       </div>
 
-      <!-- የዕጣ ባለቤት መረጃ -->
+      <!-- የእጣ ባለቤት መረጃ -->
 
       <LotteryDetailCreator :user="lottery.user" />
 
-      <!-- የዕጣ መረጃ -->
+      <!-- የእጣ መረጃ -->
 
       <LotteryDetailSocialMedias :lottery="lottery" />
     </div>
@@ -175,7 +175,7 @@ const statusColorAndName = computed(() => {
 
 function getLotteryFinalTimeText(finalTime) {
   if (!finalTime) {
-    return "የዕጣው ሁሉም ትኬቶች ሲሸጡ";
+    return "የእጣው ሁሉም ትኬቶች ሲሸጡ";
   }
 
   // Ensure finalTime is a Date object
@@ -188,7 +188,7 @@ function getLotteryFinalTimeText(finalTime) {
   const difference = targetTime - now; // milliseconds
 
   if (difference <= 0) {
-    return "የዕጣው ሁሉም ትኬቶች ሲሸጡ"; // Already passed
+    return "የእጣው ሁሉም ትኬቶች ሲሸጡ"; // Already passed
   }
 
   const differenceInMinutes = Math.floor(difference / 1000 / 60);

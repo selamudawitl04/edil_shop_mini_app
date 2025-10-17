@@ -106,7 +106,7 @@ const menuItems = [
   {
     icon: "mdi:check-decagram",
     title: "እጣ አዎጣጥ",
-    subtitle: "እጣ እንዴት እንደምዎጣ ለማወቅ",
+    subtitle: "እጣ እንዴት እንደሚወጣ  ለማወቅ",
     route: "/how-winner-known",
     bgColor: "bg-blue-100",
   },

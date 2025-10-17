@@ -46,7 +46,7 @@
 
               <!-- Title -->
               <h1 class="text-xl font-semibold text-gray-900">
-                ዕጣ: {{ lottery.lottery_id }}
+                እጣ: {{ lottery.lottery_id }}
               </h1>
             </div>
 
@@ -125,7 +125,7 @@ const errorHappened = ref(false);
 const tabs = computed(() => [
   {
     id: "tickets",
-    name: "ዕጣዎች",
+    name: "እጣዎች",
     value: "tickets",
     icon: "mdi:confirmation-number",
   },

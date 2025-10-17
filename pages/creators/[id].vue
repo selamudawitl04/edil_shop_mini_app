@@ -133,7 +133,7 @@ const tabs = computed(() => [
   },
   {
     id: "lotteries",
-    name: "ዕጣዎች",
+    name: "እጣዎች",
     value: "lotteries",
     icon: "mdi:ticket-confirmation-outline",
   },

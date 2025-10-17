@@ -6,7 +6,7 @@
     <!-- Header: Title + Like button -->
     <div class="flex justify-between items-center mb-2">
       <h2 class="text-lg font-bold text-black dark:text-white">
-        የዕጣው ባለቤት መረጃ
+        የእጣው ባለቤት መረጃ
       </h2>
       <!-- <CreatorLikeWidget :creator="user" /> -->
       <Icon name="mdi:heart" class="w-6 h-6 text-red-500" />
@@ -60,7 +60,7 @@
                 d="M20 2H4C2.897 2 2 2.897 2 4V20C2 21.103 2.897 22 4 22H20C21.103 22 22 21.103 22 20V4C22 2.897 21.103 2 20 2ZM20 20H4V4H20V20Z"
               />
             </svg>
-            {{ user.number_of_lotteries }} ዕጣዎች
+            {{ user.number_of_lotteries }} እጣዎች
           </div>
 
           <!-- Rating -->

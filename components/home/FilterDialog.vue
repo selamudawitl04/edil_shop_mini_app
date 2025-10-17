@@ -1,6 +1,6 @@
 <template>
   <!-- ✨ Edit Devotion Dialog -->
-  <BaseDialog v-model="open" title="ዕጣዎችን እንዴ ሚፈልጉት ይደርድሩ" :autoClose="true">
+  <BaseDialog v-model="open" title="እጣዎችን እንዴ ሚፈልጉት ይደርድሩ" :autoClose="true">
     <template #content>
       <div class="max-w-3xl mx-auto">
         <div class="space-y-4">
