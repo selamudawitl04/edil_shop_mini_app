@@ -10,7 +10,8 @@
           @click="goBack()"
           class="flex items-center text-gray-700 hover:text-primary-light transition"
         >
-          <Icon name="mdi:arrow-left" class="text-2xl" />
+          <Icon name="si:arrow-left-line" class="text-4xl" />
+
           ውዱዋላ ተመለስ
         </button>
       </header>
@@ -38,7 +39,7 @@
               <div class="flex items-center gap-2">
                 <!-- Back Button -->
                 <button @click="goBack">
-                  <Icon name="mdi:arrow-left" class="w-4 h-4" />
+                  <Icon name="si:arrow-left-line" class="text-4xl" />
                 </button>
 
                 <!-- Creator Name -->

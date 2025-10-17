@@ -8,7 +8,8 @@
         @click="goBack()"
         class="flex items-center text-gray-700 hover:text-primary-light transition"
       >
-        <Icon name="mdi:arrow-left" class="text-2xl" />
+        <Icon name="si:arrow-left-line" class="text-4xl" />
+
         <h1 class="ml-2 text-lg font-bold text-gray-900">የእጣ ትኬት መግዛት</h1>
       </button>
     </header>

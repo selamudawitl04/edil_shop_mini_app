@@ -2,6 +2,7 @@
   <BasePageDialog v-model="lotteryStore.showLottery" :auto-close="false">
     <template #content>
       <!-- Header with back icon -->
+
       <header
         v-if="errorHappened"
         class="sticky top-0 bg-white shadow-sm flex items-center px-4 py-3 z-50"
@@ -10,8 +11,7 @@
           @click="goBack()"
           class="flex items-center text-gray-700 hover:text-primary-light transition"
         >
-          <Icon name="mdi:arrow-left" class="text-2xl" />
-          ውዱዋላ ተመለስ
+          <Icon name="si:arrow-left-line" class="text-4xl" />
         </button>
       </header>
 
@@ -42,7 +42,7 @@
               <div class="flex items-center gap-2">
                 <!-- Back Button -->
                 <button @click="goBack">
-                  <Icon name="mdi:arrow-left" class="w-4 h-4 text-2xl" />
+                  <Icon name="si:arrow-left-line" class="text-4xl" />
                 </button>
 
                 <!-- Title -->
