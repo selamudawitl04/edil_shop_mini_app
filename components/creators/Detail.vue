@@ -78,7 +78,7 @@
 
             <div
               v-if="selectedTabIndex === 1"
-              class="flex items-center gap-2 text-sm"
+              class="flex items-center gap-2 text-sm pb-1"
             >
               <div
                 v-for="(tab, index) in lotteryTabs"

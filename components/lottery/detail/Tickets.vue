@@ -9,7 +9,7 @@
     </div>
 
     <!-- Tickets Grid -->
-    <div class="grid grid-cols-6 gap-2 pb-24">
+    <div class="grid grid-cols-6 gap-2 pb-16">
       <div
         v-for="ticketNumber in visibleTickets"
         :key="ticketNumber"

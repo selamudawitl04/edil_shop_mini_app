@@ -238,9 +238,9 @@ const selectedItem = computed(() => {
 });
 
 const lotteryProgress = computed(() => {
-  if (props.lottery.total_tickets && props.lottery.sold_tickets) {
+  if (props.lottery.total_tickets && props.lottery.total_sold_tickets) {
     return Math.round(
-      (props.lottery.sold_tickets / props.lottery.total_tickets) * 100
+      (props.lottery.total_sold_tickets / props.lottery.total_tickets) * 100
     );
   }
   return 0;
