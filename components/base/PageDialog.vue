@@ -23,7 +23,10 @@
             :class="[props.bodyClass]"
           >
             <!-- Scrollable Content -->
-            <div class="overflow-y-auto flex-1" ref="contentContainer">
+            <div
+              class="overflow-y-auto flex-1 hide-scrollbar"
+              ref="contentContainer"
+            >
               <slot name="content" />
             </div>
           </HeadlessDialogPanel>

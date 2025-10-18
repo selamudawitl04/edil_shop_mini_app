@@ -51,7 +51,7 @@ onResult(({ data }) => {
   <CreatorsDetail v-if="creatorStore.showCreator" />
   <div class="min-h-screen h-screen max-h-screen flex flex-col">
     <!-- Main Content -->
-    <main class="flex-1 bg-gray-50 overflow-y-auto">
+    <main class="flex-1 bg-gray-50 overflow-y-auto hide-scrollbar">
       <slot />
     </main>
 

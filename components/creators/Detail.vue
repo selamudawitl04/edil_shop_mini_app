@@ -149,7 +149,7 @@ const lotteryTabs = [
   { title: "ሁሉም", icon: "gg:list" }, // All
   { title: "ያልዎጡ", icon: "mdi:autorenew" }, // Not Played
   { title: "የዎጡ", icon: "material-symbols:emoji-events" }, // Won
-  { title: "የተጠናቀቁ", icon: "tdesign:time" }, // Completed / Scheduled
+  // { title: "የተጠናቀቁ", icon: "tdesign:time" }, // Completed / Scheduled
 ];
 
 // GraphQL query

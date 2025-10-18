@@ -50,15 +50,11 @@ const filter = computed(() => {
     };
   } else if (props.selected === 1) {
     query.status = {
-      _eq: "active",
+      _in: ["finished", "active"],
     };
   } else if (props.selected === 2) {
     query.status = {
       _eq: "closed",
-    };
-  } else if (props.selected === 3) {
-    query.status = {
-      _eq: "finished",
     };
   }
 

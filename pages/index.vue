@@ -16,7 +16,7 @@
       <!-- Floating Logo -->
       <div class="flex justify-center">
         <img
-          src="/images/logo.png"
+          src="/logo-192.png"
           alt="Edil Shop"
           class="w-28 h-28 rounded-full shadow-xl border border-white/30 animate-float"
         />
