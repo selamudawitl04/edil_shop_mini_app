@@ -194,7 +194,6 @@ import { useCreatorStore } from "@/stores/creator";
 
 const lotteryStore = useLotteryStore();
 const creatorStore = useCreatorStore();
-const router = useRouter();
 
 const props = defineProps({
   lottery: {

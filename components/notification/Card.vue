@@ -75,6 +75,10 @@
 </template>
 
 <script setup>
+import { useLotteryStore } from "@/stores/lottery";
+
+const lotteryStore = useLotteryStore();
+
 // Props
 const props = defineProps({
   notification: {
@@ -84,8 +88,6 @@ const props = defineProps({
   onDelete: Function,
 });
 const emit = defineEmits(["deleteDone"]);
-
-const router = useRouter();
 
 // --- Helpers ---
 const notificationColor = computed(() => {
@@ -173,7 +175,7 @@ const handleClick = () => {
       props.notification.type
     )
   ) {
-    router.push(`/lotteries/${lotteryId}?tab=overview`);
+    lotteryStore.openLottery(lotteryId, "tickets");
   }
 };
 
