@@ -57,7 +57,10 @@ const openBot = () => {
 const login = (initData) => {
   if (!initData || typeof initData !== "string" || initData.trim() === "") {
     console.warn("⚠️ የተፈቀደ የመጀመሪያ ውሂብ አልተገኘም።");
-    alert("እባክዎን መተግበሪያውን ከቦቱ ድጋሚ ይክፈቱ።");
+    alert(
+      "እባክዎን መተግበሪያውን ከ Telegram ቦቱ ድጋሚ ይክፈቱ። የማይሰራ ከሆነ Chat History አጥፉ እና እንደገና ጀምሩ። ከላይ ያለውን ⋮ ይጫኑ እና “Clear History” ቁልፍ ይምረጡ።"
+    );
+
     openBot();
     return;
   }
@@ -78,7 +81,10 @@ onError((error) => {
   const errorMessage = error?.message || "";
 
   if (errorMessage.includes("Unauthorized")) {
-    alert("እባክዎን መተግበሪያውን ከ Telegram ቦት ድጋሚ ይክፈቱ።");
+    alert(
+      "እባክዎን መተግበሪያውን ከ Telegram ቦቱ ድጋሚ ይክፈቱ። የማይሰራ ከሆነ Chat History አጥፉ እና እንደገና ጀምሩ። ከላይ ያለውን ⋮ ይጫኑ እና “Clear History” ቁልፍ ይምረጡ።"
+    );
+
     openBot();
   } else if (errorMessage.includes("Phone not found")) {
     alert(
@@ -87,7 +93,10 @@ onError((error) => {
 
     openBot();
   } else {
-    alert("እባክዎን መተግበሪያውን ከ Telegram ቦት ድጋሚ ይክፈቱ።");
+    alert(
+      "እባክዎን መተግበሪያውን ከ Telegram ቦቱ ድጋሚ ይክፈቱ። የማይሰራ ከሆነ Chat History አጥፉ እና እንደገና ጀምሩ። ከላይ ያለውን ⋮ ይጫኑ እና “Clear History” ቁልፍ ይምረጡ።"
+    );
+
     openBot();
   }
 });
