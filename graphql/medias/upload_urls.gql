@@ -1,0 +1,8 @@
+mutation uploadUrls($input: UploadUrlsInput!) {
+  upload_urls(arg1: $input) {
+    urls {
+      file_name
+      upload_url
+    }
+  }
+}

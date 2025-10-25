@@ -198,7 +198,12 @@ const showLotteryDescription = ref(false);
           <!-- Payment Proof -->
           <div>
             <h2 class="text-lg font-bold mb-3">ገንዘብ የላኩበት ማስረጃ ፎቶ</h2>
-            <MediaImageUpload v-model="form.payment_url" />
+            <MediaImageUpload
+              v-model="form.payment_url"
+              :max-size-mb="0.3"
+              :max-width-or-height="1000"
+              folder="payments"
+            />
           </div>
 
           <!-- Submit -->

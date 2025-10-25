@@ -1,19 +1,21 @@
 <script setup>
 import { ref, watch } from "vue";
-import upload from "@/graphql/medias/upload.gql";
-import { useForm } from "vee-validate";
+import uploadUrls from "@/graphql/medias/upload_urls.gql";
+import axios from "axios";
+import imageCompression from "browser-image-compression";
 
-// Props & Emits
+// Props
 const props = defineProps({
   modelValue: String,
   label: String,
   width: [String, Number],
   height: [String, Number],
-  reset: Boolean,
+  folder: { type: String, default: "my-folder" },
+  fileLimit: { type: Number, default: 1 },
+  maxSizeMB: { type: Number, default: 0.1 },
+  maxWidthOrHeight: { type: Number, default: 600 },
 });
 const emit = defineEmits(["update:modelValue"]);
-
-const { resetForm } = useForm();
 
 // State
 const imageUrl = ref(props.modelValue || "");
@@ -22,101 +24,84 @@ const fileSize = ref("");
 const hasPickOrUploadError = ref(false);
 const errorMessage = ref("");
 const errorType = ref("upload");
-const selectedBase64 = ref(null);
 const selectedFile = ref(null);
 
-// Watchers
 watch(
   () => props.modelValue,
   (val) => (imageUrl.value = val)
 );
 watch(imageUrl, (val) => emit("update:modelValue", val));
 
-watch(
-  () => props.reset,
-  (newVal) => {
-    if (newVal) {
-      resetForm();
-      imageUrl.value = "";
-      fileName.value = "";
-      fileSize.value = "";
-      hasPickOrUploadError.value = false;
-      errorMessage.value = "";
-      selectedBase64.value = null;
-      selectedFile.value = null;
-    }
-  }
-);
-
-// File input handler
-function handleFileChange(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  if (!file.type.startsWith("image/")) {
-    showError("እባክዎን የፎቶ ፋይል ይምረጡ።", "pickImage");
-    return;
-  }
-
-  if (file.size > 10 * 1024 * 1024) {
-    showError("ፋይሉ 10MB በታች መሆን አለበት።", "pickImage");
-    return;
-  }
-
-  selectedFile.value = file;
-  fileName.value = file.name;
-  fileSize.value = `${(file.size / 1024 / 1024).toFixed(2)} MB`;
-  hasPickOrUploadError.value = false;
-
-  const reader = new FileReader();
-  reader.onloadend = () => {
-    const base64 = reader.result;
-    selectedBase64.value = base64;
-    uploadFile(base64);
-  };
-  reader.readAsDataURL(file);
-}
-
-function showError(message, type = "upload") {
-  hasPickOrUploadError.value = true;
-  errorMessage.value = message;
-  errorType.value = type;
-}
-
-// Upload base64 to server
-function uploadFile(base64) {
-  const file = base64.split(",")[1];
-  const input = { medias: [file] };
-  uploadMutation({ input });
-}
-
-// GraphQL uploader
+// GraphQL uploader setup
 const {
   mutate: uploadMutation,
   onDone: handleUploadSuccess,
   onError: handleUploadError,
   loading: uploading,
-} = mutator(upload, { showError: false });
+} = mutator(uploadUrls, { showError: false, clientId: "auth" });
 
-handleUploadSuccess(({ data }) => {
-  const urls = data?.upload_medias?.urls;
-  if (urls?.length > 0) {
-    imageUrl.value = urls[0];
-  } else {
-    showError("ፎቶ መላክ አልተሳካም።");
+async function handleFileChange(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  if (!file.type.startsWith("image/")) {
+    return showError("እባክዎን የፎቶ ፋይል ይምረጡ።", "pickImage");
+  }
+
+  try {
+    // Compress the image
+    const options = {
+      maxSizeMB: props.maxSizeMB,
+      maxWidthOrHeight: props.maxWidthOrHeight,
+      useWebWorker: true,
+      fileType: "image/webp",
+    };
+    const compressedFile = await imageCompression(file, options);
+
+    fileName.value = compressedFile.name;
+    fileSize.value = `${(compressedFile.size / 1024 / 1024).toFixed(2)} MB`;
+    selectedFile.value = compressedFile;
+
+    // Get upload URL
+    const input = {
+      folder: props.folder,
+      content_type: compressedFile.type,
+      file_names: [compressedFile.name],
+    };
+    uploadMutation({ input });
+  } catch (err) {
+    console.error(err);
+    showError("ፎቶ መጫን አልተሳካም።", "upload");
+  }
+}
+
+// Handle presigned URL response
+handleUploadSuccess(async ({ data }) => {
+  const urls = data?.upload_urls?.urls;
+  if (!urls?.length) return showError("ፎቶ መጫን አልተሳካም።");
+
+  const { upload_url, file_name } = urls[0];
+  try {
+    // Upload directly to S3 via presigned URL
+    await axios.put(upload_url, selectedFile.value, {
+      headers: { "Content-Type": selectedFile.value.type },
+    });
+
+    // ✅ Construct final public URL
+    const bucketBaseUrl = "https://edil-shop-prod.s3.eu-west-2.amazonaws.com";
+    imageUrl.value = `${bucketBaseUrl}/${props.folder}/${file_name}`;
+  } catch (err) {
+    console.error("S3 upload error:", err);
+    showError("ፎቶ መስቀል አልተሳካም።");
   }
 });
 
-handleUploadError(() => {
-  errorType.value = "upload";
-  showError("ፎቶ መላክ አልተሳካም።", "upload");
-});
+handleUploadError(() => showError("ፎቶ መስቀል አልተሳካም።"));
 
-function retryAction() {
-  hasPickOrUploadError.value = false;
-  if (errorType.value === "upload" && selectedBase64.value) {
-    uploadFile(selectedBase64.value);
-  }
+function showError(message, type = "upload") {
+  hasPickOrUploadError.value = true;
+  errorMessage.value = message;
+  errorType.value = type;
 }
 
 const fileInput = ref(null);
