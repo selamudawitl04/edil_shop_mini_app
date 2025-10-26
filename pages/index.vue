@@ -92,6 +92,11 @@ onError((error) => {
     );
 
     openBot();
+  } else if (errorMessage.includes("account_not_active")) {
+    alert(
+      "Your account is not active. Please contact the administrator to activate your account."
+    );
+    openBot();
   } else {
     alert(
       "እባክዎን መተግበሪያውን ከ Telegram ቦቱ ድጋሚ ይክፈቱ። የማይሰራ ከሆነ Chat History አጥፉ እና እንደገና ጀምሩ። ከላይ ያለውን ⋮ ይጫኑ እና “Clear History” ቁልፍ ይምረጡ።"
