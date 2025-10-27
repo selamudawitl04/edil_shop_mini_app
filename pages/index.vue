@@ -37,6 +37,7 @@
 
 <script setup>
 import loginMutation from "@/graphql/auth/login.gql";
+const config = useRuntimeConfig();
 
 const router = useRouter();
 const { onLogin } = useApollo();
@@ -47,6 +48,9 @@ const { mutate, onDone, onError } = mutator(loginMutation, {
 });
 
 const openBot = () => {
+  const edilShopBotUrl = config.public.edilShopBotUrl;
+
+  alert(edilShopBotUrl);
   window.location.href =
     process.env.VITE_EDIL_SHOP_BOT_URL || "https://t.me/EdilShopBot";
   // close the telegram app
