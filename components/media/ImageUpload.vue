@@ -25,6 +25,7 @@ const hasPickOrUploadError = ref(false);
 const errorMessage = ref("");
 const errorType = ref("upload");
 const selectedFile = ref(null);
+const isUploading = ref(false);
 
 watch(
   () => props.modelValue,
@@ -82,6 +83,7 @@ handleUploadSuccess(async ({ data }) => {
 
   const { upload_url, file_name } = urls[0];
   try {
+    isUploading.value = true;
     // Upload directly to S3 via presigned URL
     await axios.put(upload_url, selectedFile.value, {
       headers: { "Content-Type": selectedFile.value.type },
@@ -93,6 +95,8 @@ handleUploadSuccess(async ({ data }) => {
   } catch (err) {
     console.error("S3 upload error:", err);
     showError("ፎቶ መስቀል አልተሳካም።");
+  } finally {
+    isUploading.value = false;
   }
 });
 
@@ -144,7 +148,7 @@ const fileInput = ref(null);
 
       <!-- Uploading Spinner -->
       <div
-        v-else-if="uploading"
+        v-else-if="isUploading"
         class="flex flex-col items-center justify-center text-center p-6 min-h-[136px] bg-gray-50 rounded-lg"
       >
         <div class="loader"></div>
