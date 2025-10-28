@@ -11,7 +11,6 @@ const props = defineProps({
   width: [String, Number],
   height: [String, Number],
   folder: { type: String, default: "my-folder" },
-  fileLimit: { type: Number, default: 1 },
   maxSizeMB: { type: Number, default: 0.1 },
   maxWidthOrHeight: { type: Number, default: 600 },
 });
@@ -135,24 +134,24 @@ const fileInput = ref(null);
         @change="handleFileChange"
       />
 
+      <!-- Uploading Spinner -->
+      <div
+        v-if="isUploading || uploading"
+        class="flex flex-col items-center justify-center text-center p-6 min-h-[136px] bg-gray-50 rounded-lg"
+      >
+        <div class="loader"></div>
+        <p class="text-sm text-gray-700">ፎቶ በመጫን ላይ...</p>
+      </div>
+
       <!-- Empty or uploading -->
       <div
-        v-if="!imageUrl && !selectedBase64"
+        v-else-if="!imageUrl && !selectedBase64"
         class="flex flex-col items-center justify-center text-center p-6 min-h-[136px] bg-gray-50 rounded-lg cursor-pointer"
         @click="fileInput.click()"
       >
         <Icon name="mdi:image-plus" class="w-10 h-10 text-blue-500 mb-2" />
         <p class="text-sm text-gray-700">ፎቶ ይምረጡ / ያስገቡ</p>
         <p class="text-xs text-gray-500">JPG, PNG, WEBP (እስከ 10MB)</p>
-      </div>
-
-      <!-- Uploading Spinner -->
-      <div
-        v-else-if="isUploading"
-        class="flex flex-col items-center justify-center text-center p-6 min-h-[136px] bg-gray-50 rounded-lg"
-      >
-        <div class="loader"></div>
-        <p class="text-sm text-gray-700">ፎቶ በመጫን ላይ...</p>
       </div>
 
       <!-- Image Preview (Uploaded or Selected) -->
