@@ -7,9 +7,11 @@
 <script setup>
 import "vue-toast-notification/dist/theme-sugar.css";
 
+// import getUserQuery from "@/graphql/auth/user_item.gql";
+
 // const { onLogin, getToken, onLogout } = useApollo();
 // onLogin(
-//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwczovL2FwaS5lZGlsc2hvZi5jb20iLCJlbnRpdHlfaWQiOiIiLCJleHAiOjE3NjEyODkyMzUsImlhdCI6MTc2MDY4NDQzNSwiaXNzIjoiaHR0cHM6Ly9hcGkuZWRpbHNob2YuY29tIiwibWV0YWRhdGEiOnsibmFtZSI6IlNhbXVlbCBOZXciLCJyb2xlcyI6WyJ1c2VyIl19LCJyb2xlIjpbInVzZXIiXSwic3ViIjoiOWIxMmMyZDctYTRkOC00MDY3LTgwNzgtZjgxOWFhYzE0MmRjIn0.ShXb2477kme-ybhht6SD50RdHfwnGHm_JPfty1erbWk",
+//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwczovL2FwaS5lZGlsc2hvcC5jb20iLCJlbnRpdHlfaWQiOiIiLCJleHAiOjE3NjIyMzc0OTYsImlhdCI6MTc2MTYzMjY5NiwiaXNzIjoiaHR0cHM6Ly9hcGkuZWRpbHNob3AuY29tIiwibWV0YWRhdGEiOnsibmFtZSI6IlNhbXVlbCBOZXciLCJyb2xlcyI6WyJ1c2VyIl19LCJyb2xlIjpbInVzZXIiXSwic3ViIjoiOWIxMmMyZDctYTRkOC00MDY3LTgwNzgtZjgxOWFhYzE0MmRjIn0.7JdcuCROBwz7EneBuAZXGsaug77j3k3F4AFmpC4JnII",
 //   "auth"
 // );
 
@@ -24,60 +26,48 @@ import "vue-toast-notification/dist/theme-sugar.css";
 //   avatar_color: "#4A90E2",
 // };
 
-// onLogin(
-//   "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwczovL2FwaS5lZGlsc2hvZi5jb20iLCJlbnRpdHlfaWQiOiIiLCJleHAiOjE3NjA3MTAzODIsImlhdCI6MTc2MDEwNTU4MiwiaXNzIjoiaHR0cHM6Ly9hcGkuZWRpbHNob2YuY29tIiwibWV0YWRhdGEiOnsibmFtZSI6IlNhbXVlbCBOb2FoIiwicm9sZXMiOlsidXNlciJdfSwicm9sZSI6WyJ1c2VyIl0sInN1YiI6IjIxMmI1OTBjLTRlOTYtNGUxZi04Y2MwLWJmODIzMTE5NDQ1ZiJ9.M_mmodFqIrwQjeToeQklOZC_PLy2DYugxm37r6Oxp00cjNvYuwkXkXZkUEH7SLBFMoOOJZxyEhdZlSMijtf-CA",
-//   "auth"
-// );
-
-// useCookie("userData").value = {
-//   id: "212b590c-4e96-4e1f-8cc0-bf823119445f",
-//   name: "Test User",
-//   phone: "0945003939",
-//   alternate_phone: null,
-//   role: "user",
-//   is_phone_verified: true,
-//   profile_image: "",
-//   avatar_color: "#4DD0E1",
-// };
-
-// onLogin(
-//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwczovL2FwaS5lZGlsc2hvZi5jb20iLCJlbnRpdHlfaWQiOiIiLCJleHAiOjE3NjA5NDUyNzcsImlhdCI6MTc2MDM0MDQ3NywiaXNzIjoiaHR0cHM6Ly9hcGkuZWRpbHNob2YuY29tIiwibWV0YWRhdGEiOnsibmFtZSI6IkdhIOGIuSIsInJvbGVzIjpbInVzZXIiXX0sInJvbGUiOlsidXNlciJdLCJzdWIiOiI3ZGM2ODc0MS0zNDQzLTQ5MzEtYjQ2Zi1iZjVmM2NmN2RhYzIifQ.IzWLJduEuRYr0Ry0Iyew4iyJLEGBwMssOCumHpvUBvM",
-//   "auth"
-// );
-
-// useCookie("userData").value = {
-//   id: "7dc68741-3443-4931-b46f-bf5f3cf7dac2",
-//   name: "Ga ሹ",
-//   phone: "251926369253",
-//   alternate_phone: null,
-//   role: "user",
-//   is_phone_verified: true,
-//   profile_image: "",
-//   avatar_color: "#64B5F6",
-//   telegram_user_id: "6788020725",
-// };
-
 const router = useRouter();
 const route = useRoute();
 
-const checkTelegramAuth = () => {
+const checkTelegramAuth = async () => {
   const userData = useCookie("userData");
-
   const tg = window?.Telegram?.WebApp;
   if (!tg?.initDataUnsafe?.user) return; // Not in Telegram or no user
 
   const telegramUserId = tg.initDataUnsafe?.user?.id;
-  const storedUserId = userData.value?.telegram_user_id;
+  let storedUserId = userData.value?.telegram_user_id;
 
-  // If user navigates elsewhere but IDs mismatch → redirect to /
-  if (storedUserId && storedUserId != telegramUserId) {
-    console.warn("🚫 Telegram ID mismatch — redirecting to bot");
+  if (userData.value) {
+    const { onResult, onError } = queryItem(getUserQuery, {
+      id: userData.value.id,
+      clientId: "auth",
+    });
 
-    userData.value = null;
-    onLogout("auth");
-    router.push("/");
+    onResult(({ data }) => {
+      if (data.users_by_pk) {
+        storedUserId = data.users_by_pk.telegram_user_id;
+        // If user navigates elsewhere but IDs mismatch → redirect to /
+        if (storedUserId && storedUserId != telegramUserId) {
+          console.warn("🚫 Telegram ID mismatch — redirecting to bot");
+          userData.value = null;
+          onLogout("auth");
+          router.push("/");
+          return;
+        } else {
+          console.log("user is found");
+        }
+      } else {
+        userData.value = null;
+        onLogout("auth");
+        router.push("/");
+      }
+    });
 
-    return;
+    onError((error) => {
+      userData.value = null;
+      onLogout("auth");
+      router.push("/");
+    });
   }
 };
 onMounted(() => {

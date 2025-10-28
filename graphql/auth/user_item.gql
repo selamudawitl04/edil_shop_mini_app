@@ -1,0 +1,13 @@
+query getUserItem($id: uuid!) {
+  users_by_pk(id: $id) {
+    id
+    name
+    phone
+    alternate_phone
+    role
+
+    profile_image
+    avatar_color
+    telegram_user_id
+  }
+}
