@@ -102,6 +102,7 @@ onError((error) => {
 
     openBot();
   } else {
+    alert("errorMessage");
     alert(
       "እባክዎን መተግበሪያውን ከ Telegram ቦቱ ድጋሚ ይክፈቱ። የማይሰራ ከሆነ Chat History አጥፉ እና እንደገና ጀምሩ። ከላይ ያለውን ⋮ ይጫኑ እና “Clear History” ቁልፍ ይምረጡ። ##3"
     );
