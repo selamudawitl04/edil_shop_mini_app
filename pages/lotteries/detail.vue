@@ -11,8 +11,6 @@ const loading = ref(false);
 onMounted(() => {
   const startParam = window.Telegram.WebApp.initDataUnsafe.start_param;
 
-  // alert(startParam + "startParam");
-
   const filter = computed(() => {
     if (startParam && startParam.startsWith("lottery_")) {
       const lotteryId = startParam.replace("lottery_", "");
@@ -21,6 +19,8 @@ onMounted(() => {
           _eq: lotteryId,
         },
       };
+    } else {
+      router.push("/lotteries");
     }
   });
 
