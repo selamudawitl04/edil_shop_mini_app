@@ -48,11 +48,9 @@ const { mutate, onDone, onError } = mutator(loginMutation, {
 });
 
 const openBot = () => {
-  const edilShopBotUrl = config.public.edilShopBotUrl;
-
-  alert(edilShopBotUrl);
-  window.location.href =
-    process.env.VITE_EDIL_SHOP_BOT_URL || "https://t.me/EdilShopBot";
+  const edilShopBotUrl =
+    config.public.edilShopBotUrl || "https://t.me/EdilShopBot";
+  window.location.href = edilShopBotUrl;
   // close the telegram app
   const tg = window?.Telegram?.WebApp;
   tg?.close();
@@ -117,6 +115,8 @@ onMounted(() => {
   //   'user={"id":8496110446,"first_name":"Selamu","last_name":"Dawit","language_code":"en","allows_write_to_pm":true,"photo_url":"https://t.me/i/userpic/320/QN8RaNPVYRBreMin37eXbNNWj-Jz3omtv-xQVH6SPZUKLA42IL1bwCOhZMMAo1T9.svg"}&chat_instance=-2493485298927068994&chat_type=sender&auth_date=1761885203&signature=NKrC3xo6Ny-JlRUyZNTclhN8ySce0ZA_aAw_H7333xPgjwQEv622wRwGnB1Tgb9_9e5TliSNz_mFHS-8b2KpDA&hash=e50746d6c2d9f030e87d6d2187dcdcce9fae4783fb58267ce1c93377a5c3d0dd';
   // login(initData);
 
+  // login(initData);
+
   // ከቴሌግራም የመጀመሪያ ውሂብ ያግኙ
   const tg = window?.Telegram?.WebApp;
   const initData = tg?.initData || "";
@@ -124,7 +124,10 @@ onMounted(() => {
     try {
       decodedString.value = decodeURIComponent(initData);
 
-      alert(decodedString.value);
+      // copy to clipboard
+      navigator.clipboard.writeText(decodedString.value);
+
+      alert(decodedString.value + " copied to clipboard");
       login(decodedString.value);
     } catch (error) {
       console.warn("የመጀመሪያ ውሂብ ትክክል አይደለም።");
