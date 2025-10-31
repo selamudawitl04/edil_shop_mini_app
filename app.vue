@@ -6,10 +6,10 @@
 
 <script setup>
 import "vue-toast-notification/dist/theme-sugar.css";
+const { onLogin, getToken, onLogout } = useApollo();
 
 // import getUserQuery from "@/graphql/auth/user_item.gql";
 
-// const { onLogin, getToken, onLogout } = useApollo();
 // onLogin(
 //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwczovL2FwaS5lZGlsc2hvcC5jb20iLCJlbnRpdHlfaWQiOiIiLCJleHAiOjE3NjIyMzc0OTYsImlhdCI6MTc2MTYzMjY5NiwiaXNzIjoiaHR0cHM6Ly9hcGkuZWRpbHNob3AuY29tIiwibWV0YWRhdGEiOnsibmFtZSI6IlNhbXVlbCBOZXciLCJyb2xlcyI6WyJ1c2VyIl19LCJyb2xlIjpbInVzZXIiXSwic3ViIjoiOWIxMmMyZDctYTRkOC00MDY3LTgwNzgtZjgxOWFhYzE0MmRjIn0.7JdcuCROBwz7EneBuAZXGsaug77j3k3F4AFmpC4JnII",
 //   "auth"
@@ -36,6 +36,8 @@ const checkTelegramAuth = async () => {
 
   const telegramUserId = tg.initDataUnsafe?.user?.id;
   let storedUserId = userData.value?.telegram_user_id;
+
+  alert(telegramUserId + " Telegram User ID");
 
   if (userData.value) {
     const { onResult, onError } = queryItem(getUserQuery, {

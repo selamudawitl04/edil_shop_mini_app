@@ -1,6 +1,10 @@
 <script setup>
 import { ref, watch } from "vue";
 import { debounce } from "lodash-es";
+const { onLogin, getToken, onLogout } = useApollo();
+
+const userData = useCookie("userData");
+const router = useRouter();
 
 const emit = defineEmits([
   "resetFilters",
@@ -78,7 +82,10 @@ const applyFilters = () => {
 };
 
 function reloadWindow() {
-  window.location.reload();
+  userData.value = null;
+  onLogout("auth");
+  router.push("/");
+  // window.location.reload();
 }
 </script>
 
