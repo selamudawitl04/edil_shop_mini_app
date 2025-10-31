@@ -49,6 +49,7 @@ const checkTelegramAuth = async () => {
         storedUserId = data.users_by_pk.telegram_user_id;
         // If user navigates elsewhere but IDs mismatch → redirect to /
         if (storedUserId && storedUserId != telegramUserId) {
+          alert("Telegram ID mismatch — redirecting to bot");
           console.warn("🚫 Telegram ID mismatch — redirecting to bot");
           userData.value = null;
           onLogout("auth");
