@@ -35,9 +35,6 @@ const checkTelegramAuth = async () => {
   const telegramUserId = tg.initDataUnsafe?.user?.id;
   let storedUserId = userData.value?.telegram_user_id;
 
-  alert(telegramUserId + " Telegram User ID");
-  alert(userData.value.id + " User ID");
-
   if (userData.value) {
     const { onResult, onError } = queryItem(getUserQuery, {
       id: userData.value.id,
@@ -49,7 +46,6 @@ const checkTelegramAuth = async () => {
         storedUserId = data.users_by_pk.telegram_user_id;
         // If user navigates elsewhere but IDs mismatch → redirect to /
         if (storedUserId && storedUserId != telegramUserId) {
-          alert("Telegram ID mismatch — redirecting to bot");
           console.warn("🚫 Telegram ID mismatch — redirecting to bot");
           userData.value = null;
           onLogout("auth");
