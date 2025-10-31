@@ -95,9 +95,8 @@ onError((error) => {
 
     openBot();
   } else if (errorMessage.includes("account_not_active")) {
-    alert(
-      "Your account is not active. Please contact the administrator to activate your account."
-    );
+    alert("Account አሁን አገለግልም። እባኮትዎን ለመክፈት ከአስተዳዳሪው ጋር ያነጋግሩ።");
+
     openBot();
   } else {
     alert(
@@ -111,28 +110,19 @@ onError((error) => {
 const decodedString = ref(null);
 
 onMounted(() => {
-  // const initData =
-  //   'user={"id":8496110446,"first_name":"Selamu","last_name":"Dawit","language_code":"en","allows_write_to_pm":true,"photo_url":"https://t.me/i/userpic/320/QN8RaNPVYRBreMin37eXbNNWj-Jz3omtv-xQVH6SPZUKLA42IL1bwCOhZMMAo1T9.svg"}&chat_instance=-2493485298927068994&chat_type=sender&auth_date=1761885203&signature=NKrC3xo6Ny-JlRUyZNTclhN8ySce0ZA_aAw_H7333xPgjwQEv622wRwGnB1Tgb9_9e5TliSNz_mFHS-8b2KpDA&hash=e50746d6c2d9f030e87d6d2187dcdcce9fae4783fb58267ce1c93377a5c3d0dd';
-  // login(initData);
-
-  // login(initData);
-
-  // ከቴሌግራም የመጀመሪያ ውሂብ ያግኙ
+  // // ከቴሌግራም የመጀመሪያ ውሂብ ያግኙ
   const tg = window?.Telegram?.WebApp;
   const initData = tg?.initData || "";
 
   if (initData) {
-    alert(initData);
     try {
       decodedString.value = decodeURIComponent(initData);
-
-      // copy to clipboard
-
-      alert(decodedString.value + " copied to clipboard");
       login(decodedString.value);
     } catch (error) {
       console.warn("የመጀመሪያ ውሂብ ትክክል አይደለም።");
-      alert("እባክዎን መተግበሪያውን ከ Telegram ቦት ድጋሚ ይክፈቱ።");
+      alert(
+        "እባክዎን መተግበሪያውን ከ Telegram ቦቱ ድጋሚ ይክፈቱ። የማይሰራ ከሆነ Chat History አጥፉ እና እንደገና ጀምሩ። ከላይ ያለውን ⋮ ይጫኑ እና “Clear History” ቁልፍ ይምረጡ።"
+      );
       openBot();
     }
   } else {
