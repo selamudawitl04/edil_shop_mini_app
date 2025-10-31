@@ -120,12 +120,13 @@ onMounted(() => {
   // ከቴሌግራም የመጀመሪያ ውሂብ ያግኙ
   const tg = window?.Telegram?.WebApp;
   const initData = tg?.initData || "";
+
   if (initData) {
+    alert(initData);
     try {
       decodedString.value = decodeURIComponent(initData);
 
       // copy to clipboard
-      navigator.clipboard.writeText(decodedString.value);
 
       alert(decodedString.value + " copied to clipboard");
       login(decodedString.value);
