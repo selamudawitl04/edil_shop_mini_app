@@ -6,7 +6,7 @@
 
 <script setup>
 import "vue-toast-notification/dist/theme-sugar.css";
-const { onLogin, getToken, onLogout } = useApollo();
+const { onLogout } = useApollo();
 const router = useRouter();
 const route = useRoute();
 import getUserQuery from "@/graphql/auth/user_item.gql";
@@ -35,7 +35,8 @@ const checkTelegramAuth = async () => {
   const telegramUserId = tg.initDataUnsafe?.user?.id;
   let storedUserId = userData.value?.telegram_user_id;
 
-  alert(telegramUserId + " Telegram User ID", userData.value.id + " User ID");
+  alert(telegramUserId + " Telegram User ID");
+  alert(userData.value.id + " User ID");
 
   if (userData.value) {
     const { onResult, onError } = queryItem(getUserQuery, {
