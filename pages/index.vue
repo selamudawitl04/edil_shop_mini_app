@@ -37,8 +37,6 @@
 
 <script setup>
 import loginMutation from "@/graphql/auth/login.gql";
-import { useBackStore } from "@/stores/back-route";
-const backStore = useBackStore();
 const config = useRuntimeConfig();
 
 const router = useRouter();
@@ -78,8 +76,8 @@ onDone(async (result) => {
     useCookie("userData").value = loginData.user;
     useCookie("accessToken").value = loginData.token;
     setTimeout(() => {
-      router.replace(backStore.getRoute || "/lotteries");
-      backStore.resetRoute();
+      router.replace(localStorage.getItem("backRoute") || "/lotteries");
+      localStorage.removeItem("backRoute");
     }, 800);
   }
 });

@@ -1,6 +1,4 @@
 import { jwtDecode } from "jwt-decode";
-import { useBackStore } from "@/stores/back-route";
-const backStore = useBackStore();
 
 function isExpired(token) {
   try {
@@ -15,17 +13,17 @@ export default defineNuxtRouteMiddleware(async (to) => {
   console.log("🔍 Checking route:", to.path);
   // if (to.path === "/") {
   //   return navigateTo("/lotteries");
+
   // }
+
+  localStorage.setItem("backRoute", to.path);
+
   const { getToken } = useApollo();
   const token = await getToken("auth");
   const userData = useCookie("userData");
   console.log("🔍 Checking route:", to.path);
   console.log("🔹 Token:", token);
   console.log("🔹 User Data:", userData.value);
-
-  if (to.path.startsWith("/lotteries/detail")) {
-    backStore.setRoute(to.path);
-  }
 
   // "/" route: if user is logged in → redirect to /lotteries
   if (to.path === "/" && token && userData.value && !isExpired(token)) {
