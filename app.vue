@@ -20,7 +20,7 @@ const config = useRuntimeConfig();
 // useCookie("userData").value = {
 //   id: "09230dda-f9ef-4d2e-9a2f-6b379a63127a",
 //   name: "Selamu Dawit",
-//   // phone: "251904823272",
+//   phone: "251904823272",
 //   alternate_phone: null,
 //   role: "user",
 //   is_phone_verified: true,
@@ -35,6 +35,8 @@ const checkTelegramAuth = async () => {
 
   const telegramUserId = tg.initDataUnsafe?.user?.id;
   let storedUserId = userData.value?.telegram_user_id;
+  const startParam = window.Telegram.WebApp.initDataUnsafe.start_param;
+  alert(startParam, "startParambbbbbbbbbbbbbbbbbssss");
 
   if (userData.value) {
     const { onResult, onError } = queryItem(getUserQuery, {
