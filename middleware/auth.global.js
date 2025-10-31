@@ -16,7 +16,9 @@ export default defineNuxtRouteMiddleware(async (to) => {
 
   // }
 
-  localStorage.setItem("backRoute", to.path);
+  if (to.path.startsWith("/lotteries/detail")) {
+    backStore.setRoute(to.path);
+  }
 
   const { getToken } = useApollo();
   const token = await getToken("auth");
