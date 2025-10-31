@@ -11,7 +11,7 @@ const loading = ref(false);
 onMounted(() => {
   const startParam = window.Telegram.WebApp.initDataUnsafe.start_param;
 
-  alert(startParam + "startParam");
+  // alert(startParam + "startParam");
 
   const filter = computed(() => {
     if (startParam && startParam.startsWith("lottery_")) {
