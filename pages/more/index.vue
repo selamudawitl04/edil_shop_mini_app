@@ -29,7 +29,7 @@
           <p class="text-lg font-semibold text-gray-900 truncate">
             {{ user?.name || "Guest User" }}
           </p>
-          <p class="text-sm text-gray-500 truncate">
+          <p v-if="user?.phone" class="text-sm text-gray-500 truncate">
             {{ formatPhoneNumber(user?.phone) || "No phone number" }}
           </p>
         </div>
@@ -47,6 +47,15 @@
           <span class="text-sm text-primary-light">Edit</span>
         </button>
       </div>
+
+      <!-- Share Phone Number Button -->
+      <BaseButton
+        v-if="!user?.phone"
+        @click="handleSharePhoneNumber"
+        class="w-full"
+      >
+        ስልክ ቁጥር ያስገቡ
+      </BaseButton>
 
       <!-- ------------------- Menu Items ------------------- -->
       <div
@@ -96,6 +105,7 @@
 
 <script setup>
 import { useRouter } from "vue-router";
+const config = useRuntimeConfig();
 
 const user = useCookie("userData");
 const router = useRouter();
@@ -127,6 +137,7 @@ const menuItems = [
 ];
 
 function formatPhoneNumber(phone) {
+  if (!phone) return "ማስታወሻ አልተገኘም";
   if (phone.length === 12 && phone.startsWith("251")) {
     return phone.replace(/^251/, "0");
   }
@@ -136,6 +147,19 @@ function formatPhoneNumber(phone) {
 const navigate = (path) => {
   router.push(path);
 };
+
+const openBot = () => {
+  const edilShopBotUrl =
+    config.public.edilShopBotUrl || "https://t.me/EdilShopBot";
+  window.location.href = edilShopBotUrl;
+  // close the telegram app
+  const tg = window?.Telegram?.WebApp;
+  tg?.close();
+};
+
+function handleSharePhoneNumber() {
+  sharePhoneNumber(user.value.id, config.public.edilShopBotUrl, true);
+}
 </script>
 
 <style scoped>

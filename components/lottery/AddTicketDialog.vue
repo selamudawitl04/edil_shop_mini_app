@@ -1,6 +1,7 @@
 <script setup>
 import buyTicket from "@/graphql/lottery/buy_ticket.gql";
 import { useToast } from "vue-toast-notification";
+const config = useRuntimeConfig();
 
 const toast = useToast();
 const { handleSubmit } = useForm();
@@ -9,6 +10,8 @@ const emit = defineEmits([
   "ticketAdded",
   "clearTicketNumbers",
 ]);
+
+const user = useCookie("userData");
 
 const props = defineProps({
   modelValue: Boolean,
@@ -44,8 +47,6 @@ const { mutate, onDone, loading, onError } = mutator(buyTicket, {
   showError: false,
 });
 
-const user = useCookie("userData");
-
 // Submit handler
 const onSubmit = handleSubmit(() => {
   const groupID = generateRandomGroupID();
@@ -77,6 +78,10 @@ onDone(({ data }) => {
     emit("ticketAdded");
     if (typeof refetchLottery === "function") refetchLottery();
     open.value = false;
+
+    if (!user.value?.phone) {
+      handleSharePhoneNumber();
+    }
   } else {
     toast.error("ትኬት መመዝገብ አልተሳካም!", {
       duration: 5000,
@@ -101,6 +106,10 @@ onError((error) => {
 });
 
 const showLotteryDescription = ref(false);
+
+function handleSharePhoneNumber() {
+  sharePhoneNumber(user.value.id, config.public.edilShopBotUrl, true);
+}
 </script>
 
 <template>

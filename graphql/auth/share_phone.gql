@@ -1,0 +1,5 @@
+mutation sharePhoneNumber($input: SharePhoneInput!) {
+  share_phone_number(arg1: $input) {
+    message
+  }
+}

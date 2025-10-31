@@ -6,25 +6,26 @@
 
 <script setup>
 import "vue-toast-notification/dist/theme-sugar.css";
-const { onLogout } = useApollo();
+const { onLogout, onLogin } = useApollo();
 const router = useRouter();
 const route = useRoute();
 import getUserQuery from "@/graphql/auth/user_item.gql";
 
+const config = useRuntimeConfig();
 // onLogin(
-//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwczovL2FwaS5lZGlsc2hvcC5jb20iLCJlbnRpdHlfaWQiOiIiLCJleHAiOjE3NjIyMzc0OTYsImlhdCI6MTc2MTYzMjY5NiwiaXNzIjoiaHR0cHM6Ly9hcGkuZWRpbHNob3AuY29tIiwibWV0YWRhdGEiOnsibmFtZSI6IlNhbXVlbCBOZXciLCJyb2xlcyI6WyJ1c2VyIl19LCJyb2xlIjpbInVzZXIiXSwic3ViIjoiOWIxMmMyZDctYTRkOC00MDY3LTgwNzgtZjgxOWFhYzE0MmRjIn0.7JdcuCROBwz7EneBuAZXGsaug77j3k3F4AFmpC4JnII",
+//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwczovL2FwaS5lZGlsc2hvcC5jb20iLCJlbnRpdHlfaWQiOiIiLCJleHAiOjE3NjI1MDQ1NTcsImlhdCI6MTc2MTg5OTc1NywiaXNzIjoiaHR0cHM6Ly9hcGkuZWRpbHNob3AuY29tIiwibWV0YWRhdGEiOnsibmFtZSI6IlNlbGFtdSBEYXdpdCIsInJvbGVzIjpbInVzZXIiXX0sInJvbGUiOlsidXNlciJdLCJzdWIiOiIwOTIzMGRkYS1mOWVmLTRkMmUtOWEyZi02YjM3OWE2MzEyN2EifQ.39o4qkRNsQCLmPElPljxHUQtniqkaJXKBcyR4nWfTyg",
 //   "auth"
 // );
 
 // useCookie("userData").value = {
-//   id: "9b12c2d7-a4d8-4067-8078-f819aac142dc",
-//   name: "Samuel New",
-//   phone: "251945003939",
+//   id: "09230dda-f9ef-4d2e-9a2f-6b379a63127a",
+//   name: "Selamu Dawit",
+//   // phone: "251904823272",
 //   alternate_phone: null,
 //   role: "user",
 //   is_phone_verified: true,
 //   profile_image: "",
-//   avatar_color: "#4A90E2",
+//   avatar_color: "#4DD0E1",
 // };
 
 const checkTelegramAuth = async () => {
@@ -48,6 +49,13 @@ const checkTelegramAuth = async () => {
           let newUser = { ...userData.value };
           newUser.phone = data.users_by_pk.phone;
           userData.value = newUser;
+        } else {
+          sharePhoneNumber(
+            userData.value.id,
+            config.public.edilShopBotUrl,
+            false
+          );
+          return;
         }
         // If user navigates elsewhere but IDs mismatch → redirect to /
         if (storedUserId && storedUserId != telegramUserId) {
