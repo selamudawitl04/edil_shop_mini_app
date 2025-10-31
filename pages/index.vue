@@ -60,7 +60,7 @@ const login = (initData) => {
   if (!initData || typeof initData !== "string" || initData.trim() === "") {
     console.warn("⚠️ የተፈቀደ የመጀመሪያ ውሂብ አልተገኘም።");
     alert(
-      "እባክዎን መተግበሪያውን ከ Telegram ቦቱ ድጋሚ ይክፈቱ። የማይሰራ ከሆነ Chat History አጥፉ እና እንደገና ጀምሩ። ከላይ ያለውን ⋮ ይጫኑ እና “Clear History” ቁልፍ ይምረጡ። yesy"
+      "እባክዎን መተግበሪያውን ከ Telegram ቦቱ ድጋሚ ይክፈቱ። የማይሰራ ከሆነ Chat History አጥፉ እና እንደገና ጀምሩ። ከላይ ያለውን ⋮ ይጫኑ እና “Clear History” ቁልፍ ይምረጡ። ##1"
     );
 
     openBot();
@@ -76,8 +76,8 @@ onDone(async (result) => {
     useCookie("userData").value = loginData.user;
     useCookie("accessToken").value = loginData.token;
     setTimeout(() => {
-      router.replace(localStorage.getItem("backRoute") || "/lotteries");
       localStorage.removeItem("backRoute");
+      router.replace(localStorage.getItem("backRoute") || "/lotteries");
     }, 800);
   }
 });
@@ -87,7 +87,7 @@ onError((error) => {
 
   if (errorMessage.includes("Unauthorized")) {
     alert(
-      "እባክዎን መተግበሪያውን ከ Telegram ቦቱ ድጋሚ ይክፈቱ። የማይሰራ ከሆነ Chat History አጥፉ እና እንደገና ጀምሩ። ከላይ ያለውን ⋮ ይጫኑ እና “Clear History” ቁልፍ ይምረጡ።"
+      "እባክዎን መተግበሪያውን ከ Telegram ቦቱ ድጋሚ ይክፈቱ። የማይሰራ ከሆነ Chat History አጥፉ እና እንደገና ጀምሩ። ከላይ ያለውን ⋮ ይጫኑ እና “Clear History” ቁልፍ ይምረጡ። ##2"
     );
 
     openBot();
@@ -103,7 +103,7 @@ onError((error) => {
     openBot();
   } else {
     alert(
-      "እባክዎን መተግበሪያውን ከ Telegram ቦቱ ድጋሚ ይክፈቱ። የማይሰራ ከሆነ Chat History አጥፉ እና እንደገና ጀምሩ። ከላይ ያለውን ⋮ ይጫኑ እና “Clear History” ቁልፍ ይምረጡ።"
+      "እባክዎን መተግበሪያውን ከ Telegram ቦቱ ድጋሚ ይክፈቱ። የማይሰራ ከሆነ Chat History አጥፉ እና እንደገና ጀምሩ። ከላይ ያለውን ⋮ ይጫኑ እና “Clear History” ቁልፍ ይምረጡ። ##3"
     );
 
     openBot();
@@ -124,7 +124,7 @@ onMounted(() => {
     } catch (error) {
       console.warn("የመጀመሪያ ውሂብ ትክክል አይደለም።");
       alert(
-        "እባክዎን መተግበሪያውን ከ Telegram ቦቱ ድጋሚ ይክፈቱ። የማይሰራ ከሆነ Chat History አጥፉ እና እንደገና ጀምሩ። ከላይ ያለውን ⋮ ይጫኑ እና “Clear History” ቁልፍ ይምረጡ።"
+        "እባክዎን መተግበሪያውን ከ Telegram ቦቱ ድጋሚ ይክፈቱ። የማይሰራ ከሆነ Chat History አጥፉ እና እንደገና ጀምሩ። ከላይ ያለውን ⋮ ይጫኑ እና “Clear History” ቁልፍ ይምረጡ። ##4"
       );
       openBot();
     }
