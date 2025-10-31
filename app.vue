@@ -45,18 +45,7 @@ const checkTelegramAuth = async () => {
     onResult(({ data }) => {
       if (data.users_by_pk) {
         storedUserId = data.users_by_pk.telegram_user_id;
-        if (data.users_by_pk.phone) {
-          let newUser = { ...userData.value };
-          newUser.phone = data.users_by_pk.phone;
-          userData.value = newUser;
-        } else {
-          sharePhoneNumber(
-            userData.value.id,
-            config.public.edilShopBotUrl,
-            false
-          );
-          return;
-        }
+
         // If user navigates elsewhere but IDs mismatch → redirect to /
         if (storedUserId && storedUserId != telegramUserId) {
           console.warn("🚫 Telegram ID mismatch — redirecting to bot");
@@ -65,7 +54,18 @@ const checkTelegramAuth = async () => {
           router.push("/");
           return;
         } else {
-          console.log("user is found");
+          if (data.users_by_pk.phone) {
+            let newUser = { ...userData.value };
+            newUser.phone = data.users_by_pk.phone;
+            userData.value = newUser;
+          } else {
+            sharePhoneNumber(
+              userData.value.id,
+              config.public.edilShopBotUrl,
+              false
+            );
+            return;
+          }
         }
       } else {
         userData.value = null;
