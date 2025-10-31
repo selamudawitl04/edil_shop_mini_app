@@ -35,8 +35,6 @@ const checkTelegramAuth = async () => {
 
   const telegramUserId = tg.initDataUnsafe?.user?.id;
   let storedUserId = userData.value?.telegram_user_id;
-  const startParam = window.Telegram.WebApp.initDataUnsafe.start_param;
-  alert(startParam, "startParambbbbbbbbbbbbbbbbbssss");
 
   if (userData.value) {
     const { onResult, onError } = queryItem(getUserQuery, {
