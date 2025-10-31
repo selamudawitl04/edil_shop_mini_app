@@ -44,6 +44,11 @@ const checkTelegramAuth = async () => {
     onResult(({ data }) => {
       if (data.users_by_pk) {
         storedUserId = data.users_by_pk.telegram_user_id;
+        if (data.users_by_pk.phone) {
+          let newUser = { ...userData.value };
+          newUser.phone = data.users_by_pk.phone;
+          userData.value = newUser;
+        }
         // If user navigates elsewhere but IDs mismatch → redirect to /
         if (storedUserId && storedUserId != telegramUserId) {
           console.warn("🚫 Telegram ID mismatch — redirecting to bot");
@@ -60,11 +65,14 @@ const checkTelegramAuth = async () => {
         router.push("/");
       }
     });
-
     onError((error) => {
       userData.value = null;
       onLogout("auth");
-      router.push("/");
+      if (route.path !== "/") {
+        router.push("/");
+      } else {
+        window.location.reload();
+      }
     });
   }
 };
