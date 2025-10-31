@@ -1,0 +1,12 @@
+query getLotteryItem(
+  $filter: lotteries_bool_exp
+  $order: [lotteries_order_by]
+  $limit: Int
+  $offset: Int
+  $user_id: uuid
+) {
+  lotteries(where: $filter, order_by: $order, limit: $limit, offset: $offset) {
+    id
+    lottery_id
+  }
+}
