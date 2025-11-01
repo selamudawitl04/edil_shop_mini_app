@@ -129,11 +129,7 @@
         >
           የእጣ ማብራሪያ
         </h2>
-        <p
-          class="text-textPrimary-light dark:text-textPrimary-dark leading-relaxed"
-        >
-          {{ lottery?.description }}
-        </p>
+        <div v-html="lottery?.description"></div>
       </div>
 
       <!-- የእጣ ባለቤት መረጃ -->

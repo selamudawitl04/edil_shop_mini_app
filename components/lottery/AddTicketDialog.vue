@@ -188,12 +188,11 @@ function handleSharePhoneNumber() {
             </div>
 
             <transition name="fade">
-              <p
+              <div
                 v-if="showLotteryDescription"
                 class="mt-3 text-gray-700 text-sm leading-relaxed border-t border-blue-100 pt-3"
-              >
-                {{ lottery.description }}
-              </p>
+                v-html="lottery.description"
+              ></div>
             </transition>
           </div>
 
