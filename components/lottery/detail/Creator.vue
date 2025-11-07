@@ -49,8 +49,30 @@
           }}
         </p>
 
+        <div class="flex items-center gap-2 w-full">
+          <!-- Follow TikTok -->
+          <button
+            v-if="user.tiktok_url"
+            @click.stop="openUrl(user.tiktok_url)"
+            class="flex items-center gap-1 px-3 py-1.5 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 text-white text-xs font-medium hover:opacity-90 active:scale-95 transition-all"
+          >
+            <Icon name="ic:baseline-tiktok" class="text-sm" />
+            <span>Follow TikTok</span>
+          </button>
+
+          <!-- Join Telegram -->
+          <button
+            v-if="user.telegram_url"
+            @click.stop="openUrl(user.telegram_url)"
+            class="flex items-center gap-1 px-3 py-1.5 rounded-full bg-gradient-to-r from-sky-400 to-sky-500 text-white text-xs font-medium hover:opacity-90 active:scale-95 transition-all"
+          >
+            <Icon name="mdi:telegram" class="text-sm" />
+            <span>Join Telegram</span>
+          </button>
+        </div>
+
         <!-- Lotteries count and rating -->
-        <div class="flex items-center gap-3">
+        <div v-if="false" class="flex items-center gap-3">
           <!-- Lotteries count -->
           <div
             class="flex items-center gap-1 px-2 py-1 rounded-md bg-blue-100 text-blue-600 text-xs font-semibold"
@@ -98,6 +120,10 @@ function formatPhoneNumber(phone) {
     return phone.replace(/^251/, "0");
   }
   return phone; // Return as is if format is unexpected
+}
+
+function openUrl(url) {
+  window.open(url, "_blank");
 }
 </script>
 

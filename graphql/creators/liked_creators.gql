@@ -24,6 +24,8 @@ query getLikedCreators(
       number_of_lotteries
       total_likes
       rating
+      tiktok_url
+      telegram_url
     }
   }
   creator_likes_aggregate(where: $filter) {

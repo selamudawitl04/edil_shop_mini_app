@@ -26,6 +26,8 @@ query getCreators(
       id
       user_id
     }
+    tiktok_url
+    telegram_url
   }
   creators_aggregate: users_aggregate(where: $filter) {
     aggregate {

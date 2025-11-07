@@ -46,7 +46,7 @@ const filter = computed(() => {
 
   if (props.selected === 0) {
     query.status = {
-      _neq: "pending",
+      _nin: ["pending", "draft"],
     };
   } else if (props.selected === 1) {
     query.status = {
