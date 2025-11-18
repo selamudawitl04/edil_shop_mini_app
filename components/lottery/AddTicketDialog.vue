@@ -40,6 +40,7 @@ const open = computed({
 const form = reactive({
   payment_option: null,
   payment_url: null,
+  receipt_not_required: false,
 });
 
 const { mutate, onDone, loading, onError } = mutator(buyTicket, {
@@ -204,8 +205,22 @@ function handleSharePhoneNumber() {
           />
 
           <!-- Payment Proof -->
-          <div>
+          <div class="space-y-2">
             <h2 class="text-lg font-bold mb-3">ገንዘብ የላኩበት ማስረጃ ፎቶ</h2>
+
+            <div class="flex items-center gap-2 justify-between">
+              <span
+                class="text-sm font-medium text-gray-700 dark:text-gray-200"
+              >
+                በእጅ ከከፈሉ በቀኝ በኩል ያለውን ON ያድርጉ
+              </span>
+              <BaseSwitch
+                v-model="form.receipt_not_required"
+                name="receipt_not_required"
+                label="ገንዘብ የላኩበት ማስረጃ ፎቶ አልተሳካም"
+                placeholder="ገንዘብ የላኩበት ማስረጃ ፎቶ አልተሳካም"
+              />
+            </div>
             <MediaImageUpload
               v-model="form.payment_url"
               :max-size-mb="0.3"
@@ -220,7 +235,11 @@ function handleSharePhoneNumber() {
             :full="true"
             size="lg"
             :loading="loading"
-            :disabled="loading || !form.payment_option || !form.payment_url"
+            :disabled="
+              loading ||
+              !form.payment_option ||
+              (!form.receipt_not_required && !form.payment_url)
+            "
             class="bg-primary-light text-white"
           >
             ✅ ትኬት ይግዙ
