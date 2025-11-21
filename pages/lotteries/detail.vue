@@ -47,6 +47,8 @@ onMounted(() => {
       router.push("/lotteries");
     }
     loading.value = false;
+    localStorage.removeItem("startParam");
+    localStorage.removeItem("backRoute");
   });
 
   onError((error) => {

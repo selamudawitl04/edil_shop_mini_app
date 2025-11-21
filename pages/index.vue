@@ -76,7 +76,13 @@ onDone(async (result) => {
     useCookie("userData").value = loginData.user;
     useCookie("accessToken").value = loginData.token;
     setTimeout(() => {
-      router.replace(localStorage.getItem("backRoute") || "/lotteries");
+      const startParam = localStorage.getItem("startParam");
+      const backRoute = localStorage.getItem("backRoute");
+      if (startParam && backRoute) {
+        router.replace(backRoute);
+      } else {
+        router.replace("/lotteries");
+      }
     }, 800);
   }
 });
