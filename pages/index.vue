@@ -76,8 +76,7 @@ onDone(async (result) => {
     useCookie("userData").value = loginData.user;
     useCookie("accessToken").value = loginData.token;
     setTimeout(() => {
-      localStorage.removeItem("backRoute");
-      alert(localStorage.getItem("backRoute"));
+      alert(localStorage.getItem("startParam"));
       router.replace(localStorage.getItem("backRoute") || "/lotteries");
     }, 800);
   }
