@@ -77,6 +77,7 @@ onDone(async (result) => {
     useCookie("accessToken").value = loginData.token;
     setTimeout(() => {
       localStorage.removeItem("backRoute");
+      alert(localStorage.getItem("backRoute"));
       router.replace(localStorage.getItem("backRoute") || "/lotteries");
     }, 800);
   }
@@ -119,6 +120,9 @@ onMounted(() => {
 
   const startParam = tg?.initDataUnsafe?.start_param;
   if (startParam && localStorage.getItem("backRoute")) {
+    alert(
+      startParam + " " + localStorage.getItem("backRoute") + "before login"
+    );
     localStorage.setItem("startParam", startParam);
   }
 
