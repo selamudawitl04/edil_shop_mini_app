@@ -117,6 +117,11 @@ onMounted(() => {
   const tg = window?.Telegram?.WebApp;
   const initData = tg?.initData || "";
 
+  const startParam = tg?.initDataUnsafe?.start_param;
+  if (startParam && localStorage.getItem("backRoute")) {
+    localStorage.setItem("startParam", startParam);
+  }
+
   if (initData) {
     try {
       decodedString.value = decodeURIComponent(initData);

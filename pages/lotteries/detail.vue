@@ -9,7 +9,9 @@ const router = useRouter();
 const loading = ref(false);
 
 onMounted(() => {
-  const startParam = window.Telegram.WebApp.initDataUnsafe.start_param;
+  const startParam =
+    window.Telegram.WebApp.initDataUnsafe.start_param ||
+    localStorage.getItem("startParam");
 
   const filter = computed(() => {
     if (startParam && startParam.startsWith("lottery_")) {
