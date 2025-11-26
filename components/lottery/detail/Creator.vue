@@ -99,6 +99,18 @@
         </div>
       </div>
     </div>
+
+    <!-- ✅ Added View Detail Button -->
+    <div class="mt-4">
+      <BaseButton
+        @click.stop="navigateToCreator"
+        :full="true"
+        size="md"
+        class="bg-blue-600 hover:bg-blue-700 text-white"
+      >
+        🔍 ዝርዝር ይመልከቱ
+      </BaseButton>
+    </div>
   </div>
 </template>
 

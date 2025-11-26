@@ -22,14 +22,12 @@ const selectedPaymentOption = computed({
 
 // Map payment options from the lottery object
 const paymentOptions = computed(() => {
-  return props.lottery.payment_options
-    .filter((option, index) => index === 0)
-    .map((option) => ({
-      id: option.id,
-      name: option.user_payment_option?.payment_option?.name || "—",
-      account_name: option.user_payment_option?.account_name || "—",
-      account_number: option.user_payment_option?.account_number || "—",
-    }));
+  return props.lottery.payment_options.map((option) => ({
+    id: option.id,
+    name: option.user_payment_option?.payment_option?.name || "—",
+    account_name: option.user_payment_option?.account_name || "—",
+    account_number: option.user_payment_option?.account_number || "—",
+  }));
 });
 
 // Handle selection — only one at a time

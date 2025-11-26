@@ -13,7 +13,7 @@ query getLottery($id: uuid!, $user_id: uuid) {
     telegram_video_url
     youtube_video_url
     tiktok_video_url
-
+    tiktok_cover_image
     tiktok_live_url
     telegram_live_url
     youtube_live_url

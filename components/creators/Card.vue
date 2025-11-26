@@ -12,9 +12,9 @@
           :avatar_image="user.profile_image"
           :size="56"
         />
-        <span
+        <!-- <span
           class="absolute bottom-1 right-1 w-3.5 h-3.5 bg-green-500 border-2 border-white dark:border-slate-800 rounded-full"
-        ></span>
+        ></span> -->
       </div>
 
       <!-- Info Section -->
@@ -87,6 +87,18 @@
         <Icon name="mdi:telegram" class="text-sm" />
         <span>Join Telegram</span>
       </button>
+    </div>
+
+    <!-- ✅ Added View Detail Button -->
+    <div class="mt-4">
+      <BaseButton
+        @click.stop="navigateToCreator"
+        :full="true"
+        size="md"
+        class="bg-blue-600 hover:bg-blue-700 text-white"
+      >
+        🔍 ዝርዝር ይመልከቱ
+      </BaseButton>
     </div>
   </div>
 </template>

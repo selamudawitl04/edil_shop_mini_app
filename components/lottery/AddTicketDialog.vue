@@ -237,8 +237,8 @@ function handleSharePhoneNumber() {
             :loading="loading"
             :disabled="
               loading ||
-              !form.payment_option ||
-              (!form.receipt_not_required && !form.payment_url)
+              (!form.receipt_not_required &&
+                (!form.payment_option || !form.payment_url))
             "
             class="bg-primary-light text-white"
           >

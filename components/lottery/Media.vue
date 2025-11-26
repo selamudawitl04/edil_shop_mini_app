@@ -8,6 +8,21 @@ const props = defineProps({
   },
 });
 
+const money = computed(() => {
+  const title = props.item.title;
+
+  // Find the first number inside the title
+  const match = title.match(/\d+/);
+
+  if (!match) return title; // no number found
+
+  const num = Number(match[0]);
+  const formatted = num.toLocaleString(); // → 15000 → 15,000
+
+  // Replace the original number with the formatted one
+  return title.replace(match[0], formatted);
+});
+
 const isMoneyCategory = computed(() => props.item.category?.id === "ገንዘብ");
 </script>
 
@@ -15,21 +30,20 @@ const isMoneyCategory = computed(() => props.item.category?.id === "ገንዘብ
   <!-- Money Category -->
   <div
     v-if="isMoneyCategory"
-    class="h-full rounded-t-2xl shadow-md relative flex items-center justify-center bg-gradient-to-br from-green-900 to-emerald-600"
+    class="h-full rounded-t-2xl shadow-md relative flex items-center justify-center bg-[url(/money-placeholder.jpg)] bg-cover bg-center bg-no-repeat"
   >
     <div class="flex flex-col items-center text-center">
       <!-- Circle badge -->
-      <div
+      <!-- <div
         class="rounded-full shadow-lg bg-gradient-to-br from-white to-amber-400 flex items-center justify-center px-6 py-5"
       >
         <span class="text-green-900 font-extrabold text-lg">ብር</span>
-      </div>
+      </div> -->
 
-      <div class="mt-5 text-white">
-        <p class="text-xl font-bold text-white">
-          {{ item.title + " ብር" }}
+      <div class="mt-5 bg-white/80 p-4 rounded-lg">
+        <p class="text-4xl font-bold text-primary-light leading-none">
+          {{ money }} ብር
         </p>
-        <p class="text-sm text-white font-semibold mt-2">የገንዘብ እጣ</p>
       </div>
     </div>
   </div>

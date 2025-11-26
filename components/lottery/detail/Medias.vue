@@ -73,9 +73,6 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-// import ImageSlider from './ImageSlider.vue'
-
 const props = defineProps({
   lottery: { type: Object, required: true },
   height: { type: Number, default: 200 },

@@ -1,0 +1,25 @@
+query getTikTokVideos(
+  $filter: tiktok_videos_bool_exp
+  $order: [tiktok_videos_order_by]
+  $limit: Int
+  $offset: Int
+  $user_id: uuid
+) {
+  tiktok_videos(
+    where: $filter
+    order_by: $order
+    limit: $limit
+    offset: $offset
+  ) {
+    id
+    cover_image
+    link
+    title
+  }
+
+  total: tiktok_videos_aggregate(where: $filter) {
+    aggregate {
+      count
+    }
+  }
+}
